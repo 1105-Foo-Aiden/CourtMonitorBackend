@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ssmj8Wry0uHALsKR3tOn8quNGBioQe122Fv/WQgXX24cQMpobPrRSPpe2fhdEz9lolHFAmgZPtpJ09D/JKIchw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\Week4\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Aiden\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.10\\microsoft.aspnetcore.openapi.7.0.10.nupkg.sha512",
+    "C:\\Users\\Aiden\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\Aiden\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\Aiden\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\Aiden\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\Aiden\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\Aiden\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
