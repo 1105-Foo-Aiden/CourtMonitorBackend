@@ -1,3 +1,4 @@
+using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
