@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\Week4\\CourtMonitorBackend\\CourtMonitorBackend.csproj": {}
+    "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\CourtMonitorBackend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\Week4\\CourtMonitorBackend\\CourtMonitorBackend.csproj": {
+    "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\CourtMonitorBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\Week4\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
+        "projectUniqueName": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
         "projectName": "CourtMonitorBackend",
-        "projectPath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\Week4\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
+        "projectPath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
         "packagesPath": "C:\\Users\\Aiden\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\Week4\\CourtMonitorBackend\\obj\\",
+        "outputPath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Aiden\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -41,6 +41,26 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
