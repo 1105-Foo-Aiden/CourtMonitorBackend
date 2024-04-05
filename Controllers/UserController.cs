@@ -25,10 +25,14 @@ namespace CourtMonitorBackend.Controllers
             return _data.Login(User);
         }
 
-        // [HttpPost]
-        // [Route("User/Login")]
-        // public bool Login(LoginDTO userToAdd){
-          
-        // }
+        [HttpPut]
+        [Route("UpdateUser/{id}/{username}")]
+
+        public bool UpdateUser(int id, string username){
+            return _data.UpdateUsername(id, username);
+        }
+
+       
+
     }
 }

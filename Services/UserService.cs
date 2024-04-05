@@ -112,5 +112,11 @@ namespace CourtMonitorBackend.Services
         {
             return _context.UserInfo.SingleOrDefault(user => user.UserName == username);
         }
+
+        public bool UpdateUser(UserModel UsertoUpdate)
+        {
+            _context.Update<UserModel>(UsertoUpdate);
+            return _context.SaveChanges() != 0;
+        }
     }
 }
