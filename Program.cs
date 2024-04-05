@@ -38,7 +38,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("CourtMonitorPolicy");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
