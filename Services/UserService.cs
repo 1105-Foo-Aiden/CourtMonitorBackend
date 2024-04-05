@@ -74,12 +74,12 @@ namespace CourtMonitorBackend.Services
         {
             IActionResult Result = Unauthorized();
             //check if it exists
-            if (DoesUserExist(User.UserName))
+            if (DoesUserExist(User.Username))
             {
                 //if true, continue with authentication, store our user object
-                UserModel foundUser = GetUserByUsername(User.UserName);
+                UserModel foundUser = GetUserByUsername(User.Username);
                 //check if password is correct
-                if (VerifyUsersPassword(User.Passowrd, foundUser.Hash, foundUser.Salt))
+                if (VerifyUsersPassword(User.Password, foundUser.Hash, foundUser.Salt))
                 {
                     //Ctrl . to include using statements- for all pasted code
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
