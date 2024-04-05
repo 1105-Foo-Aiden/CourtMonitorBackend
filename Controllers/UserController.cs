@@ -20,18 +20,32 @@ namespace CourtMonitorBackend.Controllers
         public bool AddUser(CreateAccountDTO userToAdd){
             return _data.AddUser(userToAdd);
         }
+
         [HttpPost]
         [Route("Login")]
         public IActionResult Login([FromBody] LoginDTO User){
             return _data.Login(User);
         }
+        [HttpGet]
+        [Route("getUserByUsername/{username}")]
+
+        public UseridDTO GetUserByUserName(string username){
+            return _data.GetUserIDByUserName(username);
+        }
 
         // [HttpPut]
-        // [Route("UpdateUser/{id}/{username}")]
+        // [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email")]
 
-        // public bool UpdateUser(int id, string username){
-        //     return _data.UpdateUsername(id, username);
+        // public bool UpdateUser(string UsertoUpdate, string birthday, string image, string programs, string funfact, string email){
+        //     return _data.UpdateUser(UsertoUpdate, birthday, image, programs, funfact, email);
         // }
+
+        [HttpDelete]
+        [Route("Deleteuser/{UserToDelete}")]
+        public string Deleteuser(string UserToDelete){
+            return _data.Deleteuser(UserToDelete);
+        }
+        
 
        
 

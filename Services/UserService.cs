@@ -113,10 +113,39 @@ namespace CourtMonitorBackend.Services
             return _context.UserInfo.SingleOrDefault(user => user.UserName == username);
         }
 
-        public bool UpdateUser(UserModel UsertoUpdate)
+        public bool UpdateUser(UserModel UsertoUpdate, UserModel updatebirthday, UserModel updateimage, UserModel updateprograms, UserModel updatefunfact, UserModel updateemail )
         {
             _context.Update<UserModel>(UsertoUpdate);
+            _context.Update<UserModel>(updatebirthday);
+            _context.Update<UserModel>(updateimage);
+            _context.Update<UserModel>(updateprograms);
+            _context.Update<UserModel>(updatefunfact);
+            _context.Update<UserModel>(updateemail);
             return _context.SaveChanges() != 0;
+        }
+
+        public string Deleteuser(string userToDelete){
+
+
+            UserModel foundUser = GetUserByUsername(userToDelete);
+            string result = "Not Found";
+
+            if (foundUser != null){
+                _context.Remove<UserModel>(foundUser);
+                result = "Found";
+            }
+            
+            return result;
+        }
+        public UseridDTO GetUserIDByUserName(string username){
+            
+            UseridDTO UserInfo = new UseridDTO();
+            UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.UserName == username);
+            
+            UserInfo.Username = foundUser.UserName;
+            UserInfo.Id = foundUser.ID;
+            
+            return UserInfo;
         }
     }
 }
