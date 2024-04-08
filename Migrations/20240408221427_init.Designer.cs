@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourtMonitorBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240408220252_init")]
+    [Migration("20240408221427_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -44,11 +44,17 @@ namespace CourtMonitorBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StartTime")
-                        .IsRequired()
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPulished")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Sport")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Tags")
+                    b.Property<string>("StartTime")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")

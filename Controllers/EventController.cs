@@ -8,23 +8,31 @@ namespace CourtMonitorBackend.Controllers
     [Route("[controller]")]
     public class EventController : ControllerBase
     {
-        private readonly EventService _eventService;
-        public EventController(EventService eventService)
+        private readonly EventService _data;
+        public EventController(EventService data)
         {
-            _eventService = eventService;
+            _data = data;
         }
 
         [HttpPost]
         [Route("CreateEvent")]
         public bool CreateEvent(EventModel newEventItem)
         {
-            return _eventService.CreateEvent(newEventItem);
+            return _data.CreateEvent(newEventItem);
         }
+
+        
+        [HttpGet]
+        [Route("GetEventsBySport")]
+        public IEnumerable<EventModel> GetEventsBySport(string sport){
+            return _data.GetEventsBySport(sport);
+        }
+
 
         [HttpDelete]
         [Route("DeleteEvent")]
         public bool DeleteEvent(EventModel eventToDelete){
-            return _eventService.DeleteEvent(eventToDelete);
+            return _data.DeleteEvent(eventToDelete);
         }
 
     }

@@ -14,9 +14,21 @@ namespace CourtMonitorBackend.Services
             _context.Add(newEvent);
             return _context.SaveChanges() != 0;
         }
+        public IEnumerable<EventModel> GetAllEvents(){
+            return _context.EventInfo;
+        }
+
+        public IEnumerable<EventModel> GetEventsBySport(string sport){
+            var allItems = GetAllEvents().ToList();
+
+            var filteredItems = allItems.Where(item => item.Sport.Split(',').Contains(sport));
+            
+            return filteredItems;
+        }
 
         public bool DeleteEvent(EventModel eventToDelete){
-            _context.Remove(eventToDelete);
+            eventToDelete.IsDeleted = true;
+            _context.Update<EventModel>(eventToDelete);
             return _context.SaveChanges() != 0;
         }
     }
