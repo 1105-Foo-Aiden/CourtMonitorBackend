@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourtMonitorBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240408212300_init")]
+    [Migration("20240408220252_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -26,6 +26,12 @@ namespace CourtMonitorBackend.Migrations
 
             modelBuilder.Entity("CourtMonitorBackend.Models.DTO.EventModel", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -48,6 +54,12 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("EventInfo");
                 });
