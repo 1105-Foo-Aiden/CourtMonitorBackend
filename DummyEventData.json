@@ -1,0 +1,30 @@
+[
+  {
+    "Date": "2024-04-20",
+    "StartTime": "14:00",
+    "EndTime": "16:00",
+    "Color": "red",
+    "Tags": ["Badminton", "Afternoon"]
+  },
+  {
+    "Date": "2024-04-22",
+    "StartTime": "17:30",
+    "EndTime": "19:30",
+    "Color": "blue",
+    "Tags": ["Basketball", "Volleyball", "Evening"]
+  },
+  {
+    "Date": "2024-04-25",
+    "StartTime": "10:00",
+    "EndTime": "12:00",
+    "Color": "green",
+    "Tags": ["Soccer", "Running", "Practice", "Morning"]
+  },
+  {
+    "Date": "2024-04-28",
+    "StartTime": "13:00",
+    "EndTime": "15:00",
+    "Color": "yellow",
+    "Tags": ["Golf", "Swimming", "Tournament", "Afternoon"]
+  }
+]

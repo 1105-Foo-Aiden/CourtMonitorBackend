@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourtMonitorBackend.Services
 {
@@ -36,9 +37,7 @@ namespace CourtMonitorBackend.Services
                 newUser.UserName = UserToAdd.UserName;
                 newUser.Salt = hashPassword.Salt;
                 newUser.Hash = hashPassword.Hash;
-
                 _context.Add(newUser);
-
                 result = _context.SaveChanges() != 0;
             }
             return result;
@@ -47,15 +46,11 @@ namespace CourtMonitorBackend.Services
         public PassWordDTO HashPassword(string passowrd)
         {
             PassWordDTO newHashPassword = new();
-
             byte[] SaltByte = new byte[64];
-
             RNGCryptoServiceProvider provider = new();
             provider.GetNonZeroBytes(SaltByte);
             string salt = Convert.ToBase64String(SaltByte);
-
             Rfc2898DeriveBytes rfc2898DeriveBytes = new(passowrd, SaltByte, 10000);
-
             string hash = Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(256));
             newHashPassword.Salt = salt;
             newHashPassword.Hash = hash;
@@ -73,37 +68,23 @@ namespace CourtMonitorBackend.Services
         public IActionResult Login(LoginDTO User)
         {
             IActionResult Result = Unauthorized();
-            //check if it exists
             if (DoesUserExist(User.Username))
             {
-                //if true, continue with authentication, store our user object
                 UserModel foundUser = GetUserByUsername(User.Username);
-                //check if password is correct
                 if (VerifyUsersPassword(User.Password, foundUser.Hash, foundUser.Salt))
                 {
-                    //Ctrl . to include using statements- for all pasted code
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                    //generates a new token and log user out after 30 minutes
+
                     var tokeOptions = new JwtSecurityToken(
                         issuer: "http://localhost:5000",
                         audience: "http://localhost:5000",
-                        claims: new List<Claim>(), // Claims can be added here if needed
-                        expires: DateTime.Now.AddMinutes(30), // Set token expiration time (e.g., 30 minutes), Logs you off automatically
-                        signingCredentials: signinCredentials // Set signing credentials
+                        claims: new List<Claim>(),
+                        expires: DateTime.Now.AddMinutes(30),
+                        signingCredentials: signinCredentials
                     );
-
-                    // Generate JWT token as a string
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-
-                    //returns toekn through http response with status of 200
                     Result = Ok(new { Token = tokenString });
-
-                    //Token:
-                    //asdfhjklags. = header
-                    //kasfdsflafslkd. Payload: contains claims such as expiration time
-                    //:sdflkjhgsl:. = signiture encrypts and comineds header and payload using secret key
                 }
             }
             return Result;
@@ -113,38 +94,41 @@ namespace CourtMonitorBackend.Services
             return _context.UserInfo.SingleOrDefault(user => user.UserName == username);
         }
 
-        public bool UpdateUser(UserModel UsertoUpdate, UserModel updatebirthday, UserModel updateimage, UserModel updateprograms, UserModel updatefunfact, UserModel updateemail )
+        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail)
         {
-            _context.Update<UserModel>(UsertoUpdate);
-            _context.Update<UserModel>(updatebirthday);
-            _context.Update<UserModel>(updateimage);
-            _context.Update<UserModel>(updateprograms);
-            _context.Update<UserModel>(updatefunfact);
-            _context.Update<UserModel>(updateemail);
-            return _context.SaveChanges() != 0;
-        }
-
-        public string Deleteuser(string userToDelete){
-
-
-            UserModel foundUser = GetUserByUsername(userToDelete);
-            string result = "Not Found";
-
-            if (foundUser != null){
-                _context.Remove<UserModel>(foundUser);
-                result = "Found";
+            UserModel foundUser = GetUserByUsername(UsertoUpdate);
+            bool result = false;
+            if (foundUser != null)
+            {
+                foundUser.Birthday = updatebirthday;
+                foundUser.Image = updateimage;
+                foundUser.Programs = updateprograms;
+                foundUser.FunFact = updatefunfact;
+                foundUser.Email = updateemail;
+                _context.Update<UserModel>(foundUser);
+                result = _context.SaveChanges() != 0;
             }
-            
             return result;
         }
-        public UseridDTO GetUserIDByUserName(string username){
-            
+
+        public string Deleteuser(string userToDelete)
+        {
+            UserModel foundUser = GetUserByUsername(userToDelete);
+            string result = "Not Found";
+            if (foundUser != null)
+            {
+                _context.Remove<UserModel>(foundUser);
+                _context.SaveChanges();
+                result = "Found";
+            }
+            return result;
+        }
+        public UseridDTO GetUserIDByUserName(string username)
+        {
             UseridDTO UserInfo = new UseridDTO();
             UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.UserName == username);
-            
             UserInfo.Username = foundUser.UserName;
             UserInfo.Id = foundUser.ID;
-            
             return UserInfo;
         }
     }
