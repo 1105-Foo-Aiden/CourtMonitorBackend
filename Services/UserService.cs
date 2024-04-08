@@ -94,7 +94,7 @@ namespace CourtMonitorBackend.Services
             return _context.UserInfo.SingleOrDefault(user => user.UserName == username);
         }
 
-        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail)
+        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports)
         {
             UserModel foundUser = GetUserByUsername(UsertoUpdate);
             bool result = false;
@@ -105,6 +105,7 @@ namespace CourtMonitorBackend.Services
                 foundUser.Programs = updateprograms;
                 foundUser.FunFact = updatefunfact;
                 foundUser.Email = updateemail;
+                foundUser.Sports = updateSports;
                 _context.Update<UserModel>(foundUser);
                 result = _context.SaveChanges() != 0;
             }

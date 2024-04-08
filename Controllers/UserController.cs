@@ -34,10 +34,10 @@ namespace CourtMonitorBackend.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email")]
+        [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email/sports")]
 
-        public bool UpdateUser(string? UsertoUpdate, string? birthday, string? image, string? programs, string? funfact, string? email){
-            return _data.UpdateUser(UsertoUpdate, birthday, image, programs, funfact, email);
+        public bool UpdateUser(string? UsertoUpdate, string? birthday, string? image, string? programs, string? funfact, string? email, string? sports){
+            return _data.UpdateUser(UsertoUpdate, birthday, image, programs, funfact, email, sports);
         }
 
         [HttpDelete]

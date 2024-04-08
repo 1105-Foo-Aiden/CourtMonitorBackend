@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourtMonitorBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240405183110_init")]
+    [Migration("20240408212300_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -26,11 +26,24 @@ namespace CourtMonitorBackend.Migrations
 
             modelBuilder.Entity("CourtMonitorBackend.Models.DTO.EventModel", b =>
                 {
-                    b.Property<int>("EndTime")
-                        .HasColumnType("int");
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StartTime")
-                        .HasColumnType("int");
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EndTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -66,6 +79,9 @@ namespace CourtMonitorBackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sports")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")

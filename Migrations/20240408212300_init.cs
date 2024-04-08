@@ -15,8 +15,11 @@ namespace CourtMonitorBackend.Migrations
                 columns: table => new
                 {
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartTime = table.Column<int>(type: "int", nullable: false),
-                    EndTime = table.Column<int>(type: "int", nullable: false)
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EndTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,6 +35,7 @@ namespace CourtMonitorBackend.Migrations
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Programs = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sports = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FunFact = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
