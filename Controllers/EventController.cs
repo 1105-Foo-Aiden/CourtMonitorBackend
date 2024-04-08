@@ -20,5 +20,12 @@ namespace CourtMonitorBackend.Controllers
         {
             return _eventService.CreateEvent(newEventItem);
         }
+
+        [HttpDelete]
+        [Route("DeleteEvent")]
+        public bool DeleteEvent(EventModel eventToDelete){
+            return _eventService.DeleteEvent(eventToDelete);
+        }
+
     }
 }

@@ -14,5 +14,10 @@ namespace CourtMonitorBackend.Services
             _context.Add(newEvent);
             return _context.SaveChanges() != 0;
         }
+
+        public bool DeleteEvent(EventModel eventToDelete){
+            _context.Remove(eventToDelete);
+            return _context.SaveChanges() != 0;
+        }
     }
 }
