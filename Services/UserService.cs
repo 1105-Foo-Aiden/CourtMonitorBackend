@@ -94,7 +94,7 @@ namespace CourtMonitorBackend.Services
             return _context.UserInfo.SingleOrDefault(user => user.UserName == username);
         }
 
-        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports)
+        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports, string updateRealName)
         {
             UserModel foundUser = GetUserByUsername(UsertoUpdate);
             bool result = false;
@@ -106,6 +106,7 @@ namespace CourtMonitorBackend.Services
                 foundUser.FunFact = updatefunfact;
                 foundUser.Email = updateemail;
                 foundUser.Sports = updateSports;
+                foundUser.RealName = updateRealName;
                 _context.Update<UserModel>(foundUser);
                 result = _context.SaveChanges() != 0;
             }
@@ -126,10 +127,18 @@ namespace CourtMonitorBackend.Services
         }
         public UseridDTO GetUserIDByUserName(string username)
         {
-            UseridDTO UserInfo = new UseridDTO();
+            UseridDTO UserInfo = new();
             UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.UserName == username);
             UserInfo.Username = foundUser.UserName;
             UserInfo.Id = foundUser.ID;
+            return UserInfo;
+        }
+
+        public UseridDTO GetUserById(int id){
+            UseridDTO UserInfo = new();
+            UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.ID == id);
+            UserInfo.Username= foundUser.UserName;
+            UserInfo.Id=foundUser.ID;
             return UserInfo;
         }
     }

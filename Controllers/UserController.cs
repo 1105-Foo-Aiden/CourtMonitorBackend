@@ -14,40 +14,51 @@ namespace CourtMonitorBackend.Controllers
         {
             _data = data;
         }
-        
+
         [HttpPost]
         [Route("AddUser")]
-        public bool AddUser(CreateAccountDTO userToAdd){
+        public bool AddUser(CreateAccountDTO userToAdd)
+        {
             return _data.AddUser(userToAdd);
         }
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login([FromBody] LoginDTO User){
+        public IActionResult Login([FromBody] LoginDTO User)
+        {
             return _data.Login(User);
         }
         [HttpGet]
         [Route("GetUserByUsername/{username}")]
 
-        public UseridDTO GetUserByUserName(string username){
+        public UseridDTO GetUserByUserName(string username)
+        {
             return _data.GetUserIDByUserName(username);
         }
-
+        [HttpGet]
+        [Route("GetUserById/{id}")]
+        public UseridDTO GetUserById(int id)
+        {
+            return _data.GetUserById(id);
+        }
         [HttpPut]
-        [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email/sports")]
+        [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email/sports/realname")]
 
-        public bool UpdateUser(string? UsertoUpdate, string? birthday, string? image, string? programs, string? funfact, string? email, string? sports){
-            return _data.UpdateUser(UsertoUpdate, birthday, image, programs, funfact, email, sports);
+        public bool UpdateUser(string? UsertoUpdate, string? birthday, string? image, string? programs, string? funfact, string? email, string? sports, string realName)
+        {
+            return _data.UpdateUser(UsertoUpdate, birthday, image, programs, funfact, email, sports, realName);
         }
 
         [HttpDelete]
         [Route("Deleteuser/{UserToDelete}")]
-        public string Deleteuser(string UserToDelete){
+        public string Deleteuser(string UserToDelete)
+        {
             return _data.Deleteuser(UserToDelete);
         }
-        
 
-       
+
+
+
 
     }
 }
