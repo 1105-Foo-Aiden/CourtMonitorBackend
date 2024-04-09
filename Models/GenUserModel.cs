@@ -6,6 +6,7 @@ namespace CourtMonitorBackend.Models
 {
     public class GenUserModel
     {
+        public int Id { get; set; } 
         [ForeignKey("User")]
         public int UserID { get; set; }
 
