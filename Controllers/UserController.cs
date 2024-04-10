@@ -28,6 +28,13 @@ namespace CourtMonitorBackend.Controllers
         {
             return _data.Login(User);
         }
+
+        [HttpPost]
+        [Route("UpdateUserStatus/{username}/StatusToUpdate")]
+        public bool ChangeStatus(string username, string StatusToUpdate)
+        {
+            return _data.ChangeStatus(username, StatusToUpdate);
+        }
         [HttpGet]
         [Route("GetUserByUsername/{username}")]
 
@@ -55,7 +62,6 @@ namespace CourtMonitorBackend.Controllers
         {
             return _data.Deleteuser(UserToDelete);
         }
-
 
 
 

@@ -134,12 +134,61 @@ namespace CourtMonitorBackend.Services
             return UserInfo;
         }
 
-        public UseridDTO GetUserById(int id){
+        public UseridDTO GetUserById(int id)
+        {
             UseridDTO UserInfo = new();
             UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.ID == id);
-            UserInfo.Username= foundUser.UserName;
-            UserInfo.Id=foundUser.ID;
+            UserInfo.Username = foundUser.UserName;
+            UserInfo.Id = foundUser.ID;
             return UserInfo;
+        }
+
+        public bool ChangeStatus(string username, string StatusToUpdate)
+        {
+            UserModel foundUser = GetUserByUsername(username);
+
+            bool result = false;
+            if (foundUser != null)
+            {
+                switch (StatusToUpdate.ToLower())
+                {
+                    case "admin":
+                        foundUser.IsAdmin = !foundUser.IsAdmin;
+                        if(foundUser.IsAdmin){
+                           AdminModel? admin = _context.AdminInfo.FirstOrDefault(admin => admin.UserID == foundUser.ID);
+                           if(admin != null){
+                            admin = new AdminModel {UserID = foundUser.ID};
+                            _context.AdminInfo.Add(admin);
+                           }
+                        }
+                        else{
+                            AdminModel? admin = _context.AdminInfo.SingleOrDefault(admin => admin.UserID == foundUser.ID);
+                            if (admin != null){
+                                _context.AdminInfo.Remove(admin);
+                            }
+                        }
+                    break;
+                    case "coach":
+                        foundUser.IsCoach = !foundUser.IsCoach;
+                        if(foundUser.IsCoach){
+                            CoachModel? coach = _context.CoachInfo.SingleOrDefault(coach => coach.UserID == foundUser.ID);
+                            if(coach != null){
+                                coach = new CoachModel {UserID = foundUser.ID};
+                                _context.CoachInfo.Add(coach);
+                            }
+                            else{
+
+                            }
+                        } 
+                    break;
+                    case "genuser":
+                        foundUser.IsUser = !foundUser.IsUser;
+                    break;
+                }
+                _context.Update<UserModel>(foundUser);
+                result = _context.SaveChanges() != 0;
+            }
+            return result;
         }
     }
 }
