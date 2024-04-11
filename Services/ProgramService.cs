@@ -23,7 +23,7 @@ namespace CourtMonitorBackend.Services
             if(!DoesProgramExist(nameofProgram)){
                 ProgramModel newProgram = new();
                 newProgram.ProgramName = nameofProgram;
-               newProgram.AdminID = adminId;
+                newProgram.AdminID = adminId;
             }
             return result;
         }

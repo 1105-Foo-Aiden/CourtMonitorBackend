@@ -17,7 +17,7 @@ namespace CourtMonitorBackend.Controllers
         }
 
         [HttpPost]
-        [Route("CreateProgram/{name}")]
+        [Route("CreateProgram/{name}/{AdminID}")]
         public bool CreateProgram(string name, int adminID){
             return _model.CreateProgram(name, adminID); 
         }
