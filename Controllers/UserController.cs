@@ -38,9 +38,9 @@ namespace CourtMonitorBackend.Controllers
         [HttpGet]
         [Route("GetUserByUsername/{username}")]
 
-        public UseridDTO GetUserByUserName(string username)
+        public UserDTO GetUserByUserName(string username)
         {
-            return _data.GetUserIDByUserName(username);
+            return _data.SearchUserByUserName(username);
         }
         [HttpGet]
         [Route("GetUserById/{id}")]

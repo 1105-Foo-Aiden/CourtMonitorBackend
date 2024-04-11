@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace CourtMonitorBackend.Services
 {
@@ -91,19 +92,21 @@ namespace CourtMonitorBackend.Services
             }
             return Result;
         }
+        public UserDTO SearchUserByUserName(string username){
+            UserDTO searchedUser = new();
+            UserModel foundUser = _context.UserInfo.SingleOrDefault(x => x.UserName == username);   
+                searchedUser.Username = foundUser.UserName;
+                searchedUser.RealName = foundUser.RealName;
+                searchedUser.Programs = foundUser.Programs;
+                searchedUser.Birthday = foundUser.Birthday;
+                searchedUser.IsAdmin = foundUser.IsAdmin;
+                searchedUser.IsUser = foundUser.IsUser;
+                searchedUser.IsCoach = foundUser.IsCoach;
+            return searchedUser;
+        }
         public UserModel GetUserByUsername(string username)
         {
             return _context.UserInfo.FirstOrDefault(x => x.UserName == username);
-                // .Include(x => x.UserName)
-                // .Include(x => x.RealName)
-                // .Include(x => x.IsUser)
-                // .Include(x => x.IsAdmin)
-                // .Include(x => x.IsCoach)
-                // .Include(x => x.Email)
-                // .Include(x => x.Sports)
-                // .Include(x => x.Birthday)
-                // .Include(x => x.Programs) 
-                
         }
 
         public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports, string updateRealName)
@@ -112,13 +115,29 @@ namespace CourtMonitorBackend.Services
             bool result = false;
             if (foundUser != null)
             {
-                foundUser.Birthday = updatebirthday;
-                foundUser.Image = updateimage;
-                foundUser.Programs = updateprograms;
-                foundUser.FunFact = updatefunfact;
-                foundUser.Email = updateemail;
-                foundUser.Sports = updateSports;
-                foundUser.RealName = updateRealName;
+                if (updatebirthday != null){
+                    foundUser.Birthday = updatebirthday;
+                }
+                if(updateimage != null){
+                    foundUser.Image = updateimage;
+                }
+                if(updateprograms != null){
+                    foundUser.Programs = updateprograms;
+                }
+                if(updatefunfact != null){
+                    foundUser.FunFact = updatefunfact;
+                }
+                if(updateemail != null){
+                    foundUser.Email = updateemail;
+                }
+                if(updateSports != null){
+                    foundUser.Sports = updateSports; 
+                }
+                if(updateRealName != null){
+                   foundUser.RealName = updateRealName; 
+                }
+               
+                
                 _context.Update<UserModel>(foundUser);
                 result = _context.SaveChanges() != 0;
             }
