@@ -93,7 +93,17 @@ namespace CourtMonitorBackend.Services
         }
         public UserModel GetUserByUsername(string username)
         {
-            return _context.UserInfo.SingleOrDefault(x => x.UserName == username);
+            return _context.UserInfo.FirstOrDefault(x => x.UserName == username);
+                // .Include(x => x.UserName)
+                // .Include(x => x.RealName)
+                // .Include(x => x.IsUser)
+                // .Include(x => x.IsAdmin)
+                // .Include(x => x.IsCoach)
+                // .Include(x => x.Email)
+                // .Include(x => x.Sports)
+                // .Include(x => x.Birthday)
+                // .Include(x => x.Programs) 
+                
         }
 
         public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports, string updateRealName)

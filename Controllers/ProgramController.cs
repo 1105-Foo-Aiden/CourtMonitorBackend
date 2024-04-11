@@ -16,10 +16,10 @@ namespace CourtMonitorBackend.Controllers
             _model = model;
         }
 
-        [HttpPost]
-        [Route("CreateProgram/{name}/{AdminID}")]
-        public bool CreateProgram(string name, int adminID){
-            return _model.CreateProgram(name, adminID); 
-        }
+        // [HttpPost]
+        // [Route("CreateProgram/{name}/{adminID}")]
+        // public bool CreateProgram(ProgramDTO program){
+        //     return _model.CreateProgram(program); 
+        // }
     }
 }
