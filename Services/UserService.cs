@@ -103,6 +103,7 @@ namespace CourtMonitorBackend.Services
                 searchedUser.IsAdmin = foundUser.IsAdmin;
                 searchedUser.IsUser = foundUser.IsUser;
                 searchedUser.IsCoach = foundUser.IsCoach;
+                searchedUser.UserID = foundUser.ID;
             return searchedUser;
         }
         public UserModel GetUserByUsername(string username)
