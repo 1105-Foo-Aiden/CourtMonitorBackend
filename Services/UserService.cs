@@ -93,7 +93,7 @@ namespace CourtMonitorBackend.Services
         }
         public UserModel GetUserByUsername(string username)
         {
-            return _context.UserInfo.SingleOrDefault(user => user.UserName == username);
+            return _context.UserInfo.SingleOrDefault(x => x.UserName == username);
         }
 
         public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports, string updateRealName)
