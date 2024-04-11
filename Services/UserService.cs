@@ -98,6 +98,7 @@ namespace CourtMonitorBackend.Services
                 searchedUser.Username = foundUser.UserName;
                 searchedUser.RealName = foundUser.RealName;
                 searchedUser.Programs = foundUser.Programs;
+                searchedUser.FunFact = foundUser.FunFact;
                 searchedUser.Birthday = foundUser.Birthday;
                 searchedUser.IsAdmin = foundUser.IsAdmin;
                 searchedUser.IsUser = foundUser.IsUser;
