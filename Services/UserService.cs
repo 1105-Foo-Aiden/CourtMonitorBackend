@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace CourtMonitorBackend.Services
 {
@@ -222,6 +220,9 @@ namespace CourtMonitorBackend.Services
                 result = _context.SaveChanges() != 0;
             }
             return result;
+        }
+        public IEnumerable<UserModel> GetAllUsers(){
+            return _context.UserInfo;
         }
     }
 }

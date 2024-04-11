@@ -62,7 +62,12 @@ namespace CourtMonitorBackend.Controllers
         {
             return _data.Deleteuser(UserToDelete);
         }
+        [HttpGet]
+        [Route("GetAllUsers")]
 
+        public IEnumerable<UserModel> GetAllUsers(){
+            return _data.GetAllUsers();
+        }
 
 
 
