@@ -35,6 +35,8 @@ namespace CourtMonitorBackend.Services
                 //setting up user
                 newUser.ID = UserToAdd.ID;
                 newUser.UserName = UserToAdd.UserName;
+                newUser.Email = UserToAdd.Email;
+                newUser.RealName = UserToAdd.FullName;
                 newUser.Salt = hashPassword.Salt;
                 newUser.Hash = hashPassword.Hash;
                 _context.Add(newUser);
