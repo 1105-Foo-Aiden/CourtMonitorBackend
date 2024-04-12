@@ -16,7 +16,7 @@ var connectionString = builder.Configuration.GetConnectionString("CourtMonitorSt
 builder.Services.AddDbContext<DataContext>(Options => Options.UseSqlServer(connectionString));
 
 builder.Services.AddCors(options => options.AddPolicy("CourtMonitorPolicy", builder =>{
-    builder.WithOrigins("http://localhost:3000", "http://localhost:5169", "https://court-monitor-two.vercel.app")
+    builder.WithOrigins("http://localhost:3000", "http://localhost:5169", "https://court-monitor-two.vercel.app", "https://court-monitor-dnfe11j26-jeriahs-projects-b6db9779.vercel.app")
     .AllowAnyHeader()
     .AllowAnyMethod();
 }));

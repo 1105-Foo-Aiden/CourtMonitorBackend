@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "bFaLm4Ot0xh3tWNPhau7EjoIzr+3/oMD+RwPPSi8mkI=",
+  "Source": "CourtMonitorBackend",
+  "BasePath": "_content/CourtMonitorBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
