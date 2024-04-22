@@ -1,7 +1,10 @@
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
+using CourtMonitorBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace CourtMonitorBackend.Controllers
 {
@@ -9,6 +12,8 @@ namespace CourtMonitorBackend.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
+       
+
         private readonly UserService _data;
         public UserController(UserService data)
         {

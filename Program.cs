@@ -1,5 +1,6 @@
 using CourtMonitorBackend.Services;
 using CourtMonitorBackend.Services.Context;
+using CourtMonitorBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,13 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>(); 
 
 var connectionString = builder.Configuration.GetConnectionString("CourtMonitorString");
 //configures entity framework core to use SQL server as the database provider for a dataContext
 builder.Services.AddDbContext<DataContext>(Options => Options.UseSqlServer(connectionString));
 
 builder.Services.AddCors(options => options.AddPolicy("CourtMonitorPolicy", builder =>{
-    builder.WithOrigins("http://localhost:3000", "http://localhost:5169", "https://court-monitor-two.vercel.app", "https://court-monitor-dnfe11j26-jeriahs-projects-b6db9779.vercel.app")
+    builder.WithOrigins("http://localhost:3000", "http://localhost:5169")
     .AllowAnyHeader()
     .AllowAnyMethod();
 }));
