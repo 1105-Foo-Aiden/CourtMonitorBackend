@@ -8,8 +8,8 @@ namespace CourtMonitorBackend.Services.Interfaces
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var mail = "afoo154@gmail.com";
-            var pw = "Hellothere15";
+            var mail = "courtmonitorservices@gmail.com";
+            var pw = "courtmonitorservices123!@#";
             
             var client = new SmtpClient("smtp.gmail.com", 587){
                 EnableSsl = true,

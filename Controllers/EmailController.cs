@@ -26,7 +26,7 @@ namespace CourtMonitorBackend.Controllers
         [Route("SendEmail")]
         public async Task<IActionResult> SendEmail([FromBody] EmailModel emailModel ){
             await _emailSender.SendEmailAsync(emailModel.Sender, emailModel.Subject, emailModel.Message);
-            return Ok();
+            return Ok("Success");
         }
     }
 }
