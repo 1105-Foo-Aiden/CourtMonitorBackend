@@ -1,3 +1,4 @@
+using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -19,6 +20,13 @@ namespace CourtMonitorBackend.Controllers
             var message = "Hello World";
             await _emailSender.SendEmailAsync(reciever, subject, message);
             return View();
+        }
+
+        [HttpPost]
+        [Route("SendEmail")]
+        public async Task<IActionResult> SendEmail([FromBody] EmailModel emailModel ){
+            await _emailSender.SendEmailAsync(emailModel.Sender, emailModel.Subject, emailModel.Message);
+            return Ok();
         }
     }
 }
