@@ -14,6 +14,23 @@ namespace CourtMonitorBackend.Controllers
             _data = data;
         }
 
+        [HttpGet]
+        [Route("GetUserByUsername/{username}")]
+
+        public UserDTO GetUserByUserName(string username){
+            return _data.SearchUserByUserName(username);
+        }
+        [HttpGet]
+        [Route("GetUserById/{id}")]
+        public UseridDTO GetUserById(int id){
+            return _data.GetUserById(id);
+        }
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public IEnumerable<UserModel> GetAllUsers(){
+            return _data.GetAllUsers();
+        }
+
         [HttpPost]
         [Route("AddUser")]
         public bool AddUser(CreateAccountDTO userToAdd){
@@ -37,23 +54,6 @@ namespace CourtMonitorBackend.Controllers
         public bool CreateNewPassword(string Email, string Password){
             return _data.ResetPassword(Email, Password);
         }
-        [HttpGet]
-        [Route("GetUserByUsername/{username}")]
-
-        public UserDTO GetUserByUserName(string username){
-            return _data.SearchUserByUserName(username);
-        }
-        [HttpGet]
-        [Route("GetUserById/{id}")]
-        public UseridDTO GetUserById(int id){
-            return _data.GetUserById(id);
-        }
-        [HttpGet]
-        [Route("GetAllUsers")]
-        public IEnumerable<UserModel> GetAllUsers(){
-            return _data.GetAllUsers();
-        }
-
         [HttpPut]
         [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email/sports/realname")]
 

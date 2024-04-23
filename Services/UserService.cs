@@ -129,7 +129,6 @@ namespace CourtMonitorBackend.Services
                 if (updateRealName != null){
                     foundUser.RealName = updateRealName;
                 }
-
                 _context.Update<UserModel>(foundUser);
                 result = _context.SaveChanges() != 0;
             }
