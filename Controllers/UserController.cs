@@ -3,7 +3,6 @@ using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace CourtMonitorBackend.Controllers
 {
     [ApiController]
@@ -32,6 +31,12 @@ namespace CourtMonitorBackend.Controllers
         public bool ChangeStatus(string username, string StatusToUpdate){
             return _data.ChangeStatus(username, StatusToUpdate);
         }
+        
+        [HttpPost]
+        [Route("{Email}/{NewPassword}")]
+        public bool CreateNewPassword(string Email, string Password){
+            return _data.ResetPassword(Email, Password);
+        }
         [HttpGet]
         [Route("GetUserByUsername/{username}")]
 
@@ -42,6 +47,11 @@ namespace CourtMonitorBackend.Controllers
         [Route("GetUserById/{id}")]
         public UseridDTO GetUserById(int id){
             return _data.GetUserById(id);
+        }
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public IEnumerable<UserModel> GetAllUsers(){
+            return _data.GetAllUsers();
         }
 
         [HttpPut]
@@ -56,18 +66,5 @@ namespace CourtMonitorBackend.Controllers
         public string Deleteuser(string UserToDelete){
             return _data.Deleteuser(UserToDelete);
         }
-
-        [HttpGet]
-        [Route("GetAllUsers")]
-        public IEnumerable<UserModel> GetAllUsers(){
-            return _data.GetAllUsers();
-        }
-
-        [HttpPost]
-        [Route("User/NewPassword")]
-        public bool CreateNewPassword(string Email, string Password){
-            return _data.ResetPassword(Email, Password);
-        }
-
     }
 }

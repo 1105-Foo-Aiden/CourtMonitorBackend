@@ -7,7 +7,7 @@ namespace CourtMonitorBackend.Models.DTO
     public class ProgramModel
     {
         [Key]
-        public int? ProgramID { get; set; }
+        public int ProgramID { get; set; }
         [ForeignKey("Admin")]
         public int? AdminID { get; set; }
 
@@ -18,7 +18,7 @@ namespace CourtMonitorBackend.Models.DTO
         public int? GenUserID { get; set; }
         public string? ProgramName { get; set; }
         public string? ProgramSport { get; set; }
-        public int? EventID { get; set; }
+        public int[] EventID { get; set; }
         public AdminModel? Admin { get; set; }
         public CoachModel? Coach { get; set; }
         public GenUserModel? GenUser { get; set; }

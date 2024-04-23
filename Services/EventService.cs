@@ -1,15 +1,22 @@
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMonitorBackend.Services
 {
     public class EventService
     {
         private readonly DataContext _context;
-        public EventService(DataContext context)
-        {
+        public EventService(DataContext context){
             _context = context;
         }
+        private readonly ProgramDTO _programDTO;
+
+        public EventService(ProgramDTO programDTO){
+            _programDTO = programDTO;
+        }
+
         public bool CreateEvent(EventModel newEvent){
             _context.Add(newEvent);
             return _context.SaveChanges() != 0;
@@ -18,13 +25,22 @@ namespace CourtMonitorBackend.Services
             return _context.EventInfo;
         }
 
-        public IEnumerable<EventModel> GetEventsBySport(string sport){
-            var allItems = GetAllEvents().ToList();
-
-            var filteredItems = allItems.Where(item => item.Sport.Split(',').Contains(sport));
-            
-            return filteredItems;
+        public EventModel GetEventById(int id){
+            return _context.EventInfo.FirstOrDefault(e => e.EventID == id);
         }
+        public ProgramModel GetProgramByName(string name){
+            return _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == name);
+        }
+
+        public IActionResult GetEventsByProgram(string program){
+            var EventIds = _context.ProgramInfo
+            .Where(x => x.ProgramName == program)
+            .Select(x => x.EventID)
+            .ToList();
+
+            return new OkObjectResult(EventIds);
+        }
+    
 
         public bool DeleteEvent(EventModel eventToDelete){
             eventToDelete.IsDeleted = true;
