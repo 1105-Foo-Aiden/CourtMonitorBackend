@@ -14,21 +14,17 @@ namespace CourtMonitorBackend.Services
     {
         private readonly DataContext _context;
 
-        public UserService(DataContext context)
-        {
+        public UserService(DataContext context){
             _context = context;
         }
-        public bool DoesUserExist(string Username)
-        {
+        public bool DoesUserExist(string Username){
             return _context.UserInfo.SingleOrDefault(User => User.UserName == Username) != null;
         }
 
-        public bool AddUser(CreateAccountDTO UserToAdd)
-        {
+        public bool AddUser(CreateAccountDTO UserToAdd){
             bool result = false;
 
-            if (!DoesUserExist(UserToAdd.UserName))
-            {
+            if (!DoesUserExist(UserToAdd.UserName)){
                 UserModel newUser = new();
                 var hashPassword = HashPassword(UserToAdd.Password);
                 //setting up user
@@ -44,8 +40,7 @@ namespace CourtMonitorBackend.Services
             return result;
         }
 
-        public PassWordDTO HashPassword(string passowrd)
-        {
+        public PassWordDTO HashPassword(string passowrd){
             PassWordDTO newHashPassword = new();
             byte[] SaltByte = new byte[64];
             RNGCryptoServiceProvider provider = new();
@@ -58,8 +53,7 @@ namespace CourtMonitorBackend.Services
             return newHashPassword;
         }
 
-        public bool VerifyUsersPassword(string? passowrd, string? storedHash, string? storedSalt)
-        {
+        public bool VerifyUsersPassword(string? passowrd, string? storedHash, string? storedSalt){
             byte[] SaltBytes = Convert.FromBase64String(storedSalt);
             Rfc2898DeriveBytes rfc2898DeriveBytes = new(passowrd, SaltBytes, 10000);
             string newHash = Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(256));
@@ -69,8 +63,7 @@ namespace CourtMonitorBackend.Services
         public IActionResult Login(LoginDTO User)
         {
             IActionResult Result = Unauthorized();
-            if (DoesUserExist(User.Username))
-            {
+            if (DoesUserExist(User.Username)){
                 UserModel foundUser = GetUserByUsername(User.Username);
                 if (VerifyUsersPassword(User.Password, foundUser.Hash, foundUser.Salt))
                 {
@@ -92,72 +85,69 @@ namespace CourtMonitorBackend.Services
         }
         public UserDTO SearchUserByUserName(string username){
             UserDTO searchedUser = new();
-            UserModel foundUser = _context.UserInfo.SingleOrDefault(x => x.UserName == username);   
-                searchedUser.Username = foundUser.UserName;
-                searchedUser.RealName = foundUser.RealName;
-                searchedUser.Programs = foundUser.Programs;
-                searchedUser.FunFact = foundUser.FunFact;
-                searchedUser.Birthday = foundUser.Birthday;
-                searchedUser.IsAdmin = foundUser.IsAdmin;
-                searchedUser.IsUser = foundUser.IsUser;
-                searchedUser.IsCoach = foundUser.IsCoach;
-                searchedUser.UserID = foundUser.ID;
+            UserModel foundUser = _context.UserInfo.SingleOrDefault(x => x.UserName == username);
+            searchedUser.Username = foundUser.UserName;
+            searchedUser.RealName = foundUser.RealName;
+            searchedUser.Programs = foundUser.Programs;
+            searchedUser.FunFact = foundUser.FunFact;
+            searchedUser.Birthday = foundUser.Birthday;
+            searchedUser.IsAdmin = foundUser.IsAdmin;
+            searchedUser.IsUser = foundUser.IsUser;
+            searchedUser.IsCoach = foundUser.IsCoach;
+            searchedUser.UserID = foundUser.ID;
             return searchedUser;
         }
-        public UserModel GetUserByUsername(string username)
-        {
+        public UserModel GetUserByUsername(string username){
             return _context.UserInfo.FirstOrDefault(x => x.UserName == username);
         }
+        public UserModel GetUserByEmail(string Email){
+            return _context.UserInfo.FirstOrDefault(x => x.Email == Email);
+        }
 
-        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports, string updateRealName)
-        {
+        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports, string updateRealName){
             UserModel foundUser = GetUserByUsername(UsertoUpdate);
             bool result = false;
-            if (foundUser != null)
-            {
+            if (foundUser != null){
                 if (updatebirthday != null){
                     foundUser.Birthday = updatebirthday;
                 }
-                if(updateimage != null){
+                if (updateimage != null){
                     foundUser.Image = updateimage;
                 }
-                if(updateprograms != null){
+                if (updateprograms != null){
                     foundUser.Programs = updateprograms;
                 }
-                if(updatefunfact != null){
+                if (updatefunfact != null){
                     foundUser.FunFact = updatefunfact;
                 }
-                if(updateemail != null){
+                if (updateemail != null){
                     foundUser.Email = updateemail;
                 }
-                if(updateSports != null){
-                    foundUser.Sports = updateSports; 
+                if (updateSports != null){
+                    foundUser.Sports = updateSports;
                 }
-                if(updateRealName != null){
-                   foundUser.RealName = updateRealName; 
+                if (updateRealName != null){
+                    foundUser.RealName = updateRealName;
                 }
-               
-                
+
                 _context.Update<UserModel>(foundUser);
                 result = _context.SaveChanges() != 0;
             }
             return result;
         }
 
-        public string Deleteuser(string userToDelete)
-        {
+        public string Deleteuser(string userToDelete){
             UserModel foundUser = GetUserByUsername(userToDelete);
             string result = "Not Found";
-            if (foundUser != null)
-            {
+            if (foundUser != null){
                 _context.Remove<UserModel>(foundUser);
                 _context.SaveChanges();
                 result = "Found";
             }
             return result;
         }
-        public UseridDTO GetUserIDByUserName(string username)
-        {
+
+        public UseridDTO GetUserIDByUserName(string username){
             UseridDTO UserInfo = new();
             UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.UserName == username);
             UserInfo.Username = foundUser.UserName;
@@ -165,8 +155,7 @@ namespace CourtMonitorBackend.Services
             return UserInfo;
         }
 
-        public UseridDTO GetUserById(int id)
-        {
+        public UseridDTO GetUserById(int id){
             UseridDTO UserInfo = new();
             UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.ID == id);
             UserInfo.Username = foundUser.UserName;
@@ -174,23 +163,19 @@ namespace CourtMonitorBackend.Services
             return UserInfo;
         }
 
-        public bool ChangeStatus(string username, string StatusToUpdate)
-        {
+        public bool ChangeStatus(string username, string StatusToUpdate){
             UserModel foundUser = GetUserByUsername(username);
-
             bool result = false;
-            if (foundUser != null)
-            {
-                switch (StatusToUpdate.ToLower())
-                {
+            if (foundUser != null){
+                switch (StatusToUpdate.ToLower()){
                     case "admin":
                         foundUser.IsAdmin = !foundUser.IsAdmin;
-                        if(foundUser.IsAdmin){
-                           AdminModel? admin = _context.AdminInfo.FirstOrDefault(admin => admin.UserID == foundUser.ID);
-                           if(admin != null){
-                            admin = new AdminModel {UserID = foundUser.ID};
-                            _context.AdminInfo.Add(admin);
-                           }
+                        if (foundUser.IsAdmin){
+                            AdminModel? admin = _context.AdminInfo.FirstOrDefault(admin => admin.UserID == foundUser.ID);
+                            if (admin != null){
+                                admin = new AdminModel { UserID = foundUser.ID };
+                                _context.AdminInfo.Add(admin);
+                            }
                         }
                         else{
                             AdminModel? admin = _context.AdminInfo.SingleOrDefault(admin => admin.UserID == foundUser.ID);
@@ -198,23 +183,22 @@ namespace CourtMonitorBackend.Services
                                 _context.AdminInfo.Remove(admin);
                             }
                         }
-                    break;
+                        break;
                     case "coach":
                         foundUser.IsCoach = !foundUser.IsCoach;
-                        if(foundUser.IsCoach){
+                        if (foundUser.IsCoach){
                             CoachModel? coach = _context.CoachInfo.SingleOrDefault(coach => coach.UserID == foundUser.ID);
-                            if(coach != null){
-                                coach = new CoachModel {UserID = foundUser.ID};
+                            if (coach != null){
+                                coach = new CoachModel { UserID = foundUser.ID };
                                 _context.CoachInfo.Add(coach);
                             }
                             else{
-
                             }
-                        } 
-                    break;
+                        }
+                        break;
                     case "genuser":
                         foundUser.IsUser = !foundUser.IsUser;
-                    break;
+                        break;
                 }
                 _context.Update<UserModel>(foundUser);
                 result = _context.SaveChanges() != 0;
@@ -223,6 +207,19 @@ namespace CourtMonitorBackend.Services
         }
         public IEnumerable<UserModel> GetAllUsers(){
             return _context.UserInfo;
+        }
+
+        public bool ResetPassword(string Email, string NewPassword){
+            bool result = false;
+            UserModel foundUser = GetUserByEmail(Email);
+            if (foundUser != null){
+                var newPass = HashPassword(NewPassword);
+                foundUser.Hash = newPass.Hash;
+                foundUser.Salt = newPass.Salt;
+                _context.Update<UserModel>(foundUser);
+                result = _context.SaveChanges() != 0;
+            }
+            return result;
         }
     }
 }
