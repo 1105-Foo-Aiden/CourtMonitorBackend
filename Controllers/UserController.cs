@@ -22,7 +22,7 @@ namespace CourtMonitorBackend.Controllers
         }
         [HttpGet]
         [Route("GetUserById/{id}")]
-        public UseridDTO GetUserById(int id){
+        public UserModel GetUserById(int id){
             return _data.GetUserById(id);
         }
         [HttpGet]
@@ -51,8 +51,8 @@ namespace CourtMonitorBackend.Controllers
         
         [HttpPost]
         [Route("{Email}/{NewPassword}")]
-        public bool CreateNewPassword(string Email, string Password){
-            return _data.ResetPassword(Email, Password);
+        public bool CreateNewPassword(string Email, string NewPassword){
+            return _data.ResetPassword(Email, NewPassword);
         }
         [HttpPut]
         [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email/sports/realname")]

@@ -154,12 +154,9 @@ namespace CourtMonitorBackend.Services
             return UserInfo;
         }
 
-        public UseridDTO GetUserById(int id){
-            UseridDTO UserInfo = new();
-            UserModel foundUser = _context.UserInfo.SingleOrDefault(user => user.ID == id);
-            UserInfo.Username = foundUser.UserName;
-            UserInfo.Id = foundUser.ID;
-            return UserInfo;
+        public UserModel GetUserById(int id){
+            
+            return _context.UserInfo.SingleOrDefault(user => user.ID == id);
         }
 
         public bool ChangeStatus(string username, string StatusToUpdate){
