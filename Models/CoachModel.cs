@@ -14,6 +14,5 @@ namespace CourtMonitorBackend.Models
         public int? ProgramID { get; set; }
 
         public UserModel? User { get; set; }
-        public ProgramModel? Program { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +16,10 @@ namespace CourtMonitorBackend.Controllers
             _model = model;
         }
 
-        // [HttpPost]
-        // [Route("CreateProgram/{name}/{adminID}")]
-        // public bool CreateProgram(ProgramDTO program){
-        //     return _model.CreateProgram(program); 
-        // }
+        [HttpPost]
+        [Route("CreateProgram")]
+        public bool CreateProgram(ProgramDTO newProgram){
+            return _model.CreateProgram(newProgram); 
+        }
     }
 }

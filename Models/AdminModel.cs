@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourtMonitorBackend.Models.DTO
@@ -13,6 +12,5 @@ namespace CourtMonitorBackend.Models.DTO
         [ForeignKey("Program")]
         public int? ProgramID { get; set; }
         public UserModel? User {get; set;}
-        public ProgramModel? Program { get; set;}
     }
 }

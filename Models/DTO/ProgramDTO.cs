@@ -3,7 +3,8 @@ namespace CourtMonitorBackend.Models.DTO
     public class ProgramDTO
     {
         public int ID { get; set; }
-        public string Name { get; set; }    
+        public string ProgramName { get; set; }    
         public int AdminID { get; set; }
+        public string ProgramSport { get; set; }
     }
 }

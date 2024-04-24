@@ -25,13 +25,16 @@ namespace CourtMonitorBackend.Services
             bool result = false;
 
             if (!DoesUserExist(UserToAdd.UserName)){
-                UserModel newUser = new();
-                var hashPassword = HashPassword(UserToAdd.Password);
+                UserModel newUser = new()
+                {
+                    ID = UserToAdd.ID,
+                    UserName = UserToAdd.UserName,
+                    Email = UserToAdd.Email,
+                    RealName = UserToAdd.FullName
+                };
                 //setting up user
-                newUser.ID = UserToAdd.ID;
-                newUser.UserName = UserToAdd.UserName;
-                newUser.Email = UserToAdd.Email;
-                newUser.RealName = UserToAdd.FullName;
+                var hashPassword = HashPassword(UserToAdd.Password);
+                
                 newUser.Salt = hashPassword.Salt;
                 newUser.Hash = hashPassword.Hash;
                 _context.Add(newUser);
