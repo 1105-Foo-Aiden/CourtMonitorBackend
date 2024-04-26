@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourtMonitorBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240424014715_init")]
+    [Migration("20240426183859_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -27,23 +27,19 @@ namespace CourtMonitorBackend.Migrations
 
             modelBuilder.Entity("CourtMonitorBackend.Models.CoachModel", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("ProgramID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProgramID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("CoachInfo");
                 });
@@ -59,14 +55,10 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<int?>("ProgramID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProgramID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("AdminInfo");
                 });
@@ -97,7 +89,7 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<bool>("IsPulished")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProgramID")
+                    b.Property<int>("ProgramID")
                         .HasColumnType("int");
 
                     b.Property<string>("StartTime")
@@ -106,16 +98,7 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("int");
-
                     b.HasKey("EventID");
-
-                    b.HasIndex("ProgramID")
-                        .IsUnique()
-                        .HasFilter("[ProgramID] IS NOT NULL");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("EventInfo");
                 });
@@ -128,54 +111,46 @@ namespace CourtMonitorBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramID"));
 
-                    b.Property<int?>("AdminID")
+                    b.Property<int>("AdminID")
                         .HasColumnType("int");
 
                     b.Property<int?>("CoachID")
                         .HasColumnType("int");
 
-                    b.Property<int>("EventID")
+                    b.Property<int?>("EventID")
                         .HasColumnType("int");
 
                     b.Property<int?>("GenUserID")
                         .HasColumnType("int");
 
                     b.Property<string>("ProgramName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProgramSport")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProgramID");
-
-                    b.HasIndex("AdminID");
-
-                    b.HasIndex("CoachID");
-
-                    b.HasIndex("GenUserID");
 
                     b.ToTable("ProgramInfo");
                 });
 
             modelBuilder.Entity("CourtMonitorBackend.Models.GenUserModel", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("ProgramID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProgramID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("GenUserInfo");
                 });
@@ -192,6 +167,7 @@ namespace CourtMonitorBackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FunFact")
@@ -216,6 +192,7 @@ namespace CourtMonitorBackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RealName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salt")
@@ -225,97 +202,12 @@ namespace CourtMonitorBackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.ToTable("UserInfo");
-                });
-
-            modelBuilder.Entity("CourtMonitorBackend.Models.CoachModel", b =>
-                {
-                    b.HasOne("CourtMonitorBackend.Models.DTO.ProgramModel", "Program")
-                        .WithMany()
-                        .HasForeignKey("ProgramID");
-
-                    b.HasOne("CourtMonitorBackend.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Program");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CourtMonitorBackend.Models.DTO.AdminModel", b =>
-                {
-                    b.HasOne("CourtMonitorBackend.Models.DTO.ProgramModel", "Program")
-                        .WithMany()
-                        .HasForeignKey("ProgramID");
-
-                    b.HasOne("CourtMonitorBackend.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Program");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CourtMonitorBackend.Models.DTO.EventModel", b =>
-                {
-                    b.HasOne("CourtMonitorBackend.Models.DTO.ProgramModel", "Program")
-                        .WithOne("Event")
-                        .HasForeignKey("CourtMonitorBackend.Models.DTO.EventModel", "ProgramID");
-
-                    b.HasOne("CourtMonitorBackend.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Program");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CourtMonitorBackend.Models.DTO.ProgramModel", b =>
-                {
-                    b.HasOne("CourtMonitorBackend.Models.DTO.AdminModel", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminID");
-
-                    b.HasOne("CourtMonitorBackend.Models.CoachModel", "Coach")
-                        .WithMany()
-                        .HasForeignKey("CoachID");
-
-                    b.HasOne("CourtMonitorBackend.Models.GenUserModel", "GenUser")
-                        .WithMany()
-                        .HasForeignKey("GenUserID");
-
-                    b.Navigation("Admin");
-
-                    b.Navigation("Coach");
-
-                    b.Navigation("GenUser");
-                });
-
-            modelBuilder.Entity("CourtMonitorBackend.Models.GenUserModel", b =>
-                {
-                    b.HasOne("CourtMonitorBackend.Models.DTO.ProgramModel", "Program")
-                        .WithMany()
-                        .HasForeignKey("ProgramID");
-
-                    b.HasOne("CourtMonitorBackend.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Program");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CourtMonitorBackend.Models.DTO.ProgramModel", b =>
-                {
-                    b.Navigation("Event");
                 });
 #pragma warning restore 612, 618
         }

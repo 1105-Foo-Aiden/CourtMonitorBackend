@@ -1,0 +1,142 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace CourtMonitorBackend.Migrations
+{
+    /// <inheritdoc />
+    public partial class init : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "AdminInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    ProgramID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdminInfo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CoachInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    ProgramID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoachInfo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventInfo",
+                columns: table => new
+                {
+                    EventID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EndTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AllDay = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsPulished = table.Column<bool>(type: "bit", nullable: false),
+                    ProgramID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventInfo", x => x.EventID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GenUserInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    ProgramID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenUserInfo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProgramInfo",
+                columns: table => new
+                {
+                    ProgramID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AdminID = table.Column<int>(type: "int", nullable: false),
+                    CoachID = table.Column<int>(type: "int", nullable: true),
+                    GenUserID = table.Column<int>(type: "int", nullable: true),
+                    ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProgramSport = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProgramInfo", x => x.ProgramID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserInfo",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RealName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Birthday = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Programs = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sports = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FunFact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    IsCoach = table.Column<bool>(type: "bit", nullable: false),
+                    IsUser = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInfo", x => x.ID);
+                });
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "AdminInfo");
+
+            migrationBuilder.DropTable(
+                name: "CoachInfo");
+
+            migrationBuilder.DropTable(
+                name: "EventInfo");
+
+            migrationBuilder.DropTable(
+                name: "GenUserInfo");
+
+            migrationBuilder.DropTable(
+                name: "ProgramInfo");
+
+            migrationBuilder.DropTable(
+                name: "UserInfo");
+        }
+    }
+}
