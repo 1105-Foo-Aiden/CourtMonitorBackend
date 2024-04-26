@@ -210,10 +210,15 @@ namespace CourtMonitorBackend.Services
             UserModel foundUser = GetUserByEmail(Email);
             if (foundUser != null){
                 var newPass = HashPassword(NewPassword);
-                foundUser.Hash = newPass.Hash;
-                foundUser.Salt = newPass.Salt;
-                _context.Update<UserModel>(foundUser);
-                result = _context.SaveChanges() != 0;
+                if(newPass.Hash == foundUser.Hash || newPass.Salt == foundUser.Salt){
+                    result = false;
+                }
+                else{
+                    foundUser.Hash = newPass.Hash;
+                    foundUser.Salt = newPass.Salt;
+                    _context.Update<UserModel>(foundUser);
+                    result = _context.SaveChanges() != 0;
+                }
             }
             return result;
         }
