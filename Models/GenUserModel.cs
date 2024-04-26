@@ -1,9 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using CourtMonitorBackend.Models.DTO;
-
-namespace CourtMonitorBackend.Models
-{
+namespace CourtMonitorBackend.Models{
     public class GenUserModel
     {
         public int Id { get; set; }

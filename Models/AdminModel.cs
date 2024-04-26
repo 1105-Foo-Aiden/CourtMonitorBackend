@@ -1,7 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CourtMonitorBackend.Models.DTO
-{
+namespace CourtMonitorBackend.Models.DTO{
     public class AdminModel
     {
         public int Id { get; set; }

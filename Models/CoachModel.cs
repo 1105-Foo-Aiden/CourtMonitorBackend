@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using CourtMonitorBackend.Models.DTO;
-
 namespace CourtMonitorBackend.Models
 {
     public class CoachModel

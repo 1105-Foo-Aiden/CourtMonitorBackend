@@ -1,7 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace CourtMonitorBackend.Models
-{
+namespace CourtMonitorBackend.Models{
     public class UserModel
     {
         public int ID {get; set;}
