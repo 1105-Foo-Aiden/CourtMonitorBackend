@@ -7,10 +7,10 @@ namespace CourtMonitorBackend.Models.DTO
         public int Id { get; set; }
 
         [ForeignKey("User")]
-        public int? UserID { get; set; } 
+        public int UserID { get; set; } 
 
         [ForeignKey("Program")]
         public int? ProgramID { get; set; }
-        public UserModel? User {get; set;}
+        public UserModel? User { get; set; }
     }
 }

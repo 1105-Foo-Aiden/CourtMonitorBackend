@@ -16,9 +16,9 @@ namespace CourtMonitorBackend.Models
         public string? Email {get; set;}
         public string? Salt {get; set;}
         public string? Hash {get; set;}
-        public bool IsAdmin {get; set;}
-        public bool IsCoach {get; set;}
-        public bool IsUser {get; set;}
+        public bool IsAdmin {get; set;} = false;
+        public bool IsCoach {get; set;} = false;
+        public bool IsUser {get; set;} = true;
         public UserModel()
         {
 

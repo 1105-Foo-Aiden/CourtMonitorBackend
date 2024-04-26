@@ -54,6 +54,7 @@ namespace CourtMonitorBackend.Controllers
         public bool CreateNewPassword(string Email, string NewPassword){
             return _data.ResetPassword(Email, NewPassword);
         }
+        
         [HttpPut]
         [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email/sports/realname")]
 
