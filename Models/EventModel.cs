@@ -15,10 +15,7 @@ namespace CourtMonitorBackend.Models.DTO
         public bool AllDay { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsPulished { get; set; }
-        [ForeignKey("Program")]
-        public int? ProgramID { get; set; }
-        public ProgramModel? Program { get; set; }
-        public UserModel? User { get; set; }
+        public int ProgramID { get; set; }
         public EventModel()
         {
 
