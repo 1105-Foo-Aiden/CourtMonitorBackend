@@ -6,7 +6,6 @@ namespace CourtMonitorBackend.Models.DTO
 {
     public class ProgramModel
     {
-        [Key]
         public int ProgramID { get; set; }
         public int AdminID { get; set; }
         public int? CoachID { get; set; }

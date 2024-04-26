@@ -5,7 +5,6 @@ namespace CourtMonitorBackend.Models.DTO
 {
     public class EventModel
     {
-        [Key]
         public int EventID { get; set; }
         public string? Title { get; set; }
         public string? Date { get; set; }
