@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProgramService>();
 
 var connectionString = builder.Configuration.GetConnectionString("CourtMonitorString");
 //configures entity framework core to use SQL server as the database provider for a dataContext

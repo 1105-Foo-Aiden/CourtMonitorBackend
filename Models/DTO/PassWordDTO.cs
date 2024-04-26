@@ -1,5 +1,4 @@
-namespace CourtMonitorBackend.Models.DTO
-{
+namespace CourtMonitorBackend.Models.DTO{
     public class PassWordDTO
     {
         public string? Salt {get; set;}

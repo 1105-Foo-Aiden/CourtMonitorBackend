@@ -1,5 +1,4 @@
-namespace CourtMonitorBackend.Models.DTO
-{
+namespace CourtMonitorBackend.Models.DTO{
     public class UserDTO
     {
         public int UserID {get; set;}

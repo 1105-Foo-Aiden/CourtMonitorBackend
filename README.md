@@ -1,25 +1,13 @@
-Objective: create a DB for the front end of Court Manager
+Objective: create a Data Base for the front end of Court Manager
 
 Requirements:
 
 - Login/CreateAccount 
 - Post 
 - Programs/Class 
-- Email for notifications and in app
 
-Pages: 
-    - Home
-        - Calandar with dates and events on each day in a 5 day range 
-        - Program dropdown up top
-
-    - Profile (All strings)
-        - Name 
-        - Program(s)
-        - Sport(s)
-        - Eamil (optional)
-        - Birthday (optional)
-        - Fun Fact (optional)
-        - Image(optional)
+Optional:
+- Email for notifications and in app -(Maybe)
 
 Controllers / folder 
     - UserController / file.cs 
@@ -27,12 +15,6 @@ Controllers / folder
         - Login user / endpoint | R 
         - Update user / endpoint | U 
         - Delete user / endpoint | D
-
-    - CalendarController / file.cs
-        - Updating Calendar / U
-        - Updating Days / U
-        - Get Calendar Events
-        - Get Day Events
 
     - EventController / file.cs
         - Creating Event | C
@@ -57,6 +39,8 @@ Servics / folder
         -  Update user / function  | U 
         -  Delete user / function  | D
         -  GetuserByUserName / function
+        -  GetUserById / function
+        -  UpdateUserStatus/function| U
     
     -  PasswordService / file.cs
         -  Hash our Password (Hash and Salt)
@@ -64,38 +48,84 @@ Servics / folder
 
 Models / folder
     - UserModel / file.cs
-        int      ID
-        string   username
-        string   Salt
-        string   Hash
-        string   funFact
-        string   Birthday
-        string[] Sports
-        string[] Programs
+        - int      ID
+        - string   username
+        - string   Salt
+        - string   Hash
+        - string   funFact
+        - string   Birthday
+        - string   email
+        - string   Real Name
+        - string   Sports
+        - string   Programs
 
-    -EventModal / (Model for Each Event Item) .cs
-        int ID
-        int UserID
-        string EventName
-        string Summary
-        string Program
-        int startTime
-        int endTime
-        bool isPublished
-        bool isDeleted
+    -EventModel / (Model for Each Event Item) .cs
+        - int ID
+        - int UserID
+        - string EventName
+        - int ProgramID
+        - int startTime
+        - int endTime
+        - bool isPublished
+        - bool isDeleted
     
+    -ProgramModel / file
+        - int ProgramID 
+        - int AdminID 
+        - int CoachID 
+        - int GenUserID 
+        - string ProgramName 
+        - string ProgramSport 
+        - int EventID 
+
+    -AdminModel / file
+        - int ID
+        - int UserID
+        - int? ProgramID
+    -CoachModel / file
+        - int ID
+        - int UserID
+        - int? ProgramID
+    -GenUserModel / file
+        - int ID
+        - int UserID
+        - int? ProgramID
     -DTOs/ folder
         - LoginDTO / file.cs
             string username
             string password
 
         - CreateAccountDTO / file
-            - int ID = 0
-            - ID ++
+            - int ID 
             - string Username
             - string Password
-        -PasswordDTO / file
+            - string Email
+            - string Real Name
+
+        - PasswordDTO / file
             - string Salt
             - string Hash
+        
+        - UserDTO / file
+            - int UserID
+            - string Username 
+            - string RealName 
+            - string Programs 
+            - string Birthday 
+            - string FunFact 
+            - bool IsAdmin 
+            - bool IsCoach 
+            - bool IsUser
+        
+        -UseridDTO / file
+            - int Id
+            - string Username
+            - string RealName
+            - string Programs
+            - string Birthday
+            - string FunFact
+            - bool IsAdmin
+            - bool IsCoach
+            - bool IsUser
 
 

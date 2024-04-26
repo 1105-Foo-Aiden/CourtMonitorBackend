@@ -25,13 +25,16 @@ namespace CourtMonitorBackend.Services
             bool result = false;
 
             if (!DoesUserExist(UserToAdd.UserName)){
-                UserModel newUser = new();
-                var hashPassword = HashPassword(UserToAdd.Password);
+                UserModel newUser = new()
+                {
+                    ID = UserToAdd.ID,
+                    UserName = UserToAdd.UserName,
+                    Email = UserToAdd.Email,
+                    RealName = UserToAdd.FullName
+                };
                 //setting up user
-                newUser.ID = UserToAdd.ID;
-                newUser.UserName = UserToAdd.UserName;
-                newUser.Email = UserToAdd.Email;
-                newUser.RealName = UserToAdd.FullName;
+                var hashPassword = HashPassword(UserToAdd.Password);
+
                 newUser.Salt = hashPassword.Salt;
                 newUser.Hash = hashPassword.Hash;
                 _context.Add(newUser);
@@ -60,8 +63,7 @@ namespace CourtMonitorBackend.Services
             return newHash == storedHash;
         }
 
-        public IActionResult Login(LoginDTO User)
-        {
+        public IActionResult Login(LoginDTO User){
             IActionResult Result = Unauthorized();
             if (DoesUserExist(User.Username)){
                 UserModel foundUser = GetUserByUsername(User.Username);
@@ -84,17 +86,18 @@ namespace CourtMonitorBackend.Services
             return Result;
         }
         public UserDTO SearchUserByUserName(string username){
-            UserDTO searchedUser = new();
             UserModel foundUser = _context.UserInfo.SingleOrDefault(x => x.UserName == username);
-            searchedUser.Username = foundUser.UserName;
-            searchedUser.RealName = foundUser.RealName;
-            searchedUser.Programs = foundUser.Programs;
-            searchedUser.FunFact = foundUser.FunFact;
-            searchedUser.Birthday = foundUser.Birthday;
-            searchedUser.IsAdmin = foundUser.IsAdmin;
-            searchedUser.IsUser = foundUser.IsUser;
-            searchedUser.IsCoach = foundUser.IsCoach;
-            searchedUser.UserID = foundUser.ID;
+            UserDTO searchedUser = new(){
+                Username = foundUser.UserName,
+                RealName = foundUser.RealName,
+                Programs = foundUser.Programs,
+                FunFact = foundUser.FunFact,
+                Birthday = foundUser.Birthday,
+                IsAdmin = foundUser.IsAdmin,
+                IsUser = foundUser.IsUser,
+                IsCoach = foundUser.IsCoach,
+                UserID = foundUser.ID
+            };
             return searchedUser;
         }
         public UserModel GetUserByUsername(string username){
@@ -155,7 +158,6 @@ namespace CourtMonitorBackend.Services
         }
 
         public UserModel GetUserById(int id){
-            
             return _context.UserInfo.SingleOrDefault(user => user.ID == id);
         }
 
@@ -167,6 +169,11 @@ namespace CourtMonitorBackend.Services
                     case "admin":
                         foundUser.IsAdmin = !foundUser.IsAdmin;
                         if (foundUser.IsAdmin){
+                            //When we create an admin, we want to create a new Row in the Admin table
+                            //if the User's ID already exists in the table, then we want to just add it to the table, 
+                            //instsead of creating a new row
+                            //Add the User's ID in the Admin Table as the AdminID
+                            //Leave the ProgramID blank so we can update and add to it later
                             AdminModel? admin = _context.AdminInfo.FirstOrDefault(admin => admin.UserID == foundUser.ID);
                             if (admin != null){
                                 admin = new AdminModel { UserID = foundUser.ID };
@@ -174,6 +181,11 @@ namespace CourtMonitorBackend.Services
                             }
                         }
                         else{
+                            //find the admin ID
+                            //find the specific Program they're being removed from (if they have multiple)
+                            //Remove number from table and if that was the last number(probably a .filter),
+                            //Remove the entire row instead
+                            //change IsAdmin to False ONLY IF THEY HAVE NO MORE ADMINS if(ID's == null or .length)?
                             AdminModel? admin = _context.AdminInfo.SingleOrDefault(admin => admin.UserID == foundUser.ID);
                             if (admin != null){
                                 _context.AdminInfo.Remove(admin);
@@ -222,5 +234,42 @@ namespace CourtMonitorBackend.Services
             }
             return result;
         }
+
+        public bool CreateAdminByID(int id){
+            bool result = false;
+            AdminModel? newAdmin = _context.AdminInfo.FirstOrDefault(x => x.UserID == id);
+            if (newAdmin != null){
+                _context.AdminInfo.Add(newAdmin);
+                result = _context.SaveChanges() != 0;
+            }
+
+            return result;
+        }
+
+        // public bool CreateAdmin(string username){
+        //     bool result = false;
+        //     UserModel foundUser = GetUserByUsername(username);
+        //     if (foundUser != null && foundUser.IsAdmin){
+        //         AdminModel NewAdmin = new()
+        //         {
+        //             UserID = foundUser.ID,
+        //         };
+        //         _context.Add(NewAdmin);
+        //         result = _context.SaveChanges() != 0;
+        //     };
+        //     return result;
+        // }
+
+        // public bool RemoveAdmin(string username){
+        //     bool result= false;
+
+        //         UserModel foundUser = GetUserByUsername(username);
+        //         AdminModel foundAdmin = _context.AdminInfo.SingleOrDefault(x => x.UserID == foundUser.ID);
+        //         if (foundAdmin != null){
+        //             _context.Remove(foundAdmin);
+        //             result = _context.SaveChanges() !=0;
+        //         }
+        //     return result;
+        // }
     }
 }
