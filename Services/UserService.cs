@@ -161,67 +161,67 @@ namespace CourtMonitorBackend.Services
             return _context.UserInfo.SingleOrDefault(user => user.ID == id);
         }
 
-        public bool ChangeStatus(string username, string StatusToUpdate){
-            UserModel foundUser = GetUserByUsername(username);
-            bool result = false;
-            if (foundUser != null){
-                switch (StatusToUpdate.ToLower()){
-                    case "admin":
-                        foundUser.IsAdmin = !foundUser.IsAdmin;
-                        if (foundUser.IsAdmin){
+        // public bool ChangeStatus(string username, string StatusToUpdate){
+        //     UserModel foundUser = GetUserByUsername(username);
+        //     bool result = false;
+        //     if (foundUser != null){
+        //         switch (StatusToUpdate.ToLower()){
+        //             case "admin":
+        //                 foundUser.IsAdmin = !foundUser.IsAdmin;
+        //                 if (foundUser.IsAdmin){
                             //When we create an admin, we want to create a new Row in the Admin table
                             //if the User's ID already exists in the table, then we want to just add it to the table, 
                             //instsead of creating a new row
                             //Add the User's ID in the Admin Table as the AdminID
                             //Leave the ProgramID blank so we can update and add to it later
-                            AdminModel? admin = _context.AdminInfo.FirstOrDefault(admin => admin.UserID == foundUser.ID);
-                            if (admin != null){
-                                admin = new AdminModel { UserID = foundUser.ID };
-                                _context.AdminInfo.Add(admin);
-                            }
-                        }
-                        else{
+        //                     AdminModel? admin = _context.AdminInfo.FirstOrDefault(admin => admin.UserID == foundUser.ID);
+        //                     if (admin != null){
+        //                         admin = new AdminModel { UserID = foundUser.ID };
+        //                         _context.AdminInfo.Add(admin);
+        //                     }
+        //                 }
+        //                 else{
                             //find the admin ID
                             //find the specific Program they're being removed from (if they have multiple)
                             //Remove number from table and if that was the last number(probably a .filter),
                             //Remove the entire row instead
                             //change IsAdmin to False ONLY IF THEY HAVE NO MORE ADMINS if(ID's == null or .length)?
-                            AdminModel? admin = _context.AdminInfo.SingleOrDefault(admin => admin.UserID == foundUser.ID);
-                            if (admin != null){
-                                _context.AdminInfo.Remove(admin);
-                            }
-                        }
-                        break;
-                    case "coach":
-                        foundUser.IsCoach = !foundUser.IsCoach;
-                        if (foundUser.IsCoach){
-                            CoachModel? coach = _context.CoachInfo.SingleOrDefault(coach => coach.UserID == foundUser.ID);
-                            if (coach != null){
-                                coach = new CoachModel { UserID = foundUser.ID };
-                                _context.CoachInfo.Add(coach);
-                            }
-                            else{
-                            }
-                        }
-                        break;
-                    case "genuser":
-                        foundUser.IsUser = !foundUser.IsUser;
-                        break;
-                }
-                _context.Update<UserModel>(foundUser);
-                result = _context.SaveChanges() != 0;
-            }
-            return result;
-        }
+        //                     AdminModel? admin = _context.AdminInfo.SingleOrDefault(admin => admin.UserID == foundUser.ID);
+        //                     if (admin != null){
+        //                         _context.AdminInfo.Remove(admin);
+        //                     }
+        //                 }
+        //                 break;
+        //             case "coach":
+        //                 foundUser.IsCoach = !foundUser.IsCoach;
+        //                 if (foundUser.IsCoach){
+        //                     CoachModel? coach = _context.CoachInfo.SingleOrDefault(coach => coach.UserID == foundUser.ID);
+        //                     if (coach != null){
+        //                         coach = new CoachModel { UserID = foundUser.ID };
+        //                         _context.CoachInfo.Add(coach);
+        //                     }
+        //                     else{
+        //                     }
+        //                 }
+        //                 break;
+        //             case "genuser":
+        //                 foundUser.IsUser = !foundUser.IsUser;
+        //                 break;
+        //         }
+        //         _context.Update<UserModel>(foundUser);
+        //         result = _context.SaveChanges() != 0;
+        //     }
+        //     return result;
+        // }
         public IEnumerable<UserModel> GetAllUsers(){
             return _context.UserInfo;
         }
 
-        public bool ResetPassword(string Email, string NewPassword){
+        public bool ResetPassword(ResetPasswordDTO NewPassword){
             bool result = false;
-            UserModel foundUser = GetUserByEmail(Email);
+            UserModel foundUser = GetUserByEmail(NewPassword.Email);
             if (foundUser != null){
-                var newPass = HashPassword(NewPassword);
+                var newPass = HashPassword(NewPassword.NewPassword);
                 if(newPass.Hash == foundUser.Hash || newPass.Salt == foundUser.Salt){
                     result = false;
                 }

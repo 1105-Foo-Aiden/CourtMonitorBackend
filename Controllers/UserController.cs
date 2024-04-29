@@ -30,7 +30,13 @@ namespace CourtMonitorBackend.Controllers
         public IEnumerable<UserModel> GetAllUsers(){
             return _data.GetAllUsers();
         }
-
+        
+        [HttpGet]
+        [Route("GetUserByEmail/Email")]
+        public UserModel GetUserByEmail(string Email){
+            return _data.GetUserByEmail(Email);
+        }
+        
         [HttpPost]
         [Route("AddUser")]
         public bool AddUser(CreateAccountDTO userToAdd){
@@ -43,17 +49,19 @@ namespace CourtMonitorBackend.Controllers
             return _data.Login(User);
         }
 
-        [HttpPost]
-        [Route("UpdateUserStatus/{username}/StatusToUpdate")]
-        public bool ChangeStatus(string username, string StatusToUpdate){
-            return _data.ChangeStatus(username, StatusToUpdate);
-        }
+        // [HttpPost]
+        // [Route("UpdateUserStatus/{username}/StatusToUpdate")]
+        // public bool ChangeStatus(string username, string StatusToUpdate){
+        //     return _data.ChangeStatus(username, StatusToUpdate);
+        // }
         
         [HttpPost]
-        [Route("{Email}/{NewPassword}")]
-        public bool CreateNewPassword(string Email, string NewPassword){
-            return _data.ResetPassword(Email, NewPassword);
+        [Route("ResetPassword")]
+        public bool CreateNewPassword(ResetPasswordDTO NewPassword){
+            return _data.ResetPassword(NewPassword);
         }
+
+        
         
         [HttpPut]
         [Route("UpdateUser/{UsertoUpdate}/birthday/image/programs/funfact/email/sports/realname")]

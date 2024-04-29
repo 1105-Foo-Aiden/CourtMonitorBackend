@@ -18,21 +18,11 @@ namespace CourtMonitorBackend.Controllers
             return _eventService.GetAllEvents();
         }
         
-        [HttpGet]
-        [Route("GetEventsByprogram/{program}")]
-        public IActionResult GetEventsBySProgram(string program){
-            return _eventService.GetEventsByProgram(program);
-        }
-
-        [HttpGet]
-        [Route("GetProgramByName/{name}")]
-        public ProgramModel GetProgramByName(string program){
-            return _eventService.GetProgramByName(program);
-        }
+       
 
         [HttpPost]
         [Route("CreateEvent")]
-        public bool CreateEvent([FromBody] EventModel newEvent){
+        public ProgramModel CreateEvent([FromBody] EventModel newEvent){
             return _eventService.CreateEvent(newEvent);
         }
     }

@@ -19,7 +19,7 @@ namespace CourtMonitorBackend.Controllers
 
         [HttpPost]
         [Route("CreateProgram")]
-        public string CreateProgram(ProgramDTO newProgram){
+        public bool CreateProgram(ProgramDTO newProgram){
             return _model.CreateProgram(newProgram); 
         }
 
@@ -33,6 +33,24 @@ namespace CourtMonitorBackend.Controllers
         [Route("GetAllPrograms")]
         public IEnumerable<ProgramModel> GetAllPrograms(){
             return _model.GetAllPrograms();
+        }
+
+        [HttpGet]
+        [Route("GetEventsByprogram/{program}")]
+        public IActionResult GetEventsBySProgram(string program){
+            return _model.GetEventsByProgram(program);
+        }
+
+        [HttpGet]
+        [Route("GetProgramByName/{programName}")]
+        public ProgramModel GetProgramByName(string programName){
+            return _model.GetProgramByName(programName);
+        }
+        
+        [HttpDelete]
+        [Route("DeleteProgram/program")]
+        public bool DeleteProgram(string program){
+            return _model.DeleteProgram(program);
         }
     }
 }

@@ -27,8 +27,8 @@ namespace CourtMonitorBackend.Services
         //         }
         // }
 
-        public string CreateProgram(ProgramDTO NewProgram){
-            try{
+        public bool CreateProgram(ProgramDTO NewProgram){
+         
                 AdminModel adminModel = new();
                 //create a new admin model to tie to the Program
                 //if the id already exits, just add the program id to that admin
@@ -51,12 +51,8 @@ namespace CourtMonitorBackend.Services
                 };
 
                 _context.ProgramInfo.Add(program);
-                _context.SaveChanges();
-                return "Yes";
-            }
-            catch(Exception ex){
-                return (ex.InnerException).ToString();
-            }
+                return _context.SaveChanges() !=0;
+                
 
         }
         public UserModel GetAdminById(int id){
@@ -65,6 +61,23 @@ namespace CourtMonitorBackend.Services
 
         public IEnumerable<ProgramModel> GetAllPrograms(){
             return _context.ProgramInfo;
+        }
+
+        public ProgramModel GetProgramByName(string name){
+            return _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == name);
+        }
+        public IActionResult GetEventsByProgram(string program){
+            var EventIds = _context.ProgramInfo
+                .Where(x => x.ProgramName == program)
+                .Select(x => x.EventID)
+                .ToList();
+            return new OkObjectResult(EventIds);
+        }
+
+         public bool DeleteProgram(string program){
+            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(ProgramToDelete => ProgramToDelete.ProgramName == program);
+            _context.Remove(foundProgram);
+            return _context.SaveChanges() !=0;
         }
     }
 }

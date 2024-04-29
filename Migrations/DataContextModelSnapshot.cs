@@ -72,9 +72,7 @@ namespace CourtMonitorBackend.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Date")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("End")
@@ -84,9 +82,11 @@ namespace CourtMonitorBackend.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Start")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventID");
