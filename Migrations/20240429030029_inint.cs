@@ -5,7 +5,7 @@
 namespace CourtMonitorBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class inint : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,12 +46,10 @@ namespace CourtMonitorBackend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EndTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Start = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    End = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AllDay = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    IsPulished = table.Column<bool>(type: "bit", nullable: false),
                     ProgramID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -1,6 +1,7 @@
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMonitorBackend.Services
 {
@@ -60,6 +61,10 @@ namespace CourtMonitorBackend.Services
         }
         public UserModel GetAdminById(int id){
             return _context.UserInfo.SingleOrDefault(user => user.ID == id);
+        }
+
+        public IEnumerable<ProgramModel> GetAllPrograms(){
+            return _context.ProgramInfo;
         }
     }
 }

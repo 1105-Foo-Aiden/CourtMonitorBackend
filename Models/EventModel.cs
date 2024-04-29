@@ -6,14 +6,12 @@ namespace CourtMonitorBackend.Models.DTO
     {
         [Key]
         public int EventID { get; set; }
-        public string? Title { get; set; }
-        public string? Date { get; set; }
-        public string? StartTime { get; set; }
-        public string? EndTime { get; set; }
-        public string? Color { get; set; }
+        public string Title { get; set; }
+        public string Date { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
+        public string Color { get; set; }
         public bool AllDay { get; set; }
-        public bool IsDeleted { get; set; }
-        public bool IsPulished { get; set; }
         public int ProgramID { get; set; }
         public EventModel()
         {

@@ -22,10 +22,17 @@ namespace CourtMonitorBackend.Controllers
         public string CreateProgram(ProgramDTO newProgram){
             return _model.CreateProgram(newProgram); 
         }
+
         [HttpGet]
         [Route("GetAdminById/{id}")]
         public UserModel GetAdminById(int id){
             return _model.GetAdminById(id);
+        }
+
+        [HttpGet]
+        [Route("GetAllPrograms")]
+        public IEnumerable<ProgramModel> GetAllPrograms(){
+            return _model.GetAllPrograms();
         }
     }
 }

@@ -1,6 +1,5 @@
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMonitorBackend.Services
@@ -34,18 +33,12 @@ namespace CourtMonitorBackend.Services
 
         public IActionResult GetEventsByProgram(string program){
             var EventIds = _context.ProgramInfo
-            .Where(x => x.ProgramName == program)
-            .Select(x => x.EventID)
-            .ToList();
+                .Where(x => x.ProgramName == program)
+                .Select(x => x.EventID)
+                .ToList();
 
             return new OkObjectResult(EventIds);
         }
     
-
-        public bool DeleteEvent(EventModel eventToDelete){
-            eventToDelete.IsDeleted = true;
-            _context.Update<EventModel>(eventToDelete);
-            return _context.SaveChanges() != 0;
-        }
     }
 }

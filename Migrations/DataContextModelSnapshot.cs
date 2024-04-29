@@ -77,19 +77,13 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EndTime")
+                    b.Property<string>("End")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPulished")
-                        .HasColumnType("bit");
 
                     b.Property<int>("ProgramID")
                         .HasColumnType("int");
 
-                    b.Property<string>("StartTime")
+                    b.Property<string>("Start")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
