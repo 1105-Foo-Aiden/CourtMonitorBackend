@@ -3921,19 +3921,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Aiden\\.nuget\\packages\\": {}
+    "C:\\Users\\Yokie's PC\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
+      "projectUniqueName": "C:\\Users\\Yokie's PC\\Documents\\CodeStack\\FullStack\\Backend\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
       "projectName": "CourtMonitorBackend",
-      "projectPath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
-      "packagesPath": "C:\\Users\\Aiden\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\obj\\",
+      "projectPath": "C:\\Users\\Yokie's PC\\Documents\\CodeStack\\FullStack\\Backend\\CourtMonitorBackend\\CourtMonitorBackend.csproj",
+      "packagesPath": "C:\\Users\\Yokie's PC\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Yokie's PC\\Documents\\CodeStack\\FullStack\\Backend\\CourtMonitorBackend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Aiden\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Yokie's PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
