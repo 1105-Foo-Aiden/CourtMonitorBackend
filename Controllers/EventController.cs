@@ -17,13 +17,17 @@ namespace CourtMonitorBackend.Controllers
         public IEnumerable<EventModel> GetAllEvents(){
             return _eventService.GetAllEvents();
         }
+        [HttpGet]
+        [Route("GetEventsByProgramID/programID")]
+        public IEnumerable<EventModel> GetEventsByProgramID(int programID){
+            return _eventService.GetAllEventsByProgramID(programID);
+        }
         
-       
-
         [HttpPost]
         [Route("CreateEvent")]
-        public ProgramModel CreateEvent([FromBody] EventModel newEvent){
+        public bool CreateEvent([FromBody] EventModel newEvent){
             return _eventService.CreateEvent(newEvent);
         }
+
     }
 }

@@ -3,6 +3,9 @@ namespace CourtMonitorBackend.Models.DTO{
     {
         public int Id { get; set; }
         public int UserID { get; set; } 
-        public int? ProgramID { get; set; }
+        public List<int>? ProgramID { get; set; }
+        AdminModel(){
+            ProgramID = new List<int>();
+        }
     }
 }

@@ -3,7 +3,11 @@ namespace CourtMonitorBackend.Models{
     {
         public int Id { get; set; }
         public int UserID { get; set; }
-        public int? ProgramID { get; set; }
+        public List<int>? ProgramID { get; set; }
+        public GenUserModel()
+        {
+            ProgramID = new List<int>();
+        }
 
     }
 }

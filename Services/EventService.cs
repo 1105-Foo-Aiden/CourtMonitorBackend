@@ -1,6 +1,5 @@
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMonitorBackend.Services
 {
@@ -16,22 +15,17 @@ namespace CourtMonitorBackend.Services
             _program = program;
         }
 
-        public ProgramModel CreateEvent(EventModel newEvent){
-           
+        public bool CreateEvent(EventModel newEvent){
             _context.Add(newEvent);
+            //saves new event
             _context.SaveChanges();
-            ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(p => p.ProgramID == newEvent.ProgramID);
-            if(foundProgram != null){
-                if(foundProgram.EventID == null){
-                    foundProgram.EventID = newEvent.EventID;
-                }
-                else{
-                    foundProgram.EventID += newEvent.EventID;
-                }
-               
-                 _context.SaveChanges();
+            ProgramModel ProgramToAddEvent = _context.ProgramInfo.FirstOrDefault(p => p.ProgramID == newEvent.ProgramID);
+            if(ProgramToAddEvent != null){
+               ProgramToAddEvent.EventID.Add(newEvent.EventID); 
+               return _context.SaveChanges() !=0;
             }
-            return foundProgram;
+            return false;
+            
         }
         public IEnumerable<EventModel> GetAllEvents(){
             return _context.EventInfo;
@@ -40,9 +34,11 @@ namespace CourtMonitorBackend.Services
         public EventModel GetEventById(int id){
             return _context.EventInfo.FirstOrDefault(e => e.EventID == id);
         }
-       
 
-       
-    
+        public IEnumerable<EventModel> GetAllEventsByProgramID(int programId){
+            int ProgramID;
+            ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramID == programId);
+            return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
+        }
     }
 }

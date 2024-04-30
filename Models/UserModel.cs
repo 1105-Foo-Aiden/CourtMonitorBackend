@@ -6,7 +6,7 @@ namespace CourtMonitorBackend.Models{
         public string RealName {get; set;}
         public string? Image {get; set;}
         public string? Birthday {get; set;}
-        public string? Programs {get; set;}
+        public List<int>? ProgramIDs {get; set;}
         public string? Sports {get; set;}
         public string? FunFact {get; set;}
         public string Email {get; set;}
@@ -17,7 +17,7 @@ namespace CourtMonitorBackend.Models{
         public bool IsUser {get; set;} = true;
         public UserModel()
         {
-
+            ProgramIDs = new List<int>();
         }
     }
 }

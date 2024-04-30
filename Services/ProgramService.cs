@@ -1,6 +1,7 @@
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMonitorBackend.Services
@@ -29,18 +30,18 @@ namespace CourtMonitorBackend.Services
 
         public bool CreateProgram(ProgramDTO NewProgram){
          
-                AdminModel adminModel = new();
+                // AdminModel adminModel = new();
                 //create a new admin model to tie to the Program
                 //if the id already exits, just add the program id to that admin
                 AdminModel IsAlreadyAdmin = _context.AdminInfo.SingleOrDefault(Id => Id.UserID == NewProgram.AdminID);
                 //if the admin doesn't exist, create a new instance of the model
                 //creating an admin to save the Program to
-                if (IsAlreadyAdmin == null){
-                    adminModel.UserID = NewProgram.AdminID;
-                    adminModel.ProgramID = NewProgram.ID;
-                    _context.AdminInfo.Add(adminModel);
-                    _context.SaveChanges();
-                }
+                // if (IsAlreadyAdmin == null){
+                //     adminModel.UserID = NewProgram.AdminID;
+                //     adminModel.ProgramID = NewProgram.ID;
+                //     _context.AdminInfo.Add(adminModel);
+                //     _context.SaveChanges();
+                // }
                 //creating a blank program with the required varibales
 
                 ProgramModel program = new(){
@@ -56,7 +57,8 @@ namespace CourtMonitorBackend.Services
 
         }
         public UserModel GetAdminById(int id){
-            return _context.UserInfo.SingleOrDefault(user => user.ID == id);
+            AdminModel foundAdmin =  _context.AdminInfo.SingleOrDefault(user => user.Id == id);
+            return _context.UserInfo.SingleOrDefault(user => user.ID == foundAdmin.UserID);
         }
 
         public IEnumerable<ProgramModel> GetAllPrograms(){
@@ -74,10 +76,20 @@ namespace CourtMonitorBackend.Services
             return new OkObjectResult(EventIds);
         }
 
-         public bool DeleteProgram(string program){
+        public IEnumerable<EventModel> RemoveEventsByProgramID(int id){
+            var events = _context.EventInfo.Where(e => e.ProgramID == id);
+            return events;
+        }
+        public bool DeleteProgram(string program){
+            bool result = false;
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(ProgramToDelete => ProgramToDelete.ProgramName == program);
-            _context.Remove(foundProgram);
-            return _context.SaveChanges() !=0;
+            if(foundProgram != null){
+                _context.Remove(foundProgram);
+                var events = RemoveEventsByProgramID(foundProgram.ProgramID);
+                _context.Remove(events);
+                result = _context.SaveChanges() != 0;
+            }
+            return result;
         }
     }
 }
