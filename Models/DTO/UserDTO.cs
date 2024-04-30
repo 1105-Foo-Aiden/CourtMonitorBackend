@@ -2,10 +2,9 @@ namespace CourtMonitorBackend.Models.DTO{
     public class UserDTO{
         public int UserID {get; set;}
         public string Username { get; set; }
-        public string Email { get; set; }
-        public string Image { get; set; }
-        public string Sports { get; set; }
         public string RealName { get; set; }
+        public string Email { get; set; }
+        public string? Image { get; set; }
         public string? Programs { get; set; }
         public string? Birthday { get; set; }
         public string? FunFact { get; set; }

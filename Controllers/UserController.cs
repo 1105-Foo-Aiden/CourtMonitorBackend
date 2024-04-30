@@ -17,10 +17,10 @@ namespace CourtMonitorBackend.Controllers
         [HttpGet]
         [Route("GetUserByUsername/{username}")]
 
-        public UserModel GetUserByUserName(string username){
-            return _data.GetUserByUsername(username);
+        public UserDTO GetUserByUserName(string username){
+            return _data.SearchUserByUserName(username);
         }
-        
+
         [HttpGet]
         [Route("GetUserById/{id}")]
         public UserModel GetUserById(int id){

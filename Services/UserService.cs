@@ -94,7 +94,6 @@ namespace CourtMonitorBackend.Services
                 FunFact = foundUser.FunFact,
                 Birthday = foundUser.Birthday,
                 Email = foundUser.Email,
-                Sports = foundUser.Sports,
                 Image = foundUser.Image,
                 IsAdmin = foundUser.IsAdmin,
                 IsUser = foundUser.IsUser,
