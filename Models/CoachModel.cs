@@ -4,9 +4,7 @@ namespace CourtMonitorBackend.Models
     {
         public int Id { get; set; }
         public int UserID { get; set; }
-        public List<int>? ProgramID { get; set; }
-        CoachModel(){
-            ProgramID = new List<int>();
-        }
+        public int? ProgramID { get; set; }
+        
     }
 }
