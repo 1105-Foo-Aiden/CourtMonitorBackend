@@ -1,6 +1,5 @@
 namespace CourtMonitorBackend.Models.DTO{
-    public class UseridDTO
-    {
+    public class UseridDTO{
         public int Id { get; set; }
         public string Username { get; set; }
         public string RealName { get; set; }

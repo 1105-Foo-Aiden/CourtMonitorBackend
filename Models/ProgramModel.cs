@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace CourtMonitorBackend.Models.DTO{
-    public class ProgramModel
-    {
+    public class ProgramModel{
         [Key]
         public int ProgramID { get; set; }
         public int AdminID { get; set; }

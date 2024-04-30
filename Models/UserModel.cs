@@ -1,6 +1,5 @@
 namespace CourtMonitorBackend.Models{
-    public class UserModel
-    {
+    public class UserModel{
         public int ID {get; set;}
         public string UserName {get; set;} 
         public string RealName {get; set;}
@@ -15,8 +14,7 @@ namespace CourtMonitorBackend.Models{
         public bool IsAdmin {get; set;} = false;
         public bool IsCoach {get; set;} = false;
         public bool IsUser {get; set;} = true;
-        public UserModel()
-        {
+        public UserModel(){
          
         }
     }

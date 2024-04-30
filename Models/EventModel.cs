@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace CourtMonitorBackend.Models.DTO
-{
-    public class EventModel
-    {
+namespace CourtMonitorBackend.Models.DTO{
+    public class EventModel{
         [Key]
         public int EventID { get; set; }
         public string Title { get; set; }
@@ -12,8 +10,7 @@ namespace CourtMonitorBackend.Models.DTO
         public string Color { get; set; }
         public bool AllDay { get; set; }
         public int ProgramID { get; set; }
-        public EventModel()
-        {
+        public EventModel(){
 
         }
     }
