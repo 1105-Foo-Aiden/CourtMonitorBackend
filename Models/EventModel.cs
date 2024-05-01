@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace CourtMonitorBackend.Models.DTO{
     public class EventModel{
         [Key]
-        public int EventID { get; set; }
+        public int ID { get; set; }
         public string Title { get; set; }
         public string Start { get; set; }
         public string? End { get; set; }

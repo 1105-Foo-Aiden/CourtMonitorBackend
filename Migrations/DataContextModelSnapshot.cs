@@ -62,11 +62,11 @@ namespace CourtMonitorBackend.Migrations
 
             modelBuilder.Entity("CourtMonitorBackend.Models.DTO.EventModel", b =>
                 {
-                    b.Property<int>("EventID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<bool>("AllDay")
                         .HasColumnType("bit");
@@ -89,7 +89,7 @@ namespace CourtMonitorBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EventID");
+                    b.HasKey("ID");
 
                     b.ToTable("EventInfo");
                 });
@@ -107,6 +107,9 @@ namespace CourtMonitorBackend.Migrations
 
                     b.Property<int?>("CoachID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Discription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("EventID")
                         .HasColumnType("int");

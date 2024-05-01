@@ -21,7 +21,7 @@ namespace CourtMonitorBackend.Services
             _context.SaveChanges();
             ProgramModel ProgramToAddEvent = _context.ProgramInfo.FirstOrDefault(p => p.ProgramID == newEvent.ProgramID);
             if(ProgramToAddEvent != null){
-               ProgramToAddEvent.EventID = newEvent.EventID; 
+               ProgramToAddEvent.EventID = newEvent.ID; 
                return _context.SaveChanges() !=0;
             }
             return false;
@@ -32,7 +32,7 @@ namespace CourtMonitorBackend.Services
         }
 
         public EventModel GetEventById(int id){
-            return _context.EventInfo.FirstOrDefault(e => e.EventID == id);
+            return _context.EventInfo.FirstOrDefault(e => e.ID == id);
         }
 
         public IEnumerable<EventModel> GetAllEventsByProgramID(int programId){
