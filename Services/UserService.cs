@@ -17,6 +17,9 @@ namespace CourtMonitorBackend.Services
         public UserService(DataContext context){
             _context = context;
         }
+        public bool DoesEmailExist(string email){
+            return _context.UserInfo.SingleOrDefault(User => User.Email == email) != null;
+        }
         public bool DoesUserExist(string Username){
             return _context.UserInfo.SingleOrDefault(User => User.UserName == Username) != null;
         }
@@ -24,7 +27,7 @@ namespace CourtMonitorBackend.Services
         public bool AddUser(CreateAccountDTO UserToAdd){
             bool result = false;
 
-            if (!DoesUserExist(UserToAdd.UserName)){
+            if (!DoesUserExist(UserToAdd.UserName) && DoesEmailExist(UserToAdd.Email) ){
                 UserModel newUser = new()
                 {
                     ID = UserToAdd.ID,

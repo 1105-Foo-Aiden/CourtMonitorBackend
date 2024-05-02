@@ -42,18 +42,18 @@ namespace CourtMonitorBackend.Migrations
                 name: "EventInfo",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     End = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AllDay = table.Column<bool>(type: "bit", nullable: false),
-                    ProgramID = table.Column<int>(type: "int", nullable: false)
+                    ProgramID = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventInfo", x => x.ID);
+                    table.PrimaryKey("PK_EventInfo", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,7 +82,7 @@ namespace CourtMonitorBackend.Migrations
                     ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProgramSport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EventID = table.Column<int>(type: "int", nullable: true)
+                    EventIds = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

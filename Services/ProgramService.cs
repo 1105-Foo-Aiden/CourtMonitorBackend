@@ -53,8 +53,6 @@ namespace CourtMonitorBackend.Services
 
                 _context.ProgramInfo.Add(program);
                 return _context.SaveChanges() !=0;
-                
-
         }
         public UserModel GetAdminById(int id){
             AdminModel foundAdmin =  _context.AdminInfo.SingleOrDefault(user => user.Id == id);
@@ -71,13 +69,13 @@ namespace CourtMonitorBackend.Services
         public IActionResult GetEventsByProgram(string program){
             var EventIds = _context.ProgramInfo
                 .Where(x => x.ProgramName == program)
-                .Select(x => x.EventID)
+                .Select(x => x.EventIds)
                 .ToList();
             return new OkObjectResult(EventIds);
         }
 
         public IEnumerable<EventModel> RemoveEventsByProgramID(int id){
-            var events = _context.EventInfo.Where(e => e.ProgramID == id);
+            var events = _context.EventInfo.Where(e => e.ProgramID == id.ToString());
             return events;
         }
         public bool DeleteProgram(string program){

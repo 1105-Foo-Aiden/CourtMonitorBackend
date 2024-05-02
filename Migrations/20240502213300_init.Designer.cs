@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourtMonitorBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240501005527_init")]
+    [Migration("20240502213300_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -65,11 +65,11 @@ namespace CourtMonitorBackend.Migrations
 
             modelBuilder.Entity("CourtMonitorBackend.Models.DTO.EventModel", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<bool>("AllDay")
                         .HasColumnType("bit");
@@ -81,8 +81,9 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("End")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProgramID")
-                        .HasColumnType("int");
+                    b.Property<string>("ProgramID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Start")
                         .IsRequired()
@@ -92,7 +93,7 @@ namespace CourtMonitorBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("id");
 
                     b.ToTable("EventInfo");
                 });
@@ -114,8 +115,8 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("Discription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EventID")
-                        .HasColumnType("int");
+                    b.Property<string>("EventIds")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("GenUserID")
                         .HasColumnType("int");

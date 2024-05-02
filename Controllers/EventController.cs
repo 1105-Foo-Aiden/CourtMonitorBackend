@@ -22,7 +22,7 @@ namespace CourtMonitorBackend.Controllers
         public IEnumerable<EventModel> GetEventsByProgramID(int programID){
             return _eventService.GetAllEventsByProgramID(programID);
         }
-        
+
         [HttpPost]
         [Route("CreateEvent")]
         public bool CreateEvent([FromBody] EventModel newEvent){

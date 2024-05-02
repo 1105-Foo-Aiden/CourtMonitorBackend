@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourtMonitorBackend.Models.DTO{
     public class ProgramModel{
@@ -10,10 +11,8 @@ namespace CourtMonitorBackend.Models.DTO{
         public string ProgramName { get; set; }
         public string ProgramSport { get; set; }
         public string? Discription { get; set; }
-        public int? EventID { get; set; }
-        
+        public string? EventIds { get; set; }
         public ProgramModel(){
-            
         }
     }
 }
