@@ -106,8 +106,8 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<int>("AdminID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CoachID")
-                        .HasColumnType("int");
+                    b.Property<string>("CoachID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discription")
                         .HasColumnType("nvarchar(max)");
@@ -115,8 +115,8 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("EventIds")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GenUserID")
-                        .HasColumnType("int");
+                    b.Property<string>("GenUserID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProgramName")
                         .IsRequired()

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourtMonitorBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240502213300_init")]
+    [Migration("20240502215117_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -109,8 +109,8 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<int>("AdminID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CoachID")
-                        .HasColumnType("int");
+                    b.Property<string>("CoachID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discription")
                         .HasColumnType("nvarchar(max)");
@@ -118,8 +118,8 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("EventIds")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GenUserID")
-                        .HasColumnType("int");
+                    b.Property<string>("GenUserID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProgramName")
                         .IsRequired()
