@@ -27,7 +27,7 @@ namespace CourtMonitorBackend.Services
         public bool AddUser(CreateAccountDTO UserToAdd){
             bool result = false;
 
-            if (!DoesUserExist(UserToAdd.UserName) && DoesEmailExist(UserToAdd.Email) ){
+            if (!DoesUserExist(UserToAdd.UserName) && !DoesEmailExist(UserToAdd.Email) ){
                 UserModel newUser = new()
                 {
                     ID = UserToAdd.ID,
