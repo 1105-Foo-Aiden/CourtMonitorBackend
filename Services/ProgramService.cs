@@ -3,12 +3,9 @@ using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CourtMonitorBackend.Services
-{
-    public class ProgramService
-    {
+namespace CourtMonitorBackend.Services{
+    public class ProgramService{
         private readonly DataContext _context;
-
         public ProgramService(DataContext context){
             _context = context;
         }
@@ -16,16 +13,6 @@ namespace CourtMonitorBackend.Services
         public bool DoesProgramExist(string Program){
             return _context.ProgramInfo.SingleOrDefault(name => name.ProgramName == Program) != null;
         }
-        // public string CreateProgram(ProgramModel newProgram){
-        //         try{
-        //             _context.ProgramInfo.Add(newProgram);
-        //             _context.SaveChanges();
-        //             return ("Passed");
-        //         }
-        //         catch(Exception ex){
-        //             return (ex.Message);
-        //         }
-        // }
 
         public bool CreateProgram(ProgramDTO NewProgram){
             AdminModel adminModel = new();
@@ -38,25 +25,20 @@ namespace CourtMonitorBackend.Services
                 // creating an admin to save the Program to
                 if(string.IsNullOrEmpty(adminModel.ProgramID)){
                     adminModel.ProgramID = NewProgram.ID.ToString() + "-";
-                }
-                else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
+                }else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
                     adminModel.ProgramID += NewProgram.ID.ToString() + "-";
-                }
-                else{
+                }else{
                     return false;
                 }
                 adminModel.ProgramID = NewProgram.ID.ToString();
                 _context.AdminInfo.Add(adminModel);
                 _context.SaveChanges();
-            }
-            else{
+            }else{
                 if(string.IsNullOrEmpty(adminModel.ProgramID)){
                     adminModel.ProgramID = NewProgram.ID.ToString() + "-";
-                }
-                else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
+                }else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
                     adminModel.ProgramID += NewProgram.ID.ToString() + "-";
-                }
-                else{
+                }else{
                     return false;
                 }
                 adminModel.ProgramID = NewProgram.ID.ToString();
@@ -98,6 +80,7 @@ namespace CourtMonitorBackend.Services
             var events = _context.EventInfo.Where(e => e.ProgramID == id.ToString());
             return events;
         }
+        
         public bool DeleteProgram(string program){
             bool result = false;
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(ProgramToDelete => ProgramToDelete.ProgramName == program);
@@ -109,5 +92,8 @@ namespace CourtMonitorBackend.Services
             }
             return result;
         }
+        public IEnumerable<ProgramModel> GetProgramsBySport(string sport){
+            return _context.ProgramInfo.Where(p => p.ProgramSport.ToLower() == sport.ToLower());
+        } 
     }
 }

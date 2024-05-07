@@ -16,6 +16,13 @@ namespace CourtMonitorBackend.Services
         public ProgramModel GetProgramById(string id){
             return _context.ProgramInfo.SingleOrDefault(program => program.ProgramID.ToString() == id);
         }
+        public IEnumerable<EventModel> GetAllEvents(){
+            return _context.EventInfo;
+        }
+
+        public EventModel GetEventById(int id){
+            return _context.EventInfo.FirstOrDefault(e => e.id == id);
+        }
 
         public bool CreateEvent(EventModel newEvent){
             _context.Add(newEvent);
@@ -37,17 +44,21 @@ namespace CourtMonitorBackend.Services
             return _context.SaveChanges() != 0;
         }
 
-        public IEnumerable<EventModel> GetAllEvents(){
-            return _context.EventInfo;
+        public string DeleteEvent(int EventId){
+            EventModel foundEvent = GetEventById(EventId);
+            if(foundEvent != null){
+                _context.Remove(foundEvent);
+                _context.SaveChanges();
+                return "Event Deleted";
+            }else{
+                return "Event Not Found";
+            }
         }
-
-        public EventModel GetEventById(int id){
-            return _context.EventInfo.FirstOrDefault(e => e.id == id);
-        }
-
+        
         public IEnumerable<EventModel> GetAllEventsByProgramID(int programId){
             ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramID == programId);
             return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID.ToString());
         }
+        
     }
 }

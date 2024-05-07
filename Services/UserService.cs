@@ -8,25 +8,24 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace CourtMonitorBackend.Services
-{
-    public class UserService : ControllerBase
-    {
+namespace CourtMonitorBackend.Services{
+    public class UserService : ControllerBase{
         private readonly DataContext _context;
 
         public UserService(DataContext context){
             _context = context;
         }
+
         public bool DoesEmailExist(string email){
             return _context.UserInfo.SingleOrDefault(User => User.Email == email) != null;
         }
+
         public bool DoesUserExist(string Username){
             return _context.UserInfo.SingleOrDefault(User => User.UserName == Username) != null;
         }
 
         public bool AddUser(CreateAccountDTO UserToAdd){
             bool result = false;
-
             if (!DoesUserExist(UserToAdd.UserName) && !DoesEmailExist(UserToAdd.Email) ){
                 UserModel newUser = new()
                 {
@@ -37,7 +36,6 @@ namespace CourtMonitorBackend.Services
                 };
                 //setting up user
                 var hashPassword = HashPassword(UserToAdd.Password);
-
                 newUser.Salt = hashPassword.Salt;
                 newUser.Hash = hashPassword.Hash;
                 _context.Add(newUser);
@@ -88,6 +86,7 @@ namespace CourtMonitorBackend.Services
             }
             return Result;
         }
+
         public UserDTO SearchUserByUserName(string username){
             UserModel foundUser = _context.UserInfo.SingleOrDefault(x => x.UserName == username);
             UserDTO searchedUser = new(){
@@ -105,6 +104,7 @@ namespace CourtMonitorBackend.Services
             };
             return searchedUser;
         }
+
         public UserModel GetUserByUsername(string username){
             return _context.UserInfo.FirstOrDefault(x => x.UserName == username);
         }
@@ -187,7 +187,7 @@ namespace CourtMonitorBackend.Services
             }
             return result;
         }
-
+        
         public bool CreateAdminByID(int id){
             bool result = false;
             AdminModel? newAdmin = _context.AdminInfo.FirstOrDefault(x => x.UserID == id);
@@ -195,7 +195,6 @@ namespace CourtMonitorBackend.Services
                 _context.AdminInfo.Add(newAdmin);
                 result = _context.SaveChanges() != 0;
             }
-
             return result;
         }
     }

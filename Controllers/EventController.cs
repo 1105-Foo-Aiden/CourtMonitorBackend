@@ -2,11 +2,9 @@ using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CourtMonitorBackend.Controllers
-{
+namespace CourtMonitorBackend.Controllers{
     [Route("[controller]")]
-    public class EventController : ControllerBase
-    {
+    public class EventController : ControllerBase{
         private readonly EventService _eventService;
         public EventController(EventService eventService){
             _eventService = eventService;
@@ -17,6 +15,7 @@ namespace CourtMonitorBackend.Controllers
         public IEnumerable<EventModel> GetAllEvents(){
             return _eventService.GetAllEvents();
         }
+
         [HttpGet]
         [Route("GetEventsByProgramID/programID")]
         public IEnumerable<EventModel> GetEventsByProgramID(int programID){
@@ -27,6 +26,12 @@ namespace CourtMonitorBackend.Controllers
         [Route("CreateEvent")]
         public bool CreateEvent([FromBody] EventModel newEvent){
             return _eventService.CreateEvent(newEvent);
+        }
+
+        [HttpDelete]
+        [Route("DeleteEvent/id")]
+        public string DeleteEvent(int id){
+            return _eventService.DeleteEvent(id);
         }
 
     }

@@ -4,23 +4,19 @@ using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace CourtMonitorBackend.Controllers
-{
+namespace CourtMonitorBackend.Controllers{
     [ApiController]
     [Route("[controller]")]
-    public class ProgramController : Controller
-    {
+    public class ProgramController : Controller{
         private readonly ProgramService _model;
-
-        public ProgramController(ProgramService model)
-        {
+        public ProgramController(ProgramService model){
             _model = model;
         }
 
         [HttpPost]
         [Route("CreateProgram")]
         public bool CreateProgram(ProgramDTO newProgram){
-            return _model.CreateProgram(newProgram); 
+            return _model.CreateProgram(newProgram);
         }
 
         [HttpGet]
@@ -46,11 +42,18 @@ namespace CourtMonitorBackend.Controllers
         public ProgramModel GetProgramByName(string programName){
             return _model.GetProgramByName(programName);
         }
-        
+
         [HttpDelete]
         [Route("DeleteProgram/program")]
         public bool DeleteProgram(string program){
             return _model.DeleteProgram(program);
         }
+
+        [HttpGet]
+        [Route("GetProgramsBySport/sport")]
+        public IEnumerable<ProgramModel> GetProgramsBySport(string sport){
+            return _model.GetProgramsBySport(sport);
+        }
+
     }
 }

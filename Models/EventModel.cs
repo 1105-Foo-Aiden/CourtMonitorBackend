@@ -10,7 +10,7 @@ namespace CourtMonitorBackend.Models.DTO{
         public string Color { get; set; }
         public bool AllDay { get; set; }
         public string ProgramID { get; set; }
-   
+
         public EventModel(){
 
         }
