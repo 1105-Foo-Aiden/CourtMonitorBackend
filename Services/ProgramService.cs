@@ -65,9 +65,10 @@ namespace CourtMonitorBackend.Services{
             return _context.ProgramInfo;
         }
 
-        public ProgramModel GetProgramByName(string name){
-            return _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == name);
+        public ProgramModel GetProgramById(int ProgramId){
+            return _context.ProgramInfo.SingleOrDefault(p => p.ProgramID == ProgramId);
         }
+
         public IActionResult GetEventsByProgram(string program){
             var EventIds = _context.ProgramInfo
                 .Where(x => x.ProgramName == program)

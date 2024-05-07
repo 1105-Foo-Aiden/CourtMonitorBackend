@@ -112,7 +112,7 @@ namespace CourtMonitorBackend.Services{
             return _context.UserInfo.FirstOrDefault(x => x.Email == Email);
         }
 
-        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updateprograms, string updatefunfact, string updateemail, string updateSports, string updateRealName){
+        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updatefunfact, string updateemail, string updateRealName){
             UserModel foundUser = GetUserByUsername(UsertoUpdate);
             bool result = false;
             if (foundUser != null){
@@ -122,17 +122,12 @@ namespace CourtMonitorBackend.Services{
                 if (updateimage != null){
                     foundUser.Image = updateimage;
                 }
-                if (updateprograms != null){
-                    foundUser.Programs = updateprograms;
-                }
+                
                 if (updatefunfact != null){
                     foundUser.FunFact = updatefunfact;
                 }
                 if (updateemail != null){
                     foundUser.Email = updateemail;
-                }
-                if (updateSports != null){
-                    foundUser.Sports = updateSports;
                 }
                 if (updateRealName != null){
                     foundUser.RealName = updateRealName;
