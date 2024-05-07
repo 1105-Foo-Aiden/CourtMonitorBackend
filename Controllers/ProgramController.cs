@@ -55,5 +55,11 @@ namespace CourtMonitorBackend.Controllers{
             return _model.GetProgramsBySport(sport);
         }
 
+        [HttpPost]
+        [Route("AddUserToProgram")]
+        public bool AddUserToProgram(AddUserToProgramDTO userProgram){
+            return _model.AddUserToProgram(userProgram);
+        }
+
     }
 }

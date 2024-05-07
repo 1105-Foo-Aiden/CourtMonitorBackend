@@ -96,5 +96,36 @@ namespace CourtMonitorBackend.Services{
         public IEnumerable<ProgramModel> GetProgramsBySport(string sport){
             return _context.ProgramInfo.Where(p => p.ProgramSport.ToLower() == sport.ToLower());
         } 
+
+        public bool AddUserToProgram(AddUserToProgramDTO newProgramUser){
+            bool result = false;
+            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(program => program.ProgramID == newProgramUser.ProgramID);
+            if(foundProgram != null){
+                if(newProgramUser.Status.ToLower() == "genuser" || newProgramUser.Status.ToLower() == "general" ){
+                    if(string.IsNullOrEmpty(foundProgram.GenUserID)){
+                        foundProgram.GenUserID = newProgramUser.UserId.ToString() + "-";
+                    }else{
+                        foundProgram.GenUserID += newProgramUser.UserId.ToString() + "-";
+                    }
+                }
+                if(newProgramUser.Status.ToLower() == "coach"){
+                    if(string.IsNullOrEmpty(foundProgram.CoachID)){
+                        foundProgram.CoachID = newProgramUser.UserId.ToString() + "-";
+                    }else{
+                        foundProgram.CoachID += newProgramUser.UserId.ToString() + "-";
+                    }
+                }
+                if(newProgramUser.Status.ToLower() == "admin"){
+                    if(string.IsNullOrEmpty(foundProgram.CoachID)){
+                        foundProgram.AdminID = newProgramUser.UserId;
+                    }else{
+                        foundProgram.AdminID += newProgramUser.UserId;
+                    }
+                }
+            }else{
+                result = false;
+            }
+            return result;
+        }
     }
 }
