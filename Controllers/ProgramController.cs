@@ -39,8 +39,8 @@ namespace CourtMonitorBackend.Controllers{
 
         [HttpGet]
         [Route("GetProgramById/{programId}")]
-        public ProgramModel GetProgramById(int programid){
-            return _model.GetProgramById(programid);
+        public ProgramModel GetProgramById(int programId){
+            return _model.GetProgramById(programId);
         }
 
         [HttpDelete]
