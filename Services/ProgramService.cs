@@ -1,7 +1,6 @@
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMonitorBackend.Services
@@ -29,30 +28,51 @@ namespace CourtMonitorBackend.Services
         // }
 
         public bool CreateProgram(ProgramDTO NewProgram){
-         
-                // AdminModel adminModel = new();
-                //create a new admin model to tie to the Program
-                //if the id already exits, just add the program id to that admin
-                AdminModel IsAlreadyAdmin = _context.AdminInfo.SingleOrDefault(Id => Id.UserID == NewProgram.AdminID);
-                //if the admin doesn't exist, create a new instance of the model
-                //creating an admin to save the Program to
-                // if (IsAlreadyAdmin == null){
-                //     adminModel.UserID = NewProgram.AdminID;
-                //     adminModel.ProgramID = NewProgram.ID;
-                //     _context.AdminInfo.Add(adminModel);
-                //     _context.SaveChanges();
-                // }
-                //creating a blank program with the required varibales
-
-                ProgramModel program = new(){
-                    AdminID = NewProgram.AdminID,
-                    ProgramID = NewProgram.ID,
-                    ProgramName = NewProgram.ProgramName,
-                    ProgramSport = NewProgram.ProgramSport
-                };
-
-                _context.ProgramInfo.Add(program);
-                return _context.SaveChanges() !=0;
+            AdminModel adminModel = new();
+            //create a new admin model to tie to the Program
+            //if the id already exits, just add the program id to that admin
+            AdminModel IsAlreadyAdmin = _context.AdminInfo.SingleOrDefault(Id => Id.UserID == NewProgram.AdminID);
+            // if the admin doesn't exist, create a new instance of the model
+            if(IsAlreadyAdmin == null){
+                adminModel.UserID = NewProgram.AdminID;
+                // creating an admin to save the Program to
+                if(string.IsNullOrEmpty(adminModel.ProgramID)){
+                    adminModel.ProgramID = NewProgram.ID.ToString() + "-";
+                }
+                else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
+                    adminModel.ProgramID += NewProgram.ID.ToString() + "-";
+                }
+                else{
+                    return false;
+                }
+                adminModel.ProgramID = NewProgram.ID.ToString();
+                _context.AdminInfo.Add(adminModel);
+                _context.SaveChanges();
+            }
+            else{
+                if(string.IsNullOrEmpty(adminModel.ProgramID)){
+                    adminModel.ProgramID = NewProgram.ID.ToString() + "-";
+                }
+                else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
+                    adminModel.ProgramID += NewProgram.ID.ToString() + "-";
+                }
+                else{
+                    return false;
+                }
+                adminModel.ProgramID = NewProgram.ID.ToString();
+                _context.AdminInfo.Update(adminModel);
+                _context.SaveChanges();
+            }
+            //creating a blank program with the required varibales
+            ProgramModel program = new(){
+                AdminID = NewProgram.AdminID,
+                ProgramID = NewProgram.ID,
+                ProgramName = NewProgram.ProgramName,
+                ProgramSport = NewProgram.ProgramSport,
+                Discription = NewProgram.Description
+            };
+            _context.ProgramInfo.Add(program);
+            return _context.SaveChanges() !=0;
         }
         public UserModel GetAdminById(int id){
             AdminModel foundAdmin =  _context.AdminInfo.SingleOrDefault(user => user.Id == id);

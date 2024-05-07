@@ -1,12 +1,9 @@
-using System.Linq.Expressions;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CourtMonitorBackend.Services
 {
-    public class EventService
-    {
+    public class EventService{
         private readonly DataContext _context;
         public EventService(DataContext context){
             _context = context;
@@ -23,9 +20,8 @@ namespace CourtMonitorBackend.Services
         public bool CreateEvent(EventModel newEvent){
             _context.Add(newEvent);
             _context.SaveChanges();
-            //finds program to aasds
+            //finds program to add to
             ProgramModel programModel = GetProgramById(newEvent.ProgramID);
-
             if(programModel != null){
                 if(string.IsNullOrEmpty(programModel.EventIds)){
                     programModel.EventIds = newEvent.id + "-";
@@ -37,9 +33,8 @@ namespace CourtMonitorBackend.Services
             else{
                 return false;
             }
-            
             _context.Update<ProgramModel>(programModel);
-            return _context.SaveChanges() !=0;
+            return _context.SaveChanges() != 0;
         }
 
         public IEnumerable<EventModel> GetAllEvents(){
@@ -51,7 +46,6 @@ namespace CourtMonitorBackend.Services
         }
 
         public IEnumerable<EventModel> GetAllEventsByProgramID(int programId){
-            int ProgramID;
             ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramID == programId);
             return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID.ToString());
         }
