@@ -1,11 +1,10 @@
+using System.Text.Json;
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
-namespace CourtMonitorBackend.Services.Context
-{
-    public class DataContext : DbContext
-    {
+namespace CourtMonitorBackend.Services.Context{
+    public class DataContext : DbContext{
         public DbSet<UserModel> UserInfo { get; set; }
         public DbSet<EventModel> EventInfo { get; set; }
         public DbSet<ProgramModel> ProgramInfo { get; set; }
@@ -17,7 +16,7 @@ namespace CourtMonitorBackend.Services.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Reflection;
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
@@ -30,7 +31,8 @@ namespace CourtMonitorBackend.Services{
                 }
                 _context.ProgramInfo.Add(ProgramToAdd);
                 _context.SaveChanges();
-                UserModel User = _context.UserInfo.SingleOrDefault(u => u.ID == NewProgram.AdminID);
+                int AdminIdNumber = int.Parse(NewProgram.AdminID);
+                UserModel User = _context.UserInfo.SingleOrDefault(u => u.ID == AdminIdNumber);
                 if(User !=null){
                     if(string.IsNullOrEmpty(User.Programs)){
                         User.Programs = NewProgram.ProgramName;
@@ -44,7 +46,7 @@ namespace CourtMonitorBackend.Services{
                     return "User not found";
                 }
                 AdminModel admin = new(){
-                    UserID = NewProgram.AdminID,
+                    UserID = AdminIdNumber,
                     ProgramID = ProgramToAdd.ProgramID,
                 };
                 _context.AdminInfo.Add(admin);
@@ -89,43 +91,89 @@ namespace CourtMonitorBackend.Services{
         } 
 
         public string AddUserToProgram(AddUserToProgramDTO newProgramUser){
-            var foundProgram = _context.ProgramInfo.SingleOrDefault(program => program.ProgramID == newProgramUser.ProgramID);
-            if(foundProgram != null){
-                if(newProgramUser.Status.ToLower() == "genuser" || newProgramUser.Status.ToLower() == "general" ){
-                    ProgramModel programModel = new(){
-                        GenUserID = newProgramUser.UserId,
-                        ProgramID = newProgramUser.ProgramID
-                    };
-                    _context.ProgramInfo.Add(programModel);
+            //Similar to the Create Program, I want to add A user to an existing Program
+            //First, I need to find the program
+            //Second, I use the User Id from the DTO to add it to whichever level in the Program based on the "Status"
+            //Then I add the Program Name to the User's Progam Point, will use the same logic as before
+            try{
+                ProgramModel program = _context.ProgramInfo.SingleOrDefault(p => p.ProgramID == newProgramUser.ProgramID);
+                if(program == null){
+                    return "Program Not Found, Try again";
                 }
-                else if(newProgramUser.Status.ToLower() == "coach"){
-                    ProgramModel programModel = new(){
-                        CoachID = newProgramUser.UserId,
-                        ProgramID = newProgramUser.ProgramID
-                    };
-                    _context.ProgramInfo.Add(programModel);
+
+                switch(newProgramUser.Status.ToLower()){
+                    case "genuser":
+                    program.GenUserID = newProgramUser.UserId.ToString();
+                    break;
+                    case "general":
+                    program.GenUserID = newProgramUser.UserId.ToString();
+                    break;
+                    case "coach":
+                    program.CoachID = newProgramUser.UserId.ToString();
+                    break;
+                    case "admin":
+                    program.AdminID = newProgramUser.UserId.ToString();
+                    break;
+                    default:
+                    return "Invalid Status";
                 }
-                else if(newProgramUser.Status.ToLower() == "admin"){
-                    ProgramModel programModel = new(){
-                        AdminID = newProgramUser.UserId,
-                        ProgramID = newProgramUser.ProgramID
-                    };
-                    _context.ProgramInfo.Add(programModel);
+                _context.ProgramInfo.Update(program);
+                _context.SaveChanges();
+                UserModel userToAdd = _context.UserInfo.SingleOrDefault(u => u.ID == newProgramUser.UserId);
+                if(userToAdd == null){
+                    return "Cannot find user to add";
+                }
+                if(string.IsNullOrEmpty(userToAdd.Programs)){
+                    userToAdd.Programs = program.ProgramName;
                 }
                 else{
-                    return "Status is not valid, please enter 'genuser', 'admin', or 'coach'. ";
+                    userToAdd.Programs += program.ProgramName + ", ";
                 }
-                try{
-                    _context.SaveChanges();
-                    return "Saved Successfully.";
-                }
-                catch(Exception ex){ 
-                    return ex.Message;
-                }
+                _context.UserInfo.Update(userToAdd);
+                _context.SaveChanges();
+                return "Success";
+            }catch(Exception ex){
+                return ex.Message;
             }
-            else{
-                return "This Program Doesn't exist, please try again.";
-            }
+            
+            
+            // var foundProgram = _context.ProgramInfo.SingleOrDefault(program => program.ProgramID == newProgramUser.ProgramID);
+            // if(foundProgram != null){
+            //     if(newProgramUser.Status.ToLower() == "genuser" || newProgramUser.Status.ToLower() == "general" ){
+            //         ProgramModel programModel = new(){
+            //             GenUserID = newProgramUser.UserId,
+            //             ProgramID = newProgramUser.ProgramID
+            //         };
+            //         _context.ProgramInfo.Add(programModel);
+            //     }
+            //     else if(newProgramUser.Status.ToLower() == "coach"){
+            //         ProgramModel programModel = new(){
+            //             CoachID = newProgramUser.UserId,
+            //             ProgramID = newProgramUser.ProgramID
+            //         };
+            //         _context.ProgramInfo.Add(programModel);
+            //     }
+            //     else if(newProgramUser.Status.ToLower() == "admin"){
+            //         ProgramModel programModel = new(){
+            //             AdminID = newProgramUser.UserId,
+            //             ProgramID = newProgramUser.ProgramID
+            //         };
+            //         _context.ProgramInfo.Add(programModel);
+            //     }
+            //     else{
+            //         return "Status is not valid, please enter 'genuser', 'admin', or 'coach'. ";
+            //     }
+            //     try{
+            //         _context.SaveChanges();
+            //         return "Saved Successfully.";
+            //     }
+            //     catch(Exception ex){ 
+            //         return ex.Message;
+            //     }
+            // }
+            // else{
+            //     return "This Program Doesn't exist, please try again.";
+            // }
         }
     }
 }

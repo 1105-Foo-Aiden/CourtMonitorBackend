@@ -102,17 +102,18 @@ namespace CourtMonitorBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramID"));
 
-                    b.Property<int>("AdminID")
-                        .HasColumnType("int");
+                    b.Property<string>("AdminID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CoachID")
-                        .HasColumnType("int");
+                    b.Property<string>("CoachID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GenUserID")
-                        .HasColumnType("int");
+                    b.Property<string>("GenUserID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProgramName")
                         .IsRequired()

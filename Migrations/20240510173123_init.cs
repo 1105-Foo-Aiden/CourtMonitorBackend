@@ -76,9 +76,9 @@ namespace CourtMonitorBackend.Migrations
                 {
                     ProgramID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AdminID = table.Column<int>(type: "int", nullable: false),
-                    CoachID = table.Column<int>(type: "int", nullable: true),
-                    GenUserID = table.Column<int>(type: "int", nullable: true),
+                    AdminID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoachID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GenUserID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProgramSport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discription = table.Column<string>(type: "nvarchar(max)", nullable: true)
