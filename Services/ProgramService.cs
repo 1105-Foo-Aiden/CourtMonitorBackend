@@ -13,6 +13,9 @@ namespace CourtMonitorBackend.Services{
         public bool DoesProgramExist(string Program){
             return _context.ProgramInfo.SingleOrDefault(name => name.ProgramName == Program) != null;
         }
+        public bool DoesProgramIDExist(int programId){
+            return _context.ProgramInfo.SingleOrDefault(id => id.ProgramID == programId) != null;
+        }
 
         public string CreateProgram(ProgramDTO NewProgram){
             //Create a blank template of a program using the DTO to fill out the required information
@@ -78,8 +81,6 @@ namespace CourtMonitorBackend.Services{
             bool result = false;
             var foundProgram = _context.ProgramInfo.SingleOrDefault(ProgramToDelete => ProgramToDelete.ProgramName == program);
             if(foundProgram != null){
-                var foundEvents = GetAllEventsByProgramID(foundProgram.ProgramID);
-                _context.Remove(foundEvents);
                 _context.Remove(foundProgram);
                 result = _context.SaveChanges() != 0;
             }
@@ -100,19 +101,38 @@ namespace CourtMonitorBackend.Services{
                 if(program == null){
                     return "Program Not Found, Try again";
                 }
-
                 switch(newProgramUser.Status.ToLower()){
                     case "genuser":
-                    program.GenUserID = newProgramUser.UserId.ToString();
+                    if(string.IsNullOrEmpty(program.GenUserID)){
+                        program.GenUserID = newProgramUser.UserId.ToString() + ", ";
+                    }
+                    else{
+                        program.GenUserID += newProgramUser.UserId.ToString() + ", ";
+                    }
                     break;
                     case "general":
-                    program.GenUserID = newProgramUser.UserId.ToString();
+                    if(string.IsNullOrEmpty(program.GenUserID)){
+                        program.GenUserID = newProgramUser.UserId.ToString() + ", ";
+                    }
+                    else{
+                        program.GenUserID += newProgramUser.UserId.ToString() + ", ";
+                    }
                     break;
                     case "coach":
-                    program.CoachID = newProgramUser.UserId.ToString();
+                    if(string.IsNullOrEmpty(program.CoachID)){
+                        program.GenUserID = newProgramUser.UserId.ToString() + ", ";
+                    }
+                    else{
+                        program.CoachID += newProgramUser.UserId.ToString() + ", ";
+                    }
                     break;
                     case "admin":
-                    program.AdminID = newProgramUser.UserId.ToString();
+                    if(string.IsNullOrEmpty(program.AdminID)){
+                        program.AdminID = newProgramUser.UserId.ToString() + ", ";
+                    }
+                    else{
+                        program.AdminID += newProgramUser.UserId.ToString() + ", ";
+                    }
                     break;
                     default:
                     return "Invalid Status";
@@ -135,7 +155,40 @@ namespace CourtMonitorBackend.Services{
             }catch(Exception ex){
                 return ex.Message;
             }
-            
+        }
+        public bool GetUserById(int Id){
+            return _context.UserInfo.SingleOrDefault(User => User.ID == Id) != null;
+        }
+
+        // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
+        //     //Validate Program's existance through Getting the program by ID
+        //     try{
+
+        //     var ProgramToGet = GetProgramById(ID);
+        //     //if the Program Exists, Go through Each Transer table to get the User Id's assigned to the Program ID
+        //     //do this three times for Coach, Admin, and GeneralUsers
+        //     if(ProgramToGet != null){
+        //         var Admins = _context.AdminInfo.Where(p => p.ProgramID == ID).Select(admin => admin.UserID);
+        //         var AdminUsers = from user in _context.AdminInfo
+        //                         where Admins.Contains(user.Id)
+        //                         select user;
+
+        //         var Coaches = _context.CoachInfo.Where(p => p.ProgramID == ID).Select(coach => coach.UserID);
+        //         var CoachUsers = from user in _context.UserInfo 
+        //                         where Coaches.Contains(user.ID) 
+        //                         select user;
+                
+        //         var GenUsers = _context.GenUserInfo.Where(p => p.ProgramID == ID).Select(GenUser => GenUser.UserID);
+        //         var generalUsers = from user in _context.UserInfo
+        //                             where GenUsers.Contains(user.ID)
+        //                             select user;
+        //         return generalUsers;
+        //     }
+
+        //     }catch (Exception ex){
+        //         throw new Exception(ex.Message);
+        //     }
+        // }
             
             // var foundProgram = _context.ProgramInfo.SingleOrDefault(program => program.ProgramID == newProgramUser.ProgramID);
             // if(foundProgram != null){
@@ -174,6 +227,8 @@ namespace CourtMonitorBackend.Services{
             // else{
             //     return "This Program Doesn't exist, please try again.";
             // }
-        }
+
+           
+
     }
 }

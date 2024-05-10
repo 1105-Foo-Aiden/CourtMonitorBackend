@@ -74,5 +74,3 @@ C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\Court
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\obj\Release\net7.0\CourtMonitorBackend.pdb
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\obj\Release\net7.0\CourtMonitorBackend.genruntimeconfig.cache
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\obj\Release\net7.0\ref\CourtMonitorBackend.dll
-C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\DummyEventData.json
-C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\DummyUserData.json

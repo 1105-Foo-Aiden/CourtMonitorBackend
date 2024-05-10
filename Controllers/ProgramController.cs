@@ -35,6 +35,12 @@ namespace CourtMonitorBackend.Controllers{
         public IEnumerable<ProgramModel> GetProgramsBySport(string sport){
             return _model.GetProgramsBySport(sport);
         }
+        
+        // [HttpGet]
+        // [Route("GetUsersByProgramId/{ID}")]
+        // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
+        //     return _model.GetUsersByProgramId(ID);
+        // }
 
         [HttpPost]
         [Route("CreateProgram")]

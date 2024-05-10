@@ -1,8 +1,6 @@
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\CourtMonitorBackend.exe
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\appsettings.Development.json
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\appsettings.json
-C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\DummyEventData.json
-C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\DummyUserData.json
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\CourtMonitorBackend.dll
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\CourtMonitorBackend.runtimeconfig.json
 C:\Users\Aiden\Desktop\Codestack\Documents\CodeStackLvl3\FullStack_Project\CourtMonitorBackend\bin\Release\net7.0\publish\CourtMonitorBackend.pdb

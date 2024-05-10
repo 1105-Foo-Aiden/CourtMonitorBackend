@@ -24,9 +24,9 @@ namespace CourtMonitorBackend.Controllers{
         }
 
         [HttpGet]
-        [Route("GetEventsByProgramID/{programID}")]
-        public IEnumerable<EventModel> GetEventsByProgramID(int programID){
-            return _eventService.GetAllEventsByProgramID(programID);
+        [Route("GetEventsByProgramName/{programName}")]
+        public IEnumerable<EventModel> GetEventsByProgramName(string programName){
+            return _eventService.GetAllEventsByProgramName(programName);
         }
 
 
