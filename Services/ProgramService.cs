@@ -1,7 +1,6 @@
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMonitorBackend.Services{
     public class ProgramService{
@@ -14,50 +13,49 @@ namespace CourtMonitorBackend.Services{
             return _context.ProgramInfo.SingleOrDefault(name => name.ProgramName == Program) != null;
         }
 
-        public bool CreateProgram(ProgramDTO NewProgram){
-            AdminModel adminModel = new();
-            //create a new admin model to tie to the Program
-            //if the id already exits, just add the program id to that admin
-            AdminModel IsAlreadyAdmin = _context.AdminInfo.SingleOrDefault(Id => Id.UserID == NewProgram.AdminID);
-            // if the admin doesn't exist, create a new instance of the model
-            if(IsAlreadyAdmin == null){
-                adminModel.UserID = NewProgram.AdminID;
-                // creating an admin to save the Program to
-                if(string.IsNullOrEmpty(adminModel.ProgramID)){
-                    adminModel.ProgramID = NewProgram.ID.ToString() + "-";
-                }else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
-                    adminModel.ProgramID += NewProgram.ID.ToString() + "-";
-                }else{
-                    return false;
+        public string CreateProgram(ProgramDTO NewProgram){
+            //Create a blank template of a program using the DTO to fill out the required information
+            //Then take the user from the DTO and add the Program Name to the account under the "Programs" Data point
+            //Then Create a new Admin in the Admin Table with the ID of the program instead of the name
+            //Save the database after each step to ensure that each new data point is saved.
+            try{
+                ProgramModel ProgramToAdd = new(){
+                    ProgramName = NewProgram.ProgramName,
+                    ProgramSport = NewProgram.ProgramSport,
+                    Discription = NewProgram.Description,
+                    AdminID = NewProgram.AdminID,
+                };
+                if(DoesProgramExist(NewProgram.ProgramName)){
+                    return "Program already exists";
                 }
-                adminModel.ProgramID = NewProgram.ID.ToString();
-                _context.AdminInfo.Add(adminModel);
+                _context.ProgramInfo.Add(ProgramToAdd);
                 _context.SaveChanges();
-            }else{
-                if(string.IsNullOrEmpty(adminModel.ProgramID)){
-                    adminModel.ProgramID = NewProgram.ID.ToString() + "-";
-                }else if(!adminModel.ProgramID.Contains(NewProgram.ID.ToString())){
-                    adminModel.ProgramID += NewProgram.ID.ToString() + "-";
-                }else{
-                    return false;
+                UserModel User = _context.UserInfo.SingleOrDefault(u => u.ID == NewProgram.AdminID);
+                if(User !=null){
+                    if(string.IsNullOrEmpty(User.Programs)){
+                        User.Programs = NewProgram.ProgramName;
+                    }
+                    else{
+                        User.Programs += "," + NewProgram.ProgramName;
+                    }
+                    _context.UserInfo.Update(User);
                 }
-                adminModel.ProgramID = NewProgram.ID.ToString();
-                _context.AdminInfo.Update(adminModel);
-                _context.SaveChanges();
+                else{
+                    return "User not found";
+                }
+                AdminModel admin = new(){
+                    UserID = NewProgram.AdminID,
+                    ProgramID = ProgramToAdd.ProgramID,
+                };
+                _context.AdminInfo.Add(admin);
+                _context.SaveChanges(); 
+                return "Success";
+            }catch(Exception ex){
+                return ex.InnerException.ToString();
             }
-            //creating a blank program with the required varibales
-            ProgramModel program = new(){
-                AdminID = NewProgram.AdminID,
-                ProgramID = NewProgram.ID,
-                ProgramName = NewProgram.ProgramName,
-                ProgramSport = NewProgram.ProgramSport,
-                Discription = NewProgram.Description
-            };
-            _context.ProgramInfo.Add(program);
-            return _context.SaveChanges() !=0;
-        }
+        }    
         public UserModel GetAdminById(int id){
-            AdminModel foundAdmin =  _context.AdminInfo.SingleOrDefault(user => user.Id == id);
+            var foundAdmin =  _context.AdminInfo.SingleOrDefault(user => user.Id == id);
             return _context.UserInfo.SingleOrDefault(user => user.ID == foundAdmin.UserID);
         }
 
@@ -69,63 +67,65 @@ namespace CourtMonitorBackend.Services{
             return _context.ProgramInfo.SingleOrDefault(p => p.ProgramID == ProgramId);
         }
 
-        public IActionResult GetEventsByProgram(string program){
-            var EventIds = _context.ProgramInfo
-                .Where(x => x.ProgramName == program)
-                .Select(x => x.EventIds)
-                .ToList();
-            return new OkObjectResult(EventIds);
-        }
-
-        public IEnumerable<EventModel> RemoveEventsByProgramID(int id){
-            var events = _context.EventInfo.Where(e => e.ProgramID == id.ToString());
-            return events;
+        public IEnumerable<EventModel> GetAllEventsByProgramID(int programId){
+            var foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramID == programId);
+            return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
         }
         
         public bool DeleteProgram(string program){
             bool result = false;
-            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(ProgramToDelete => ProgramToDelete.ProgramName == program);
+            var foundProgram = _context.ProgramInfo.SingleOrDefault(ProgramToDelete => ProgramToDelete.ProgramName == program);
             if(foundProgram != null){
+                var foundEvents = GetAllEventsByProgramID(foundProgram.ProgramID);
+                _context.Remove(foundEvents);
                 _context.Remove(foundProgram);
-                var events = RemoveEventsByProgramID(foundProgram.ProgramID);
-                _context.Remove(events);
                 result = _context.SaveChanges() != 0;
             }
+
             return result;
         }
         public IEnumerable<ProgramModel> GetProgramsBySport(string sport){
             return _context.ProgramInfo.Where(p => p.ProgramSport.ToLower() == sport.ToLower());
         } 
 
-        public bool AddUserToProgram(AddUserToProgramDTO newProgramUser){
-            bool result = false;
-            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(program => program.ProgramID == newProgramUser.ProgramID);
+        public string AddUserToProgram(AddUserToProgramDTO newProgramUser){
+            var foundProgram = _context.ProgramInfo.SingleOrDefault(program => program.ProgramID == newProgramUser.ProgramID);
             if(foundProgram != null){
                 if(newProgramUser.Status.ToLower() == "genuser" || newProgramUser.Status.ToLower() == "general" ){
-                    if(string.IsNullOrEmpty(foundProgram.GenUserID)){
-                        foundProgram.GenUserID = newProgramUser.UserId.ToString() + "-";
-                    }else{
-                        foundProgram.GenUserID += newProgramUser.UserId.ToString() + "-";
-                    }
+                    ProgramModel programModel = new(){
+                        GenUserID = newProgramUser.UserId,
+                        ProgramID = newProgramUser.ProgramID
+                    };
+                    _context.ProgramInfo.Add(programModel);
                 }
-                if(newProgramUser.Status.ToLower() == "coach"){
-                    if(string.IsNullOrEmpty(foundProgram.CoachID)){
-                        foundProgram.CoachID = newProgramUser.UserId.ToString() + "-";
-                    }else{
-                        foundProgram.CoachID += newProgramUser.UserId.ToString() + "-";
-                    }
+                else if(newProgramUser.Status.ToLower() == "coach"){
+                    ProgramModel programModel = new(){
+                        CoachID = newProgramUser.UserId,
+                        ProgramID = newProgramUser.ProgramID
+                    };
+                    _context.ProgramInfo.Add(programModel);
                 }
-                if(newProgramUser.Status.ToLower() == "admin"){
-                    if(string.IsNullOrEmpty(foundProgram.CoachID)){
-                        foundProgram.AdminID = newProgramUser.UserId;
-                    }else{
-                        foundProgram.AdminID += newProgramUser.UserId;
-                    }
+                else if(newProgramUser.Status.ToLower() == "admin"){
+                    ProgramModel programModel = new(){
+                        AdminID = newProgramUser.UserId,
+                        ProgramID = newProgramUser.ProgramID
+                    };
+                    _context.ProgramInfo.Add(programModel);
                 }
-            }else{
-                result = false;
+                else{
+                    return "Status is not valid, please enter 'genuser', 'admin', or 'coach'. ";
+                }
+                try{
+                    _context.SaveChanges();
+                    return "Saved Successfully.";
+                }
+                catch(Exception ex){ 
+                    return ex.Message;
+                }
             }
-            return result;
+            else{
+                return "This Program Doesn't exist, please try again.";
+            }
         }
     }
 }

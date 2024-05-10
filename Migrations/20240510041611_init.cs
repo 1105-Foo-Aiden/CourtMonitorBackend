@@ -17,7 +17,7 @@ namespace CourtMonitorBackend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    ProgramID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ProgramID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,7 +31,7 @@ namespace CourtMonitorBackend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    ProgramID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ProgramID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace CourtMonitorBackend.Migrations
                     End = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AllDay = table.Column<bool>(type: "bit", nullable: false),
-                    ProgramID = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ProgramID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +63,7 @@ namespace CourtMonitorBackend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    ProgramID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ProgramID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -77,12 +77,11 @@ namespace CourtMonitorBackend.Migrations
                     ProgramID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AdminID = table.Column<int>(type: "int", nullable: false),
-                    CoachID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GenUserID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoachID = table.Column<int>(type: "int", nullable: true),
+                    GenUserID = table.Column<int>(type: "int", nullable: true),
                     ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProgramSport = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EventIds = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Discription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

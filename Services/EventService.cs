@@ -1,6 +1,7 @@
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
 
+
 namespace CourtMonitorBackend.Services
 {
     public class EventService{
@@ -27,22 +28,25 @@ namespace CourtMonitorBackend.Services
         public bool CreateEvent(EventModel newEvent){
             _context.Add(newEvent);
             _context.SaveChanges();
-            //finds program to add to
-            ProgramModel programModel = GetProgramById(newEvent.ProgramID);
-            if(programModel != null){
-                if(string.IsNullOrEmpty(programModel.EventIds)){
-                    programModel.EventIds = newEvent.id + "-";
-                }
-                else if(!programModel.EventIds.Contains(newEvent.id.ToString())){    
-                    programModel.EventIds += newEvent.id + "-";
-                }  
-            }
-            else{
-                return false;
-            }
-            _context.Update<ProgramModel>(programModel);
             return _context.SaveChanges() != 0;
         }
+
+        // public async Task<IActionResult> AddProgramToUser(int userId, int ProgramId){
+        //         var existingProgram =  _context.ProgramInfo.FirstOrDefaultAsync(program => program.ProgramID == ProgramId);
+        //         if(existingProgram != null){
+        //             return Conflict("Already Joined this Program");
+        //         }
+
+        //         var UserModel = new UserModel{
+        //             ID = userId,
+        //             Programs = ProgramId.ToString()
+        //         };
+
+        //         _context.UserInfo.Add(UserModel);
+        //         await _context.SaveChangesAsync();
+        //         return Ok("User has been added to Program");
+        //     };
+        // }
 
         public string DeleteEvent(int EventId){
             EventModel foundEvent = GetEventById(EventId);
@@ -54,10 +58,11 @@ namespace CourtMonitorBackend.Services
                 return "Event Not Found";
             }
         }
-        
+
         public IEnumerable<EventModel> GetAllEventsByProgramID(int programId){
             ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramID == programId);
-            return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID.ToString());
+            return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
+            
         }
         
     }

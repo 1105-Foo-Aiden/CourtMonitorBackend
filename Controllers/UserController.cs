@@ -3,12 +3,10 @@ using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CourtMonitorBackend.Controllers
-{
+namespace CourtMonitorBackend.Controllers{
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
-    {
+    public class UserController : ControllerBase{
         private readonly UserService _data;
         public UserController(UserService data){
             _data = data;
@@ -35,7 +33,7 @@ namespace CourtMonitorBackend.Controllers
         }
         
         [HttpGet]
-        [Route("GetUserByEmail/Email")]
+        [Route("GetUserByEmail/{Email}")]
         public UserModel GetUserByEmail(string Email){
             return _data.GetUserByEmail(Email);
         }
@@ -64,7 +62,6 @@ namespace CourtMonitorBackend.Controllers
             return _data.ResetPassword(NewPassword);
         }
 
-        
         
         [HttpPut]
         [Route("UpdateUser/{UsertoUpdate}/birthday/image/funfact/email/realname")]

@@ -5,6 +5,5 @@ namespace CourtMonitorBackend.Models.DTO{
         public string ProgramSport { get; set; } 
         public string? Description { get; set; }
         public int AdminID { get; set; }
-
     }
 }
