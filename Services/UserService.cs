@@ -97,9 +97,6 @@ namespace CourtMonitorBackend.Services{
                 Birthday = foundUser.Birthday,
                 Email = foundUser.Email,
                 Image = foundUser.Image,
-                IsAdmin = foundUser.IsAdmin,
-                IsUser = foundUser.IsUser,
-                IsCoach = foundUser.IsCoach,
                 UserID = foundUser.ID
             };
             return searchedUser;

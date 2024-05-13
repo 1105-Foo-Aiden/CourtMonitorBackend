@@ -5,7 +5,7 @@
 namespace CourtMonitorBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class inir : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -99,14 +99,10 @@ namespace CourtMonitorBackend.Migrations
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Programs = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Sports = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FunFact = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Hash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
-                    IsCoach = table.Column<bool>(type: "bit", nullable: false),
-                    IsUser = table.Column<bool>(type: "bit", nullable: false)
+                    Hash = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

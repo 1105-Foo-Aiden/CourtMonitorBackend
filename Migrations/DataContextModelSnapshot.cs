@@ -171,15 +171,6 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsCoach")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsUser")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Programs")
                         .HasColumnType("nvarchar(max)");
 
@@ -188,9 +179,6 @@ namespace CourtMonitorBackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Sports")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
