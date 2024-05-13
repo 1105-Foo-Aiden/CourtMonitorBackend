@@ -112,26 +112,15 @@ namespace CourtMonitorBackend.Services{
             return _context.UserInfo.FirstOrDefault(x => x.Email == Email);
         }
 
-        public bool UpdateUser(string UsertoUpdate, string updatebirthday, string updateimage, string updatefunfact, string updateemail, string updateRealName){
-            UserModel foundUser = GetUserByUsername(UsertoUpdate);
+        public bool UpdateUser(UpdateUserDTO UsertoUpdate){
+            UserModel foundUser = GetUserByUsername(UsertoUpdate.UserName);
             bool result = false;
             if (foundUser != null){
-                if (updatebirthday != null){
-                    foundUser.Birthday = updatebirthday;
-                }
-                if (updateimage != null){
-                    foundUser.Image = updateimage;
-                }
-                
-                if (updatefunfact != null){
-                    foundUser.FunFact = updatefunfact;
-                }
-                if (updateemail != null){
-                    foundUser.Email = updateemail;
-                }
-                if (updateRealName != null){
-                    foundUser.RealName = updateRealName;
-                }
+                foundUser.Birthday = UsertoUpdate.Birthday ?? foundUser.Birthday;
+                foundUser.Image = UsertoUpdate.Image ?? foundUser.Image;
+                foundUser.FunFact = UsertoUpdate.FunFact ?? foundUser.Birthday;
+                foundUser.Email = UsertoUpdate.Email?? foundUser.Email;
+                foundUser.RealName = UsertoUpdate.RealName?? foundUser.RealName;
                 _context.Update<UserModel>(foundUser);
                 result = _context.SaveChanges() != 0;
             }
