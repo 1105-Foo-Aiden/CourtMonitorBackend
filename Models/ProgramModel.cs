@@ -10,8 +10,9 @@ namespace CourtMonitorBackend.Models.DTO{
         public string? GenUserID { get; set; }
         public string ProgramName { get; set; }
         public string ProgramSport { get; set; }
-        public string? Discription { get; set; }
+        public string? Description { get; set; }
         public ProgramModel(){
+
         }
     }
 }

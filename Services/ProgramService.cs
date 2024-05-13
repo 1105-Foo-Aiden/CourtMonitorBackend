@@ -26,7 +26,7 @@ namespace CourtMonitorBackend.Services{
                 ProgramModel ProgramToAdd = new(){
                     ProgramName = NewProgram.ProgramName,
                     ProgramSport = NewProgram.ProgramSport,
-                    Discription = NewProgram.Description,
+                    Description = NewProgram.Description,
                     AdminID = NewProgram.AdminID,
                 };
                 if(DoesProgramExist(NewProgram.ProgramName)){

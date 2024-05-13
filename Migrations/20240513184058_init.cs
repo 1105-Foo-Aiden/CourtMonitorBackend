@@ -5,7 +5,7 @@
 namespace CourtMonitorBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class inir : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,7 +81,7 @@ namespace CourtMonitorBackend.Migrations
                     GenUserID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProgramSport = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discription = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourtMonitorBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240513182636_inir")]
-    partial class inir
+    [Migration("20240513184058_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,7 +112,7 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("CoachID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discription")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GenUserID")

@@ -109,7 +109,7 @@ namespace CourtMonitorBackend.Migrations
                     b.Property<string>("CoachID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discription")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GenUserID")
