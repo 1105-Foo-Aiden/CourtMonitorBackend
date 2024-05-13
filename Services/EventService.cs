@@ -68,9 +68,8 @@ namespace CourtMonitorBackend.Services
         }
 
         public IEnumerable<EventModel> GetAllEventsByProgramName(string ProgramName){
-            ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramName == ProgramName);
-            return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
-            
+                ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramName == ProgramName);
+                return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
         }
         
     }

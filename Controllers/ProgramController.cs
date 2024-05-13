@@ -29,6 +29,11 @@ namespace CourtMonitorBackend.Controllers{
         public ProgramModel GetProgramById(int programId){
             return _model.GetProgramById(programId);
         }
+        [HttpGet]
+        [Route("GetProgramByName/{ProgamName}")]
+        public ProgramModel GetProgramByName(string ProgamName){
+            return _model.GetProgramByProgramName(ProgamName);
+        }
 
         [HttpGet]
         [Route("GetProgramsBySport/{sport}")]

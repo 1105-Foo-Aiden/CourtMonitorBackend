@@ -91,6 +91,10 @@ namespace CourtMonitorBackend.Services{
             return _context.ProgramInfo.Where(p => p.ProgramSport.ToLower() == sport.ToLower());
         } 
 
+        public ProgramModel GetProgramByProgramName(string ProgramName){
+            return _context.ProgramInfo.FirstOrDefault(p => p.ProgramName == ProgramName);
+        }
+
         public string AddUserToProgram(AddUserToProgramDTO newProgramUser){
             //Similar to the Create Program, I want to add A user to an existing Program
             //First, I need to find the program
@@ -104,34 +108,34 @@ namespace CourtMonitorBackend.Services{
                 switch(newProgramUser.Status.ToLower()){
                     case "genuser":
                     if(string.IsNullOrEmpty(program.GenUserID)){
-                        program.GenUserID = newProgramUser.UserId.ToString() + ", ";
+                        program.GenUserID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
-                        program.GenUserID += newProgramUser.UserId.ToString() + ", ";
+                        program.GenUserID += newProgramUser.UserId.ToString() + ",";
                     }
                     break;
                     case "general":
                     if(string.IsNullOrEmpty(program.GenUserID)){
-                        program.GenUserID = newProgramUser.UserId.ToString() + ", ";
+                        program.GenUserID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
-                        program.GenUserID += newProgramUser.UserId.ToString() + ", ";
+                        program.GenUserID += newProgramUser.UserId.ToString() + ",";
                     }
                     break;
                     case "coach":
                     if(string.IsNullOrEmpty(program.CoachID)){
-                        program.GenUserID = newProgramUser.UserId.ToString() + ", ";
+                        program.CoachID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
-                        program.CoachID += newProgramUser.UserId.ToString() + ", ";
+                        program.CoachID += newProgramUser.UserId.ToString() + ",";
                     }
                     break;
                     case "admin":
                     if(string.IsNullOrEmpty(program.AdminID)){
-                        program.AdminID = newProgramUser.UserId.ToString() + ", ";
+                        program.AdminID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
-                        program.AdminID += newProgramUser.UserId.ToString() + ", ";
+                        program.AdminID += newProgramUser.UserId.ToString() + ",";
                     }
                     break;
                     default:
@@ -147,7 +151,7 @@ namespace CourtMonitorBackend.Services{
                     userToAdd.Programs = program.ProgramName;
                 }
                 else{
-                    userToAdd.Programs += program.ProgramName + ", ";
+                    userToAdd.Programs += program.ProgramName + ",";
                 }
                 _context.UserInfo.Update(userToAdd);
                 _context.SaveChanges();
@@ -227,8 +231,5 @@ namespace CourtMonitorBackend.Services{
             // else{
             //     return "This Program Doesn't exist, please try again.";
             // }
-
-           
-
     }
 }
