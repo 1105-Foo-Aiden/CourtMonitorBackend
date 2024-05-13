@@ -17,6 +17,11 @@ namespace CourtMonitorBackend.Controllers{
         public UserModel GetAdminById(int id){
             return _model.GetAdminById(id);
         }
+        [HttpGet]
+        [Route("GetUsersByProgramName/{ProgramName}")]
+        public Tuple<List<string>, List<string>, List<string>> GetUsersByProgramName(string ProgramName){
+            return _model.GetUsernameByProgram(ProgramName);
+            }
 
         [HttpGet]
         [Route("GetAllPrograms")]
