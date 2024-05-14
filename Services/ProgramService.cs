@@ -163,11 +163,11 @@ namespace CourtMonitorBackend.Services{
         public UserModel GetUserNameByID(int id){
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
-        public Tuple<List<(string, string)>, List<(string, string)>, List<(string, string)>> GetUsernameByProgram(string ProgramName){
+        public Tuple<List<string>, List<string>, List<string>> GetUsernameByProgram(string ProgramName){
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
-            List<(string, string)> GenUsers = new();
-            List<(string, string)> CoachUsers = new();
-            List<(string, string)> AdminUsers = new();
+            List<string> GenUsers = new();
+            List<string> CoachUsers = new();
+            List<string> AdminUsers = new();
             if(foundProgram != null){
                 //for each Status, change the String value to an integer, then get Username by ID
                 //add to a list, repeat for each
@@ -178,8 +178,8 @@ namespace CourtMonitorBackend.Services{
                                 int userID = int.Parse(ID);
                                 UserModel foundUser = GetUserNameByID(userID);
                             if(foundUser != null){
-                                (string, string) t1 = (foundUser.RealName, foundUser.UserName);
-                                GenUsers.Add(t1);
+                                
+                                GenUsers.Add(foundUser.UserName);
                             }
                         }
                     }
@@ -192,8 +192,7 @@ namespace CourtMonitorBackend.Services{
                             int userID = int.Parse(ID);
                             UserModel foundCoachUser = GetUserNameByID(userID);
                             if(foundCoachUser !=null){
-                                (string, string) t2 = (foundCoachUser.UserName, foundCoachUser.RealName);
-                                CoachUsers.Add(t2);
+                                CoachUsers.Add(foundCoachUser.UserName);
                             }
                         }
                     }
@@ -206,14 +205,13 @@ namespace CourtMonitorBackend.Services{
                             int userID = int.Parse(ID);
                             UserModel foundAdminUser = GetUserNameByID(userID);
                             if(foundAdminUser != null){
-                                (string, string) t3 = (foundAdminUser.UserName, foundAdminUser.RealName);
-                                AdminUsers.Add(t3);
+                                AdminUsers.Add(foundAdminUser.UserName);
                             }
                         }
                     }
                 }
             }
-            return new Tuple<List<(string, string)>, List<(string, string)>, List<(string, string)>>(AdminUsers, CoachUsers, GenUsers);
+            return new Tuple<List<string>, List<string>, List<string>>(AdminUsers, CoachUsers, GenUsers);
         }
 
         // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
