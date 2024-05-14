@@ -161,7 +161,7 @@ namespace CourtMonitorBackend.Services{
         public UserModel GetUserByID(int id){
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
-        public Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>> GetUsernameByProgram(string ProgramName){
+        public (List<ProgramUserDTO> Admins, List<ProgramUserDTO> Coaches, List<ProgramUserDTO> GenUsers) GetUsernameByProgram(string ProgramName){
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
             List<ProgramUserDTO> Admins = new();
             List<ProgramUserDTO> Coaches = new();
@@ -222,7 +222,7 @@ namespace CourtMonitorBackend.Services{
                 }
 
             }
-            return new Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>>(Admins, Coaches, General);
+            return (Admins: Admins, Coaches: Coaches, GenUsers: General);
             
         }
 
