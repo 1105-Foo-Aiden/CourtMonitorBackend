@@ -168,9 +168,9 @@ namespace CourtMonitorBackend.Services{
                 public string RealName { get; set; }
         }
         public class ProgramUsers{
-            public List<UserData> Admins {get; set;}
-            public List<UserData> Coaches {get; set;}
-            public List<UserData> General {get; set;}
+            public List<UserData>? Admins {get; set;}
+            public List<UserData>? Coaches {get; set;}
+            public List<UserData>? General {get; set;}
         }
         public object GetUsernameByProgram(string ProgramName){
             //create an object, the object will have 3 object arrays in it, Admin, Coach, and General
