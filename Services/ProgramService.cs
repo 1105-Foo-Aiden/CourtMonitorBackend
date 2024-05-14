@@ -163,39 +163,26 @@ namespace CourtMonitorBackend.Services{
         public UserModel GetUserByID(int id){
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
-        public class UserData {
-                public string UserName { get; set; }
-                public string RealName { get; set; }
-        }
-        public class ProgramUsers{
-            public List<UserData>? Admins {get; set;}
-            public List<UserData>? Coaches {get; set;}
-            public List<UserData>? General {get; set;}
-        }
-        public object GetUsernameByProgram(string ProgramName){
+        
+        public Tuple<List<string>, List<string>,List<string>> GetUsernameByProgram(string ProgramName){
             //create an object, the object will have 3 object arrays in it, Admin, Coach, and General
             //for each object in the list, there will be arrays, 
             //in each array, there will be the the UserName and the Real Name 
             //if the section in the Program is Empty, then we'll skip over that section or return nothing
             //Each user will be obtained through GetUesrByID function above user ID parsed from each Program's section under the same name
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
-            ProgramUsers programUsers = new(){
-                Admins = new List<UserData>(),
-                Coaches = new List<UserData>(),
-                General = new List<UserData>(),
-            };
+                List<string> Admins = new();
+                List<string> Coaches = new();
+                List<string> General = new();
 
             if(foundProgram != null){
-                List<(string, string)> Admins = new();
-                List<(string, string)> Coaches = new();
-                List<(string, string)> GenUsers = new();
                 if(!string.IsNullOrEmpty(foundProgram.AdminID)){
                     string[] AdminIds = foundProgram.AdminID.Split(",");
                     foreach(string Id in AdminIds){
                         int ID = int.Parse(Id);
                         UserModel foundUser = GetUserByID(ID);
                         if(foundUser != null){
-                            programUsers.Admins.Add(new UserData{RealName = foundUser.RealName, UserName = foundUser.UserName});
+                            ;
                         }
                     }
                 }
@@ -206,7 +193,18 @@ namespace CourtMonitorBackend.Services{
                         int ID = int.Parse(Id);
                         UserModel foundUser = GetUserByID(ID);
                         if(foundUser != null){
-                            programUsers.Coaches.Add(new UserData{RealName = foundUser.RealName, UserName = foundUser.UserName});
+                            Admins.Add(foundUser.UserName);
+                        }  
+                    }
+                }
+
+                if(!string.IsNullOrEmpty(foundProgram.CoachID)){
+                    string[] CoachIDs = foundProgram.CoachID.Split(",");
+                    foreach(string Id in CoachIDs){
+                        int ID = int.Parse(Id);
+                        UserModel foundUser = GetUserByID(ID);
+                        if(foundUser != null){
+                            Coaches.Add(foundUser.UserName);
                         }
                     }
                 }
@@ -217,12 +215,12 @@ namespace CourtMonitorBackend.Services{
                         int ID = int.Parse(Id);
                         UserModel foundUser = GetUserByID(ID);
                         if(foundUser != null){
-                            programUsers.General.Add(new UserData{RealName = foundUser.RealName, UserName = foundUser.UserName});
+                            General.Add(foundUser.UserName);
                         }
                     }
                 }
             }
-            return programUsers;
+            return new Tuple<List<string>, List<string>,List<string>>(Admins, Coaches, General);
         }
 
         // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
