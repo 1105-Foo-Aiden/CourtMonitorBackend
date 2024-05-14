@@ -170,9 +170,10 @@ namespace CourtMonitorBackend.Services{
             List<string> Coaches = new();
             List<string> General = new();
             if(foundProgram != null){
-                if(!string.IsNullOrEmpty(foundProgram.CoachID)){
-                    string[] CoachIDs = foundProgram.CoachID.Split(",");
-                    foreach(string Id in CoachIDs){
+
+                if(!string.IsNullOrEmpty(foundProgram.AdminID)){
+                    string[] AdminIds = foundProgram.AdminID.Split(",");
+                    foreach(string Id in AdminIds){
                         int ID = int.Parse(Id);
                         UserModel foundUser = GetUserByID(ID);
                         if(foundUser != null){
@@ -202,11 +203,10 @@ namespace CourtMonitorBackend.Services{
                         }
                     }
                 }
-                
+
             }
             return new Tuple<List<string>, List<string>, List<string>>(Admins, Coaches, General);
         }
-    }
 
         // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
         //     //Validate Program's existance through Getting the program by ID
@@ -275,4 +275,5 @@ namespace CourtMonitorBackend.Services{
             // else{
             //     return "This Program Doesn't exist, please try again.";
             // }
+    }
 }
