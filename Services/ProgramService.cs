@@ -164,11 +164,11 @@ namespace CourtMonitorBackend.Services{
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
         
-        public Tuple<List<string>, List<string>,List<string>> GetUsernameByProgram(string ProgramName){
+        public Tuple<List<string>, List<string>, List<string>> GetUsernameByProgram(string ProgramName){
+            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
             List<string> Admins = new();
             List<string> Coaches = new();
             List<string> General = new();
-            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
             if(foundProgram != null){
                 if(!string.IsNullOrEmpty(foundProgram.CoachID)){
                     string[] CoachIDs = foundProgram.CoachID.Split(",");
@@ -202,6 +202,7 @@ namespace CourtMonitorBackend.Services{
                         }
                     }
                 }
+                
             }
             return new Tuple<List<string>, List<string>, List<string>>(Admins, Coaches, General);
         }
