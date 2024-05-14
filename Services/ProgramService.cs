@@ -161,13 +161,9 @@ namespace CourtMonitorBackend.Services{
                 return ex.Message;
             }
         }
-        public bool GetUserById(int Id){
-            return _context.UserInfo.SingleOrDefault(User => User.ID == Id) != null;
-        }
         public UserModel GetUserNameByID(int id){
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
-
         public Tuple<List<string>, List<string>, List<string>> GetUsernameByProgram(string ProgramName){
                 ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
                 List<string> GenUsers = new();
@@ -181,10 +177,10 @@ namespace CourtMonitorBackend.Services{
                         foreach(string ID in GenUserStringIDs){
                                 if(!string.IsNullOrEmpty(ID)){
                                     int userID = int.Parse(ID);
-                                UserModel foundUser = GetUserNameByID(userID);
-                                if(foundUser != null){
-                                    GenUsers.Add(foundUser.UserName);
-                                }
+                                    UserModel foundUser = GetUserNameByID(userID);
+                                    if(foundUser != null){
+                                        GenUsers.Add(foundUser.UserName);
+                                    }
                             }
                         }
                     }
