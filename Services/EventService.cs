@@ -32,7 +32,8 @@ namespace CourtMonitorBackend.Services
                 Start = newEvent.Start,
                 End = newEvent.End,
                 Color = newEvent.Color,
-                ProgramID = newEvent.ProgramID
+                ProgramID = newEvent.ProgramID,
+                AllDay = newEvent.AllDay
             };
             _context.Add(Event);
             _context.SaveChanges();
