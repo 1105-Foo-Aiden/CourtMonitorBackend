@@ -170,25 +170,28 @@ namespace CourtMonitorBackend.Services{
             List<string> Coaches = new();
             List<string> General = new();
             if(foundProgram != null){
-
                 if(!string.IsNullOrEmpty(foundProgram.AdminID)){
                     string[] AdminIds = foundProgram.AdminID.Split(",");
                     foreach(string Id in AdminIds){
-                        int ID = int.Parse(Id);
-                        UserModel foundUser = GetUserByID(ID);
-                        if(foundUser != null){
-                            Admins.Add(foundUser.UserName);
-                        }  
+                        if(!string.IsNullOrEmpty(Id)){
+                            int ID = int.Parse(Id);
+                            UserModel foundUser = GetUserByID(ID);
+                            if(foundUser != null){
+                                Admins.Add(foundUser.UserName);
+                            }  
+                        }
                     }
                 }
 
                 if(!string.IsNullOrEmpty(foundProgram.CoachID)){
                     string[] CoachIDs = foundProgram.CoachID.Split(",");
                     foreach(string Id in CoachIDs){
-                        int ID = int.Parse(Id);
-                        UserModel foundUser = GetUserByID(ID);
-                        if(foundUser != null){
-                            Coaches.Add(foundUser.UserName);
+                        if(!string.IsNullOrEmpty(Id)){
+                            int ID = int.Parse(Id);
+                            UserModel foundUser = GetUserByID(ID);
+                            if(foundUser != null){
+                                Coaches.Add(foundUser.UserName);
+                            }
                         }
                     }
                 }
@@ -196,11 +199,14 @@ namespace CourtMonitorBackend.Services{
                 if(!string.IsNullOrEmpty(foundProgram.GenUserID)){
                     string[] GenUserIDs = foundProgram.GenUserID.Split(",");
                     foreach(string Id in GenUserIDs){
-                        int ID = int.Parse(Id);
-                        UserModel foundUser = GetUserByID(ID);
-                        if(foundUser != null){
-                            General.Add(foundUser.UserName);
+                        if(!string.IsNullOrEmpty(Id)){
+                            int ID = int.Parse(Id);
+                            UserModel foundUser = GetUserByID(ID);
+                            if(foundUser != null){
+                                General.Add(foundUser.UserName);
+                            }
                         }
+                        
                     }
                 }
 
