@@ -85,7 +85,6 @@ namespace CourtMonitorBackend.Services{
                 _context.Remove(foundProgram);
                 result = _context.SaveChanges() != 0;
             }
-
             return result;
         }
         public IEnumerable<ProgramModel> GetProgramsBySport(string sport){
@@ -164,55 +163,57 @@ namespace CourtMonitorBackend.Services{
         public UserModel GetUserNameByID(int id){
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
-        public Tuple<List<string>, List<string>, List<string>> GetUsernameByProgram(string ProgramName){
-                ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
-                List<string> GenUsers = new();
-                List<string> CoachUsers = new();
-                List<string> AdminUsers = new();
-                if(foundProgram != null){
-                    //for each Status, change the String value to an integer, then get Username by ID
-                    //add to a list, repeat for each
-                    if(!string.IsNullOrEmpty(foundProgram.GenUserID)){
-                        string[] GenUserStringIDs = foundProgram.GenUserID.Split(",");
-                        foreach(string ID in GenUserStringIDs){
-                                if(!string.IsNullOrEmpty(ID)){
-                                    int userID = int.Parse(ID);
-                                    UserModel foundUser = GetUserNameByID(userID);
-                                if(foundUser != null){
-                                    GenUsers.Add(foundUser.UserName);
-                                }
+        public Tuple<List<(string, string)>, List<(string, string)>, List<(string, string)>> GetUsernameByProgram(string ProgramName){
+            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
+            List<(string, string)> GenUsers = new();
+            List<(string, string)> CoachUsers = new();
+            List<(string, string)> AdminUsers = new();
+            if(foundProgram != null){
+                //for each Status, change the String value to an integer, then get Username by ID
+                //add to a list, repeat for each
+                if(!string.IsNullOrEmpty(foundProgram.GenUserID)){
+                    string[] GenUserStringIDs = foundProgram.GenUserID.Split(",");
+                    foreach(string ID in GenUserStringIDs){
+                            if(!string.IsNullOrEmpty(ID)){
+                                int userID = int.Parse(ID);
+                                UserModel foundUser = GetUserNameByID(userID);
+                            if(foundUser != null){
+                                (string, string) t1 = (foundUser.RealName, foundUser.UserName);
+                                GenUsers.Add(t1);
                             }
                         }
                     }
+                }
 
-                    if(!string.IsNullOrEmpty(foundProgram.CoachID)){
+                if(!string.IsNullOrEmpty(foundProgram.CoachID)){
                     string[] CoachuserStringIDs = foundProgram.CoachID.Split(",");
                     foreach(string ID in CoachuserStringIDs){
                         if(!string.IsNullOrEmpty(ID)){
                             int userID = int.Parse(ID);
                             UserModel foundCoachUser = GetUserNameByID(userID);
                             if(foundCoachUser !=null){
-                                CoachUsers.Add(foundCoachUser.UserName);
+                                (string, string) t2 = (foundCoachUser.UserName, foundCoachUser.RealName);
+                                CoachUsers.Add(t2);
                             }
                         }
                     }
                 }
 
-                    if(!string.IsNullOrEmpty(foundProgram.AdminID)){
-                        string[] AdminUserStringIDs = foundProgram.AdminID.Split(",");
-                        foreach(string ID in AdminUserStringIDs){
-                            if(!string.IsNullOrEmpty(ID)){
-                                int userID = int.Parse(ID);
-                                UserModel foundAdminUser = GetUserNameByID(userID);
-                                if(foundAdminUser != null){
-                                    AdminUsers.Add(foundAdminUser.UserName);
-                                }
+                if(!string.IsNullOrEmpty(foundProgram.AdminID)){
+                    string[] AdminUserStringIDs = foundProgram.AdminID.Split(",");
+                    foreach(string ID in AdminUserStringIDs){
+                        if(!string.IsNullOrEmpty(ID)){
+                            int userID = int.Parse(ID);
+                            UserModel foundAdminUser = GetUserNameByID(userID);
+                            if(foundAdminUser != null){
+                                (string, string) t3 = (foundAdminUser.UserName, foundAdminUser.RealName);
+                                AdminUsers.Add(t3);
                             }
-                            
+                        }
                     }
                 }
             }
-                return new Tuple<List<string>, List<string>, List<string>>(AdminUsers, CoachUsers, GenUsers);
+            return new Tuple<List<(string, string)>, List<(string, string)>, List<(string, string)>>(AdminUsers, CoachUsers, GenUsers);
         }
 
         // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
