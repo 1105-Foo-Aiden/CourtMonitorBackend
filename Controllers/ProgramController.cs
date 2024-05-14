@@ -3,6 +3,7 @@ using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace CourtMonitorBackend.Controllers{
     [ApiController]
     [Route("[controller]")]
@@ -11,7 +12,6 @@ namespace CourtMonitorBackend.Controllers{
         public ProgramController(ProgramService model){
             _model = model;
         }
-
         [HttpGet]
         [Route("GetAdminById/{id}")]
         public UserModel GetAdminById(int id){
@@ -20,7 +20,7 @@ namespace CourtMonitorBackend.Controllers{
 
         [HttpGet]
         [Route("GetUsersByProgramName/{ProgramName}")]
-        public Tuple<List<string[]>, List<string[]>, List<string[]>> GetUsersByProgramName(string ProgramName){
+        public Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>> GetUsersByProgramName(string ProgramName){
             return _model.GetUsernameByProgram(ProgramName);
         }
 
