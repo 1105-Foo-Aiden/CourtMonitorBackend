@@ -161,7 +161,7 @@ namespace CourtMonitorBackend.Services{
         public UserModel GetUserByID(int id){
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
-        public (List<ProgramUserDTO> Admins, List<ProgramUserDTO> Coaches, List<ProgramUserDTO> GenUsers) GetUsernameByProgram(string ProgramName){
+        public Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>> GetUsernameByProgram(string ProgramName){
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
             List<ProgramUserDTO> Admins = new();
             List<ProgramUserDTO> Coaches = new();
@@ -175,6 +175,7 @@ namespace CourtMonitorBackend.Services{
                             UserModel foundUser = GetUserByID(ID);
                             if(foundUser != null){
                                 ProgramUserDTO user1 = new(){
+                                    Status = "Admin",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
                                 };
@@ -192,6 +193,7 @@ namespace CourtMonitorBackend.Services{
                             UserModel foundUser = GetUserByID(ID);
                             if(foundUser != null){
                                 ProgramUserDTO user1 = new(){
+                                    Status = "Coaches",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
                                 };
@@ -209,6 +211,7 @@ namespace CourtMonitorBackend.Services{
                             UserModel foundUser = GetUserByID(ID);
                             if(foundUser != null){
                                 ProgramUserDTO user1 = new(){
+                                    Status = "General Users",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
                                 };
@@ -219,7 +222,7 @@ namespace CourtMonitorBackend.Services{
                 }
 
             }
-            return (Admins: Admins, Coaches: Coaches, GenUsers: General);
+            return new Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>>(Admins, Coaches, General);
             
         }
 
