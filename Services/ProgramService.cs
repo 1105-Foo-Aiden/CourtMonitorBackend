@@ -175,7 +175,6 @@ namespace CourtMonitorBackend.Services{
                             UserModel foundUser = GetUserByID(ID);
                             if(foundUser != null){
                                 ProgramUserDTO user1 = new(){
-                                    Status = "Admin",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
                                 };
@@ -193,7 +192,6 @@ namespace CourtMonitorBackend.Services{
                             UserModel foundUser = GetUserByID(ID);
                             if(foundUser != null){
                                 ProgramUserDTO user1 = new(){
-                                    Status = "Coaches",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
                                 };
@@ -211,7 +209,6 @@ namespace CourtMonitorBackend.Services{
                             UserModel foundUser = GetUserByID(ID);
                             if(foundUser != null){
                                 ProgramUserDTO user1 = new(){
-                                    Status = "General Users",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
                                 };
