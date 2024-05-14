@@ -160,14 +160,70 @@ namespace CourtMonitorBackend.Services{
                 return ex.Message;
             }
         }
-        public UserModel GetUserNameByID(int id){
+        public UserModel GetUserByID(int id){
             return _context.UserInfo.SingleOrDefault(u => u.ID == id);
         }
-        // public object GetUsernameByProgram(string ProgramName){
-        //     ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
-        //     //list of objects that have 2 data points, Username and RealName
-        //     return new object Users;
-        // }
+        public class UserData {
+                public string UserName { get; set; }
+                public string RealName { get; set; }
+        }
+        public class ProgramUsers{
+            public List<UserData> Admins {get; set;}
+            public List<UserData> Coaches {get; set;}
+            public List<UserData> General {get; set;}
+        }
+        public object GetUsernameByProgram(string ProgramName){
+            //create an object, the object will have 3 object arrays in it, Admin, Coach, and General
+            //for each object in the list, there will be arrays, 
+            //in each array, there will be the the UserName and the Real Name 
+            //if the section in the Program is Empty, then we'll skip over that section or return nothing
+            //Each user will be obtained through GetUesrByID function above user ID parsed from each Program's section under the same name
+            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
+            ProgramUsers programUsers = new(){
+                Admins = new List<UserData>(),
+                Coaches = new List<UserData>(),
+                General = new List<UserData>(),
+            };
+
+            if(foundProgram != null){
+                List<(string, string)> Admins = new();
+                List<(string, string)> Coaches = new();
+                List<(string, string)> GenUsers = new();
+                if(!string.IsNullOrEmpty(foundProgram.AdminID)){
+                    string[] AdminIds = foundProgram.AdminID.Split(",");
+                    foreach(string Id in AdminIds){
+                        int ID = int.Parse(Id);
+                        UserModel foundUser = GetUserByID(ID);
+                        if(foundUser != null){
+                            programUsers.Admins.Add(new UserData{RealName = foundUser.RealName, UserName = foundUser.UserName});
+                        }
+                    }
+                }
+
+                if(!string.IsNullOrEmpty(foundProgram.CoachID)){
+                    string[] CoachIDs = foundProgram.CoachID.Split(",");
+                    foreach(string Id in CoachIDs){
+                        int ID = int.Parse(Id);
+                        UserModel foundUser = GetUserByID(ID);
+                        if(foundUser != null){
+                            programUsers.Coaches.Add(new UserData{RealName = foundUser.RealName, UserName = foundUser.UserName});
+                        }
+                    }
+                }
+
+                if(!string.IsNullOrEmpty(foundProgram.GenUserID)){
+                    string[] GenUserIDs = foundProgram.GenUserID.Split(",");
+                    foreach(string Id in GenUserIDs){
+                        int ID = int.Parse(Id);
+                        UserModel foundUser = GetUserByID(ID);
+                        if(foundUser != null){
+                            programUsers.General.Add(new UserData{RealName = foundUser.RealName, UserName = foundUser.UserName});
+                        }
+                    }
+                }
+            }
+            return programUsers;
+        }
 
         // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
         //     //Validate Program's existance through Getting the program by ID
