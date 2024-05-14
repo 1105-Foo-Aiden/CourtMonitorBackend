@@ -20,7 +20,7 @@ namespace CourtMonitorBackend.Controllers{
 
         [HttpGet]
         [Route("GetUsersByProgramName/{ProgramName}")]
-        public Tuple<List<string>, List<string>,List<string>> GetUsersByProgramName(string ProgramName){
+        public Tuple<List<string>, List<string>, List<string>> GetUsersByProgramName(string ProgramName){
             return _model.GetUsernameByProgram(ProgramName);
         }
 

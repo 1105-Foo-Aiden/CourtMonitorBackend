@@ -165,28 +165,11 @@ namespace CourtMonitorBackend.Services{
         }
         
         public Tuple<List<string>, List<string>,List<string>> GetUsernameByProgram(string ProgramName){
-            //create an object, the object will have 3 object arrays in it, Admin, Coach, and General
-            //for each object in the list, there will be arrays, 
-            //in each array, there will be the the UserName and the Real Name 
-            //if the section in the Program is Empty, then we'll skip over that section or return nothing
-            //Each user will be obtained through GetUesrByID function above user ID parsed from each Program's section under the same name
+            List<string> Admins = new();
+            List<string> Coaches = new();
+            List<string> General = new();
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
-                List<string> Admins = new();
-                List<string> Coaches = new();
-                List<string> General = new();
-
             if(foundProgram != null){
-                if(!string.IsNullOrEmpty(foundProgram.AdminID)){
-                    string[] AdminIds = foundProgram.AdminID.Split(",");
-                    foreach(string Id in AdminIds){
-                        int ID = int.Parse(Id);
-                        UserModel foundUser = GetUserByID(ID);
-                        if(foundUser != null){
-                            ;
-                        }
-                    }
-                }
-
                 if(!string.IsNullOrEmpty(foundProgram.CoachID)){
                     string[] CoachIDs = foundProgram.CoachID.Split(",");
                     foreach(string Id in CoachIDs){
@@ -220,8 +203,9 @@ namespace CourtMonitorBackend.Services{
                     }
                 }
             }
-            return new Tuple<List<string>, List<string>,List<string>>(Admins, Coaches, General);
+            return new Tuple<List<string>, List<string>, List<string>>(Admins, Coaches, General);
         }
+    }
 
         // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
         //     //Validate Program's existance through Getting the program by ID
@@ -290,5 +274,4 @@ namespace CourtMonitorBackend.Services{
             // else{
             //     return "This Program Doesn't exist, please try again.";
             // }
-    }
 }
