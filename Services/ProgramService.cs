@@ -100,8 +100,12 @@ namespace CourtMonitorBackend.Services{
             //Then I add the Program Name to the User's Progam Point, will use the same logic as before
             try{
                 ProgramModel program = _context.ProgramInfo.SingleOrDefault(p => p.ProgramID == newProgramUser.ProgramID);
+                UserModel userToAdd = _context.UserInfo.SingleOrDefault(u => u.ID == newProgramUser.UserId);
                 if(program == null){
                     return "Program Not Found, Try again";
+                }
+                if(userToAdd == null){
+                    return "Cannot find user to add";
                 }
                 switch(newProgramUser.Status.ToLower()){
                     case "genuser":
@@ -111,6 +115,11 @@ namespace CourtMonitorBackend.Services{
                     else{
                         program.GenUserID += newProgramUser.UserId.ToString() + ",";
                     }
+                    GenUserModel genUser = new(){
+                        ProgramID = newProgramUser.ProgramID,
+                        UserID = newProgramUser.UserId,
+                    };
+                    _context.GenUserInfo.Add(genUser);
                     break;
                     case "general":
                     if(string.IsNullOrEmpty(program.GenUserID)){
@@ -119,6 +128,11 @@ namespace CourtMonitorBackend.Services{
                     else{
                         program.GenUserID += newProgramUser.UserId.ToString() + ",";
                     }
+                    GenUserModel generalUser = new(){
+                        ProgramID = newProgramUser.ProgramID,
+                        UserID = newProgramUser.UserId,
+                    };
+                    _context.GenUserInfo.Add(generalUser);
                     break;
                     case "coach":
                     if(string.IsNullOrEmpty(program.CoachID)){
@@ -127,6 +141,12 @@ namespace CourtMonitorBackend.Services{
                     else{
                         program.CoachID += newProgramUser.UserId.ToString() + ",";
                     }
+                    CoachModel coach = new(){
+                        ProgramID = newProgramUser.ProgramID,
+                        UserID = newProgramUser.UserId
+                    };
+                    _context.CoachInfo.Add(coach);
+
                     break;
                     case "admin":
                     if(string.IsNullOrEmpty(program.AdminID)){
@@ -135,16 +155,18 @@ namespace CourtMonitorBackend.Services{
                     else{
                         program.AdminID += newProgramUser.UserId.ToString() + ",";
                     }
+                    AdminModel admin = new(){
+                        UserID = newProgramUser.UserId,
+                        ProgramID = newProgramUser.ProgramID
+                    };
+                    _context.AdminInfo.Add(admin);
                     break;
                     default:
                     return "Invalid Status";
                 }
                 _context.ProgramInfo.Update(program);
                 _context.SaveChanges();
-                UserModel userToAdd = _context.UserInfo.SingleOrDefault(u => u.ID == newProgramUser.UserId);
-                if(userToAdd == null){
-                    return "Cannot find user to add";
-                }
+                
                 if(string.IsNullOrEmpty(userToAdd.Programs)){
                     userToAdd.Programs = program.ProgramName;
                 }
@@ -293,5 +315,51 @@ namespace CourtMonitorBackend.Services{
             // else{
             //     return "This Program Doesn't exist, please try again.";
             // }
+
+
+        public string RemoveUserFromProgram(string ProgramName, int UserID){
+            ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
+            if(foundProgram != null){
+                UserModel foundUser = _context.UserInfo.SingleOrDefault(u => u.ID == UserID);
+                if(foundUser == null){
+                    return "User Not Found";
+                }else{
+                    //find the user's id in any of the Status' and remove from "Array". join Array back with ", "
+                    string[] AdminIds = foundProgram.AdminID.Split(",");
+                    string[] CoachIds = foundProgram.CoachID.Split(",");
+                    string[] GenUserIds = foundProgram.GenUserID.Split(",");
+
+                    if(AdminIds.Contains(foundUser.ID.ToString())){
+                        AdminModel adminModel = _context.AdminInfo.SingleOrDefault(a => a.UserID == foundUser.ID);
+                        _context.AdminInfo.Remove(adminModel);
+                        AdminIds = AdminIds.Where(a => a != foundUser.ID.ToString()).ToArray();
+                        foundProgram.AdminID = string.Join(",", AdminIds);
+                    }
+                    if(CoachIds.Contains(foundUser.ID.ToString())){
+                        CoachModel coachModel = _context.CoachInfo.SingleOrDefault(c => c.UserID == foundUser.ID);
+                        _context.CoachInfo.Remove(coachModel);
+                        CoachIds = CoachIds.Where(c => c != foundUser.ID.ToString()).ToArray();
+                        foundProgram.CoachID = string.Join(",", CoachIds);
+                    }
+                    if(GenUserIds.Contains(foundUser.ID.ToString())){
+                        GenUserModel genUser = _context.GenUserInfo.SingleOrDefault(g => g.UserID == foundUser.ID);
+                        _context.GenUserInfo.Remove(genUser);
+                        GenUserIds = GenUserIds.Where(g => g != foundUser.ID.ToString()).ToArray();
+                        foundProgram.GenUserID = string.Join(",", GenUserIds);
+                    }
+                    _context.ProgramInfo.Update(foundProgram);
+                    _context.SaveChanges();
+                    return "Sucessfully Removed";
+                    // foreach(string id in AdminIds){
+                    //     int.TryParse(id, out int ID);
+                    //     if(ID == UserID){
+                            
+                    //     }
+                    // }
+                }
+            }else{
+                return "Program Not Found";
+            }
+        }
     }
 }

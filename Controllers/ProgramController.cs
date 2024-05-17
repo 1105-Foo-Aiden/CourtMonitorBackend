@@ -75,5 +75,10 @@ namespace CourtMonitorBackend.Controllers{
         public bool DeleteProgram(string program){
             return _model.DeleteProgram(program);
         }
+        [HttpDelete]
+        [Route("RemoveUserFromProgram/{ProgramName}/{UserId}")]
+        public string RemoveUserFromProgram(string ProgramName, int UserId){
+            return _model.RemoveUserFromProgram(ProgramName, UserId);
+        }
     }
 }
