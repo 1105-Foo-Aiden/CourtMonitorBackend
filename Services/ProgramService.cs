@@ -168,7 +168,7 @@ namespace CourtMonitorBackend.Services{
                 _context.SaveChanges();
                 
                 if(string.IsNullOrEmpty(userToAdd.Programs)){
-                    userToAdd.Programs = program.ProgramName;
+                    userToAdd.Programs = program.ProgramName + ",";
                 }
                 else{
                     userToAdd.Programs += program.ProgramName + ",";
@@ -331,19 +331,25 @@ namespace CourtMonitorBackend.Services{
 
                     if(AdminIds.Contains(foundUser.ID.ToString())){
                         AdminModel adminModel = _context.AdminInfo.SingleOrDefault(a => a.UserID == foundUser.ID);
-                        _context.AdminInfo.Remove(adminModel);
+                        if(adminModel != null){
+                            _context.AdminInfo.Remove(adminModel);
+                        }
                         AdminIds = AdminIds.Where(a => a != foundUser.ID.ToString()).ToArray();
                         foundProgram.AdminID = string.Join(",", AdminIds);
                     }
                     if(CoachIds.Contains(foundUser.ID.ToString())){
                         CoachModel coachModel = _context.CoachInfo.SingleOrDefault(c => c.UserID == foundUser.ID);
-                        _context.CoachInfo.Remove(coachModel);
+                        if(coachModel != null){
+                            _context.CoachInfo.Remove(coachModel);
+                        }
                         CoachIds = CoachIds.Where(c => c != foundUser.ID.ToString()).ToArray();
                         foundProgram.CoachID = string.Join(",", CoachIds);
                     }
                     if(GenUserIds.Contains(foundUser.ID.ToString())){
                         GenUserModel genUser = _context.GenUserInfo.SingleOrDefault(g => g.UserID == foundUser.ID);
-                        _context.GenUserInfo.Remove(genUser);
+                        if(genUser != null){
+                            _context.GenUserInfo.Remove(genUser);
+                        }
                         GenUserIds = GenUserIds.Where(g => g != foundUser.ID.ToString()).ToArray();
                         foundProgram.GenUserID = string.Join(",", GenUserIds);
                     }
