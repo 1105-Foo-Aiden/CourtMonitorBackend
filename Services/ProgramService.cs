@@ -77,10 +77,21 @@ namespace CourtMonitorBackend.Services{
             return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
         }
         
+        public UserModel GetUserByUsername(string Username){
+            return _context.UserInfo.SingleOrDefault(u => u.UserName == Username);
+        }
         public bool DeleteProgram(string program){
             bool result = false;
             var foundProgram = _context.ProgramInfo.SingleOrDefault(ProgramToDelete => ProgramToDelete.ProgramName == program);
             if(foundProgram != null){
+                //get all the users from the found program and remove the name from their Programs list.
+                var AllUsers = GetUsernameByProgram(foundProgram.ProgramName);
+                foreach(var user in AllUsers.Item1){
+                    UserModel foundUser = GetUserByUsername(user.UserName);
+                    if(!string.IsNullOrEmpty(foundUser.Programs)){
+                        string[] Programs = foundUser.Programs.Split(",");
+                    }
+                }
                 _context.Remove(foundProgram);
                 result = _context.SaveChanges() != 0;
             }
@@ -172,7 +183,9 @@ namespace CourtMonitorBackend.Services{
                     userToAdd.Programs = program.ProgramName + ",";
                 }
                 else{
-                    userToAdd.Programs += program.ProgramName + ",";
+                    if(!userToAdd.Programs.Split(",").Contains(program.ProgramName)){
+                        userToAdd.Programs += program.ProgramName + ",";
+                    }
                 }
                 _context.UserInfo.Update(userToAdd);
                 _context.SaveChanges();
@@ -246,7 +259,6 @@ namespace CourtMonitorBackend.Services{
 
             }
             return new Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>>(Admins, Coaches, General);
-            
         }
 
         // public IEnumerable<UserModel> GetUsersByProgramId(int ID){
@@ -332,6 +344,10 @@ namespace CourtMonitorBackend.Services{
                             foundProgram.GenUserID = string.Join(",", GenUserIds);
                             GenUserModel genUser = _context.GenUserInfo.SingleOrDefault(g => g.UserID == foundUser.ID);
                             if(genUser != null){
+                                UserModel RemovedUser = _context.UserInfo.SingleOrDefault(u => u.ID == foundUser.ID);
+                                string[] Programs = RemovedUser.Programs.Split(",");
+                                Programs = Programs.Where(p => p != foundProgram.ProgramName).ToArray();
+                                RemovedUser.Programs = string.Join(",", Programs);
                                 _context.GenUserInfo.Remove(genUser);
                             }
                         }
@@ -344,6 +360,10 @@ namespace CourtMonitorBackend.Services{
                             foundProgram.CoachID = string.Join(",", CoachIds);
                             CoachModel coach = _context.CoachInfo.SingleOrDefault(c => c.UserID == foundUser.ID);
                             if(coach != null){
+                                UserModel RemovedUser = _context.UserInfo.SingleOrDefault(u => u.ID == foundUser.ID);
+                                string[] Programs = RemovedUser.Programs.Split(",");
+                                Programs = Programs.Where(p => p != foundProgram.ProgramName).ToArray();
+                                RemovedUser.Programs = string.Join(",", Programs);
                                 _context.CoachInfo.Remove(coach);   
                             }
                         }
@@ -352,6 +372,10 @@ namespace CourtMonitorBackend.Services{
                     if(AdminIds.Contains(foundUser.ID.ToString())){
                         AdminModel adminModel = _context.AdminInfo.SingleOrDefault(a => a.UserID == foundUser.ID);
                         if(adminModel != null){
+                            UserModel RemovedUser = _context.UserInfo.SingleOrDefault(u => u.ID == foundUser.ID);
+                            string[] Programs = RemovedUser.Programs.Split(",");
+                            Programs = Programs.Where(p => p != foundProgram.ProgramName).ToArray();
+                            RemovedUser.Programs = string.Join(",", Programs);
                             _context.AdminInfo.Remove(adminModel);
                         }
                         AdminIds = AdminIds.Where(a => a != foundUser.ID.ToString()).ToArray();
