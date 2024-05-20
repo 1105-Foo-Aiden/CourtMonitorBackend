@@ -69,12 +69,18 @@ namespace CourtMonitorBackend.Controllers{
                 return ex.Message;
             }
         }
+        [HttpPost]
+        [Route("MoveUserToAnotherStatus")]
+        public string MoveUserInProgram(AddUserToProgramDTO UserToMove){
+            return _model.MoveUserInProgram(UserToMove);
+        }
 
         [HttpDelete]
         [Route("DeleteProgram/{program}")]
         public bool DeleteProgram(string program){
             return _model.DeleteProgram(program);
         }
+
         [HttpDelete]
         [Route("RemoveUserFromProgram/{ProgramName}/{UserId}")]
         public string RemoveUserFromProgram(string ProgramName, int UserId){

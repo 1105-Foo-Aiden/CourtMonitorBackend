@@ -26,7 +26,7 @@ namespace CourtMonitorBackend.Services{
                     ProgramName = NewProgram.ProgramName,
                     ProgramSport = NewProgram.ProgramSport,
                     Description = NewProgram.Description,
-                    AdminID = NewProgram.AdminID,
+                    AdminID = NewProgram.AdminID
                 };
                 if(DoesProgramExist(NewProgram.ProgramName)){
                     return "Program already exists";
@@ -121,10 +121,13 @@ namespace CourtMonitorBackend.Services{
                 switch(newProgramUser.Status.ToLower()){
                     case "genuser":
                     if(string.IsNullOrEmpty(program.GenUserID)){
+                        
                         program.GenUserID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
-                        program.GenUserID += newProgramUser.UserId.ToString() + ",";
+                        if(!program.GenUserID.Split(",").Contains(newProgramUser.UserId.ToString())){
+                            program.GenUserID += newProgramUser.UserId.ToString() + ",";
+                        }else{return"User is already in this Category";}
                     }
                     GenUserModel genUser = new(){
                         ProgramID = newProgramUser.ProgramID,
@@ -137,7 +140,9 @@ namespace CourtMonitorBackend.Services{
                         program.GenUserID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
-                        program.GenUserID += newProgramUser.UserId.ToString() + ",";
+                        if(!program.GenUserID.Split(",").Contains(newProgramUser.UserId.ToString())){
+                            program.GenUserID += newProgramUser.UserId.ToString() + ",";
+                        }else{return"User is already in this Category";}
                     }
                     GenUserModel generalUser = new(){
                         ProgramID = newProgramUser.ProgramID,
@@ -150,6 +155,9 @@ namespace CourtMonitorBackend.Services{
                         program.CoachID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
+                        if(program.CoachID.Split(",").Contains(newProgramUser.UserId.ToString())){
+                            return "User is already in this category";
+                        }
                         program.CoachID += newProgramUser.UserId.ToString() + ",";
                     }
                     CoachModel coach = new(){
@@ -164,6 +172,9 @@ namespace CourtMonitorBackend.Services{
                         program.AdminID = newProgramUser.UserId.ToString() + ",";
                     }
                     else{
+                        if(program.AdminID.Split(",").Contains(newProgramUser.UserId.ToString())){
+                            return "User is already in this Category";
+                        }
                         program.AdminID += newProgramUser.UserId.ToString() + ",";
                     }
                     AdminModel admin = new(){
@@ -393,12 +404,23 @@ namespace CourtMonitorBackend.Services{
                     _context.SaveChanges();
                     return "Sucessfully Removed";
                 }
-                else{
-                    return "User Not Found";
+                else{return "User Not Found";}
+            }else{return "Program Not Found";}
+        }
+        public string MoveUserInProgram(AddUserToProgramDTO UserToMove){
+            var foundUser = _context.UserInfo.SingleOrDefault(u => u.ID == UserToMove.UserId);
+            if(foundUser != null){
+                var foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramID == UserToMove.ProgramID);
+                if(foundProgram != null){
+                    RemoveUserFromProgram(foundProgram.ProgramName, UserToMove.UserId);
+                    AddUserToProgram(UserToMove);
+                    
                 }
-            }else{
-                return "Program Not Found";
+                else{return "Program Not found";}
             }
+            else{return "User Not Found";}
+            _context.SaveChanges();
+            return "Success";
         }
     }
 }
