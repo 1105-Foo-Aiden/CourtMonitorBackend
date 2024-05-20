@@ -1,6 +1,7 @@
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
+using Microsoft.AspNetCore.SignalR.Protocol;
 
 namespace CourtMonitorBackend.Services{
     public class ProgramService{
@@ -37,7 +38,7 @@ namespace CourtMonitorBackend.Services{
                 UserModel User = _context.UserInfo.SingleOrDefault(u => u.ID == AdminIdNumber);
                 if(User !=null){
                     if(string.IsNullOrEmpty(User.Programs)){
-                        User.Programs = NewProgram.ProgramName;
+                        User.Programs = NewProgram.ProgramName + ",";
                     }
                     else{
                         User.Programs += "," + NewProgram.ProgramName;
@@ -321,13 +322,32 @@ namespace CourtMonitorBackend.Services{
             ProgramModel foundProgram = _context.ProgramInfo.SingleOrDefault(p => p.ProgramName == ProgramName);
             if(foundProgram != null){
                 UserModel foundUser = _context.UserInfo.SingleOrDefault(u => u.ID == UserID);
-                if(foundUser == null){
-                    return "User Not Found";
-                }else{
+                if(foundUser != null){
                     //find the user's id in any of the Status' and remove from "Array". join Array back with ", "
                     string[] AdminIds = foundProgram.AdminID.Split(",");
-                    string[] CoachIds = foundProgram.CoachID.Split(",");
-                    string[] GenUserIds = foundProgram.GenUserID.Split(",");
+                    if(!string.IsNullOrEmpty(foundProgram.GenUserID)){
+                        string[] GenUserIds = foundProgram.GenUserID.Split(",");
+                        if(GenUserIds.Contains(UserID.ToString())){
+                            GenUserIds = GenUserIds.Where(g => g != foundUser.ID.ToString()).ToArray();
+                            foundProgram.GenUserID = string.Join(",", GenUserIds);
+                            GenUserModel genUser = _context.GenUserInfo.SingleOrDefault(g => g.UserID == foundUser.ID);
+                            if(genUser != null){
+                                _context.GenUserInfo.Remove(genUser);
+                            }
+                        }
+                    }
+
+                    if(!string.IsNullOrEmpty(foundProgram.CoachID)){
+                        string[] CoachIds = foundProgram.CoachID.Split(",");
+                        if(CoachIds.Contains(foundUser.ID.ToString())){
+                            CoachIds = CoachIds.Where(c => c != foundUser.ID.ToString()).ToArray();
+                            foundProgram.CoachID = string.Join(",", CoachIds);
+                            CoachModel coach = _context.CoachInfo.SingleOrDefault(c => c.UserID == foundUser.ID);
+                            if(coach != null){
+                                _context.CoachInfo.Remove(coach);   
+                            }
+                        }
+                    }
 
                     if(AdminIds.Contains(foundUser.ID.ToString())){
                         AdminModel adminModel = _context.AdminInfo.SingleOrDefault(a => a.UserID == foundUser.ID);
@@ -337,31 +357,21 @@ namespace CourtMonitorBackend.Services{
                         AdminIds = AdminIds.Where(a => a != foundUser.ID.ToString()).ToArray();
                         foundProgram.AdminID = string.Join(",", AdminIds);
                     }
-                    if(CoachIds.Contains(foundUser.ID.ToString())){
-                        CoachModel coachModel = _context.CoachInfo.SingleOrDefault(c => c.UserID == foundUser.ID);
-                        if(coachModel != null){
-                            _context.CoachInfo.Remove(coachModel);
-                        }
-                        CoachIds = CoachIds.Where(c => c != foundUser.ID.ToString()).ToArray();
-                        foundProgram.CoachID = string.Join(",", CoachIds);
-                    }
-                    if(GenUserIds.Contains(foundUser.ID.ToString())){
-                        GenUserModel genUser = _context.GenUserInfo.SingleOrDefault(g => g.UserID == foundUser.ID);
-                        if(genUser != null){
-                            _context.GenUserInfo.Remove(genUser);
-                        }
-                        GenUserIds = GenUserIds.Where(g => g != foundUser.ID.ToString()).ToArray();
-                        foundProgram.GenUserID = string.Join(",", GenUserIds);
-                    }
+                    
+                    // if(GenUserIds != null && GenUserIds.Contains(foundUser.ID.ToString())){
+                    //     GenUserModel genUser = _context.GenUserInfo.SingleOrDefault(g => g.UserID == foundUser.ID);
+                    //     if(genUser != null){
+                    //         _context.GenUserInfo.Remove(genUser);
+                    //     }
+                    //     GenUserIds = GenUserIds.Where(g => g != foundUser.ID.ToString()).ToArray();
+                    //     foundProgram.GenUserID = string.Join(",", GenUserIds);
+                    // }
                     _context.ProgramInfo.Update(foundProgram);
                     _context.SaveChanges();
                     return "Sucessfully Removed";
-                    // foreach(string id in AdminIds){
-                    //     int.TryParse(id, out int ID);
-                    //     if(ID == UserID){
-                            
-                    //     }
-                    // }
+                }
+                else{
+                    return "User Not Found";
                 }
             }else{
                 return "Program Not Found";
