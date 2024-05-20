@@ -118,7 +118,7 @@ namespace CourtMonitorBackend.Services{
                 foundUser.FunFact = UsertoUpdate.FunFact ?? foundUser.Birthday;
                 foundUser.Email = UsertoUpdate.Email?? foundUser.Email;
                 foundUser.RealName = UsertoUpdate.RealName?? foundUser.RealName;
-                _context.Update<UserModel>(foundUser);
+                _context.Update(foundUser);
                 result = _context.SaveChanges() != 0;
             }
             return result;
@@ -128,7 +128,7 @@ namespace CourtMonitorBackend.Services{
             UserModel foundUser = GetUserByUsername(userToDelete);
             string result = "Not Found";
             if (foundUser != null){
-                _context.Remove<UserModel>(foundUser);
+                _context.Remove(foundUser);
                 _context.SaveChanges();
                 result = "Found";
             }

@@ -1,7 +1,6 @@
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
-using Microsoft.AspNetCore.SignalR.Protocol;
 
 namespace CourtMonitorBackend.Services{
     public class ProgramService{
@@ -41,7 +40,7 @@ namespace CourtMonitorBackend.Services{
                         User.Programs = NewProgram.ProgramName + ",";
                     }
                     else{
-                        User.Programs += "," + NewProgram.ProgramName;
+                        User.Programs +=  NewProgram.ProgramName + ",";
                     }
                     _context.UserInfo.Update(User);
                 }
