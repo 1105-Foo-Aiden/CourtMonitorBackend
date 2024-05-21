@@ -23,11 +23,12 @@ namespace CourtMonitorBackend.Services{
             //Save the database after each step to ensure that each new data point is saved.
             try{
                 ProgramModel ProgramToAdd = new(){
-                    ProgramName = NewProgram.ProgramName,
+                    ProgramName = NewProgram.ProgramName.Trim(),
                     ProgramSport = NewProgram.ProgramSport,
                     Description = NewProgram.Description,
                     AdminID = NewProgram.AdminID + ","
                 };
+                
                 if(DoesProgramExist(NewProgram.ProgramName)){
                     return "Program already exists";
                 }

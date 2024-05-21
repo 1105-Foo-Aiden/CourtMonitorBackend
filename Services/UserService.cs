@@ -168,15 +168,6 @@ namespace CourtMonitorBackend.Services{
             }
             return result;
         }
-        
-        public bool CreateAdminByID(int id){
-            bool result = false;
-            AdminModel? newAdmin = _context.AdminInfo.FirstOrDefault(x => x.UserID == id);
-            if (newAdmin != null){
-                _context.AdminInfo.Add(newAdmin);
-                result = _context.SaveChanges() != 0;
-            }
-            return result;
-        }
+
     }
 }
