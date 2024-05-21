@@ -217,6 +217,7 @@ namespace CourtMonitorBackend.Services{
                                     Status = "Admin",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
+                                    Image = foundUser.Image
                                 };
                                 Admins.Add(user1);
                             }  
@@ -235,6 +236,7 @@ namespace CourtMonitorBackend.Services{
                                     Status = "Coach",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
+                                    Image = foundUser.Image
                                 };
                                 Coaches.Add(user1);
                             }
@@ -253,6 +255,7 @@ namespace CourtMonitorBackend.Services{
                                     Status = "General User",
                                     UserName = foundUser.UserName,
                                     RealName = foundUser.RealName,
+                                    Image = foundUser.Image
                                 };
                                 General.Add(user1);
                             }
