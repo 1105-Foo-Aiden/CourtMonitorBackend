@@ -39,23 +39,6 @@ namespace CourtMonitorBackend.Services
             return _context.SaveChanges() != 0;
         }
 
-        // public async Task<IActionResult> AddProgramToUser(int userId, int ProgramId){
-        //         var existingProgram =  _context.ProgramInfo.FirstOrDefaultAsync(program => program.ProgramID == ProgramId);
-        //         if(existingProgram != null){
-        //             return Conflict("Already Joined this Program");
-        //         }
-
-        //         var UserModel = new UserModel{
-        //             ID = userId,
-        //             Programs = ProgramId.ToString()
-        //         };
-
-        //         _context.UserInfo.Add(UserModel);
-        //         await _context.SaveChangesAsync();
-        //         return Ok("User has been added to Program");
-        //     };
-        // }
-
         public string DeleteEvent(int EventId){
             EventModel foundEvent = GetEventById(EventId);
             if(foundEvent != null){
@@ -71,6 +54,5 @@ namespace CourtMonitorBackend.Services
                 ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramName == ProgramName);
                 return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
         }
-        
     }
 }

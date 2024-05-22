@@ -205,65 +205,40 @@ namespace CourtMonitorBackend.Services{
             List<ProgramUserDTO> Admins = new();
             List<ProgramUserDTO> Coaches = new();
             List<ProgramUserDTO> General = new();
-            if(foundProgram != null){
-                if(!string.IsNullOrEmpty(foundProgram.AdminID)){
-                    string[] AdminIds = foundProgram.AdminID.Split(",");
-                    foreach(string Id in AdminIds){
-                        if(!string.IsNullOrEmpty(Id)){
-                            int ID = int.Parse(Id);
-                            UserModel foundUser = GetUserByID(ID);
-                            if(foundUser != null){
-                                ProgramUserDTO user1 = new(){
-                                    Status = "Admin",
-                                    UserName = foundUser.UserName,
-                                    RealName = foundUser.RealName,
-                                    Image = foundUser.Image
-                                };
-                                Admins.Add(user1);
-                            }  
+            
+            List<ProgramUserDTO> ListCreation(string ProgramStatus, string StatusIds){
+                    List<ProgramUserDTO> Users = new();
+                    string[] strings = StatusIds.Split(",");
+                    foreach(string User in strings){
+                        int.TryParse(User, out int Id);
+                        UserModel foundUser = GetUserByID(Id);
+                        if(foundUser != null){
+                            ProgramUserDTO userDTO = new(){
+                                Status = ProgramStatus,
+                                UserName = foundUser.UserName,
+                                RealName = foundUser.RealName,
+                                Image = foundUser.Image
+                            };
+                            Users.Add(userDTO);
                         }
                     }
+                    return Users;
+                } 
+
+            if(foundProgram != null){
+                if(!string.IsNullOrEmpty(foundProgram.AdminID)){
+                    Admins = ListCreation("Admins", foundProgram.AdminID);
                 }
 
                 if(!string.IsNullOrEmpty(foundProgram.CoachID)){
-                    string[] CoachIDs = foundProgram.CoachID.Split(",");
-                    foreach(string Id in CoachIDs){
-                        if(!string.IsNullOrEmpty(Id)){
-                            int ID = int.Parse(Id);
-                            UserModel foundUser = GetUserByID(ID);
-                            if(foundUser != null){
-                                ProgramUserDTO user1 = new(){
-                                    Status = "Coach",
-                                    UserName = foundUser.UserName,
-                                    RealName = foundUser.RealName,
-                                    Image = foundUser.Image
-                                };
-                                Coaches.Add(user1);
-                            }
-                        }
-                    }
+                    Coaches = ListCreation("Coach", foundProgram.CoachID);    
                 }
-
+                
                 if(!string.IsNullOrEmpty(foundProgram.GenUserID)){
-                    string[] GenUserIDs = foundProgram.GenUserID.Split(",");
-                    foreach(string Id in GenUserIDs){
-                        if(!string.IsNullOrEmpty(Id)){
-                            int ID = int.Parse(Id);
-                            UserModel foundUser = GetUserByID(ID);
-                            if(foundUser != null){
-                                ProgramUserDTO user1 = new(){
-                                    Status = "General User",
-                                    UserName = foundUser.UserName,
-                                    RealName = foundUser.RealName,
-                                    Image = foundUser.Image
-                                };
-                                General.Add(user1);
-                            }
-                        }
-                    }
+                    General = ListCreation("General", foundProgram.GenUserID);
                 }
-
             }
+
             return new Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>>(Admins, Coaches, General);
         }
 
