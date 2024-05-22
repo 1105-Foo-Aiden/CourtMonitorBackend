@@ -122,70 +122,46 @@ namespace CourtMonitorBackend.Services{
                 if(!string.IsNullOrEmpty(program.GenUserID) && program.GenUserID.Split(",").Contains(newProgramUser.UserId.ToString()) || !string.IsNullOrEmpty(program.CoachID) && program.CoachID.Split(",").Contains(newProgramUser.UserId.ToString()) || program.AdminID.Split(",").Contains(newProgramUser.UserId.ToString())){
                     return "User is already a part of the program";
                 }
+                
                 switch(newProgramUser.Status.ToLower()){
                     case "genuser":
-                    if(string.IsNullOrEmpty(program.GenUserID)){
-                        program.GenUserID = newProgramUser.UserId.ToString() + ",";
-                    }
-                    else{
-                        program.GenUserID += newProgramUser.UserId.ToString() + ",";
-                    }
-                    GenUserModel genUser = new(){
-                        ProgramID = newProgramUser.ProgramID,
-                        UserID = newProgramUser.UserId,
-                    };
-                    _context.GenUserInfo.Add(genUser);
-                    break;
+                        program.GenUserID = string.IsNullOrEmpty(program.GenUserID) ? newProgramUser.UserId.ToString() + "," : program.GenUserID + newProgramUser.UserId.ToString() + ",";
+                        GenUserModel genUser = new(){
+                            ProgramID = newProgramUser.ProgramID,
+                            UserID = newProgramUser.UserId,
+                        };
+                        _context.GenUserInfo.Add(genUser);
+                        break;
                     case "general":
-                    if(string.IsNullOrEmpty(program.GenUserID)){
-                        program.GenUserID = newProgramUser.UserId.ToString() + ",";
-                    }
-                    else{
-                        program.GenUserID += newProgramUser.UserId.ToString() + ",";
-                    }
-                    GenUserModel generalUser = new(){
-                        ProgramID = newProgramUser.ProgramID,
-                        UserID = newProgramUser.UserId,
-                    };
-                    _context.GenUserInfo.Add(generalUser);
+                        program.GenUserID = string.IsNullOrEmpty(program.GenUserID) ? newProgramUser.UserId.ToString() + "," : program.GenUserID + newProgramUser.UserId.ToString() + ",";
+                        GenUserModel generalUser = new(){
+                            ProgramID = newProgramUser.ProgramID,
+                            UserID = newProgramUser.UserId,
+                        };
+                        _context.GenUserInfo.Add(generalUser);
                     break;
                     case "coach":
-                    if(string.IsNullOrEmpty(program.CoachID)){
-                        program.CoachID = newProgramUser.UserId.ToString() + ",";
-                    }
-                    else{
-                            program.CoachID += newProgramUser.UserId.ToString() + ",";
-                    }
-                    CoachModel coach = new(){
-                        ProgramID = newProgramUser.ProgramID,
-                        UserID = newProgramUser.UserId
-                    };
-                    _context.CoachInfo.Add(coach);
-                    break;
+                        program.CoachID = string.IsNullOrEmpty(program.CoachID) ? newProgramUser.UserId.ToString() + "," : program.CoachID + newProgramUser.UserId.ToString() + ",";
+                        CoachModel coach = new(){
+                            ProgramID = newProgramUser.ProgramID,
+                            UserID = newProgramUser.UserId
+                        };
+                        _context.CoachInfo.Add(coach);
+                        break;
                     case "admin":
-                    if(string.IsNullOrEmpty(program.AdminID)){
-                        program.AdminID = newProgramUser.UserId.ToString() + ",";
-                    }
-                    else{
-                        program.AdminID += newProgramUser.UserId.ToString() + ",";
-                    }
-                    AdminModel admin = new(){
-                        UserID = newProgramUser.UserId,
-                        ProgramID = newProgramUser.ProgramID
-                    };
-                    _context.AdminInfo.Add(admin);
-                    break;
+                        program.AdminID = string.IsNullOrEmpty(program.AdminID) ? newProgramUser.UserId.ToString() + "," : program.AdminID + newProgramUser.UserId.ToString() +",";
+                        AdminModel admin = new(){
+                            UserID = newProgramUser.UserId,
+                            ProgramID = newProgramUser.ProgramID
+                        };
+                        _context.AdminInfo.Add(admin);
+                        break;
                     default:
                     return "Invalid Status";
                 }
                 _context.ProgramInfo.Update(program);
                 _context.SaveChanges();
-                if(string.IsNullOrEmpty(userToAdd.Programs)){
-                    userToAdd.Programs = program.ProgramName + ",";
-                }
-                else{
-                    userToAdd.Programs += program.ProgramName + ",";
-                }
+                userToAdd.Programs = string.IsNullOrEmpty(userToAdd.Programs) ? program.ProgramName +"," : userToAdd.Programs + program.ProgramName + ",";
                 _context.UserInfo.Update(userToAdd);
                 _context.SaveChanges();
                 return "Success";
