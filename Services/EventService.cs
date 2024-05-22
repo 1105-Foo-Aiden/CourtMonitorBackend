@@ -45,14 +45,12 @@ namespace CourtMonitorBackend.Services
                 _context.Remove(foundEvent);
                 _context.SaveChanges();
                 return "Event Deleted";
-            }else{
-                return "Event Not Found";
-            }
+            }else return "Event Not Found";
         }
 
         public IEnumerable<EventModel> GetAllEventsByProgramName(string ProgramName){
-                ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramName == ProgramName);
-                return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
+            ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramName == ProgramName);
+            return _context.EventInfo.Where(e => e.ProgramID == foundProgram.ProgramID);
         }
     }
 }

@@ -27,8 +27,7 @@ namespace CourtMonitorBackend.Services{
         public bool AddUser(CreateAccountDTO UserToAdd){
             bool result = false;
             if (!DoesUserExist(UserToAdd.UserName) && !DoesEmailExist(UserToAdd.Email) ){
-                UserModel newUser = new()
-                {
+                UserModel newUser = new(){
                     ID = UserToAdd.ID,
                     UserName = UserToAdd.UserName,
                     Email = UserToAdd.Email,
@@ -72,7 +71,6 @@ namespace CourtMonitorBackend.Services{
                 {
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
                     var tokeOptions = new JwtSecurityToken(
                         issuer: "http://localhost:5000",
                         audience: "http://localhost:5000",

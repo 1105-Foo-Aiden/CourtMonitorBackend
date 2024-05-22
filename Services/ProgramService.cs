@@ -45,9 +45,7 @@ namespace CourtMonitorBackend.Services{
                     }
                     _context.UserInfo.Update(User);
                 }
-                else{
-                    return "User not found";
-                }
+                else return "User not found";
                 AdminModel admin = new(){
                     UserID = AdminIdNumber,
                     ProgramID = ProgramToAdd.ProgramID,
@@ -290,8 +288,8 @@ namespace CourtMonitorBackend.Services{
                     _context.SaveChanges();
                     return "Sucessfully Removed";
                 }
-                else{return "User Not Found";}
-            }else{return "Program Not Found";}
+                else return "User Not Found";
+            }else return "Program Not Found";
         }
         public string MoveUserInProgram(AddUserToProgramDTO UserToMove){
             var foundUser = _context.UserInfo.SingleOrDefault(u => u.ID == UserToMove.UserId);
@@ -301,9 +299,9 @@ namespace CourtMonitorBackend.Services{
                     RemoveUserFromProgram(foundProgram.ProgramName, UserToMove.UserId);
                     AddUserToProgram(UserToMove);
                 }
-                else{return "Program Not found";}
+                else return "Program Not found";
             }
-            else{return "User Not Found";}
+            else return "User Not Found";
             _context.SaveChanges();
             return "Success";
         }
