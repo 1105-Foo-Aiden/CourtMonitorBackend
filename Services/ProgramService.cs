@@ -29,7 +29,7 @@ namespace CourtMonitorBackend.Services{
                     AdminID = NewProgram.AdminID + ","
                 };
                 
-                if(DoesProgramExist(NewProgram.ProgramName)){
+                if(DoesProgramExist(NewProgram.ProgramName.Trim())){
                     return "Program already exists";
                 }
                 _context.ProgramInfo.Add(ProgramToAdd);
@@ -38,10 +38,10 @@ namespace CourtMonitorBackend.Services{
                 UserModel User = _context.UserInfo.SingleOrDefault(u => u.ID == AdminIdNumber);
                 if(User !=null){
                     if(string.IsNullOrEmpty(User.Programs)){
-                        User.Programs = NewProgram.ProgramName + ",";
+                        User.Programs = ProgramToAdd.ProgramName + ",";
                     }
                     else{
-                        User.Programs +=  NewProgram.ProgramName + ",";
+                        User.Programs +=  ProgramToAdd.ProgramName + ",";
                     }
                     _context.UserInfo.Update(User);
                 }
@@ -124,12 +124,10 @@ namespace CourtMonitorBackend.Services{
                 if(!string.IsNullOrEmpty(program.GenUserID) && program.GenUserID.Split(",").Contains(newProgramUser.UserId.ToString()) || !string.IsNullOrEmpty(program.CoachID) && program.CoachID.Split(",").Contains(newProgramUser.UserId.ToString()) || program.AdminID.Split(",").Contains(newProgramUser.UserId.ToString())){
                     return "User is already a part of the program";
                 }
-
                 switch(newProgramUser.Status.ToLower()){
                     case "genuser":
                     if(string.IsNullOrEmpty(program.GenUserID)){
                         program.GenUserID = newProgramUser.UserId.ToString() + ",";
-
                     }
                     else{
                         program.GenUserID += newProgramUser.UserId.ToString() + ",";
@@ -205,7 +203,6 @@ namespace CourtMonitorBackend.Services{
             List<ProgramUserDTO> Admins = new();
             List<ProgramUserDTO> Coaches = new();
             List<ProgramUserDTO> General = new();
-            
             List<ProgramUserDTO> ListCreation(string ProgramStatus, string StatusIds){
                     List<ProgramUserDTO> Users = new();
                     string[] strings = StatusIds.Split(",");
@@ -238,7 +235,6 @@ namespace CourtMonitorBackend.Services{
                     General = ListCreation("General", foundProgram.GenUserID);
                 }
             }
-
             return new Tuple<List<ProgramUserDTO>, List<ProgramUserDTO>, List<ProgramUserDTO>>(Admins, Coaches, General);
         }
 
