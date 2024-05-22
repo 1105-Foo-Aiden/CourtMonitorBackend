@@ -227,7 +227,7 @@ namespace CourtMonitorBackend.Services{
 
             if(foundProgram != null){
                 if(!string.IsNullOrEmpty(foundProgram.AdminID)){
-                    Admins = ListCreation("Admins", foundProgram.AdminID);
+                    Admins = ListCreation("Admin", foundProgram.AdminID);
                 }
 
                 if(!string.IsNullOrEmpty(foundProgram.CoachID)){
@@ -247,7 +247,7 @@ namespace CourtMonitorBackend.Services{
             if(foundProgram != null){
                 UserModel foundUser = _context.UserInfo.SingleOrDefault(u => u.ID == UserID);
                 if(foundUser != null){
-                    //find the user's id in any of the Status' and remove from "Array". join Array back with ", "
+                    //find the user's id in any of the Status' and remove from "Array". join Array back with ","
                     string[] AdminIds = foundProgram.AdminID.Split(",");
                     
                     if(!string.IsNullOrEmpty(foundProgram.GenUserID) && foundProgram.GenUserID.Split(",").Contains(foundUser.ID.ToString())){
