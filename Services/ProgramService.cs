@@ -37,12 +37,7 @@ namespace CourtMonitorBackend.Services{
                 int AdminIdNumber = int.Parse(NewProgram.AdminID);
                 UserModel User = _context.UserInfo.SingleOrDefault(u => u.ID == AdminIdNumber);
                 if(User !=null){
-                    if(string.IsNullOrEmpty(User.Programs)){
-                        User.Programs = ProgramToAdd.ProgramName + ",";
-                    }
-                    else{
-                        User.Programs +=  ProgramToAdd.ProgramName + ",";
-                    }
+                    User.Programs = string.IsNullOrEmpty(User.Programs) ? ProgramToAdd.ProgramName.Trim() + "," : User.Programs + ProgramToAdd.ProgramName.Trim() + ",";
                     _context.UserInfo.Update(User);
                 }
                 else return "User not found";
@@ -122,7 +117,7 @@ namespace CourtMonitorBackend.Services{
                 if(!string.IsNullOrEmpty(program.GenUserID) && program.GenUserID.Split(",").Contains(newProgramUser.UserId.ToString()) || !string.IsNullOrEmpty(program.CoachID) && program.CoachID.Split(",").Contains(newProgramUser.UserId.ToString()) || program.AdminID.Split(",").Contains(newProgramUser.UserId.ToString())){
                     return "User is already a part of the program";
                 }
-                
+
                 switch(newProgramUser.Status.ToLower()){
                     case "genuser":
                         program.GenUserID = string.IsNullOrEmpty(program.GenUserID) ? newProgramUser.UserId.ToString() + "," : program.GenUserID + newProgramUser.UserId.ToString() + ",";
@@ -177,6 +172,7 @@ namespace CourtMonitorBackend.Services{
             List<ProgramUserDTO> Admins = new();
             List<ProgramUserDTO> Coaches = new();
             List<ProgramUserDTO> General = new();
+            
             List<ProgramUserDTO> ListCreation(string ProgramStatus, string StatusIds){
                     List<ProgramUserDTO> Users = new();
                     string[] strings = StatusIds.Split(",");
