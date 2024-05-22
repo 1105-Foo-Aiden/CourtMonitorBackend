@@ -36,7 +36,6 @@ namespace CourtMonitorBackend.Services
                 AllDay = newEvent.AllDay
             };
             _context.Add(Event);
-            _context.SaveChanges();
             return _context.SaveChanges() != 0;
         }
 
