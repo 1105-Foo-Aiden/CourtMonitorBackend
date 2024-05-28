@@ -21,6 +21,19 @@ Controllers / folder
         - Get All Events | R
         - Get Events By Program | R
         - Deleting Event | D
+    
+    - ProgramController / file
+        - Get Admin By Id
+        - Get Users By Program Name
+        - Get All Programs
+        - Get Program by Program ID
+        - Get Program by Program Name
+        - Get Program by Sport
+        - Create Program
+        - Add User To Program
+        - Move User To Another Status
+        - Delete Program
+        - Remove User From Program
 
 Servics / folder
     - Context / folder

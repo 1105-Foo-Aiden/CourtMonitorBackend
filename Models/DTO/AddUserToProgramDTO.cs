@@ -1,5 +1,3 @@
-using Microsoft.Identity.Client;
-
 namespace CourtMonitorBackend.Models.DTO{
     public class AddUserToProgramDTO{
         public int ProgramID {get; set;}
