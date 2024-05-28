@@ -18,8 +18,8 @@ Controllers / folder
 
     - EventController / file.cs
         - Creating Event | C
-        - Seeing  Events | R
-        - Updating Event | U
+        - Get All Events | R
+        - Get Events By Program | R
         - Deleting Event | D
 
 Servics / folder
@@ -29,71 +29,108 @@ Servics / folder
     - EventService / file.cs
         -  Create Event / fucntion
         -  Delete Event / fucntion
-        -  Update Event / fucntion
-        -  Get Event / function
-        - Get Calendar / function
+        - Get Program By ID / function
+        - Get All Events/ function
+        - Get Event By Id / function
+        - Get Events By Program Name / function
 
     - UserService / file.cs
-        -  Create user /function   | C
-        -  Login user / function   | R
+        -  Add user /function | C
+        -  Login / function   | R
         -  Update user / function  | U 
         -  Delete user / function  | D
         -  GetuserByUserName / function
         -  GetUserById / function
         -  UpdateUserStatus/function| U
-    
-    -  PasswordService / file.cs
-        -  Hash our Password (Hash and Salt)
-        -  Verification Hash
+        -  Does Email Exist / function
+        -  Hash Password / function
+        -  Verify Users Password / function
+        -  Search User By Username / function
+        -  Get User Id by Username / function
+        -  Get All Users / function
+        -  Reset Password / function
+
+    - ProgramService / file.cs
+        - Create Program / function
+        - Get Admin By Id / function
+        - Get All Programs / function
+        - Get All Events By Program / function
+        - Get User By Username / function
+        - Delete Program / function
+        - Get All Programs By Sport / function
+        - Add User To Program / function
+        - Get User By ID / function
+        - Get Usernames By Program / function
+        - Remove User from Program / function
+        - Move User In Program / function
 
 Models / folder
     - UserModel / file.cs
-        - int      ID
-        - string   username
-        - string   Salt
-        - string   Hash
-        - string   funFact
-        - string   Birthday
-        - string   email
-        - string   Real Name
-        - string   Sports
-        - string   Programs
+        - int    ID
+        - string username
+        - string Salt
+        - string Hash
+        - string funFact
+        - string Birthday
+        - string email
+        - string Real Name
+        - string Sports
+        - string Programs
 
-    -EventModel / (Model for Each Event Item) .cs
-        - int ID
-        - int UserID
-        - string EventName
+    -EventModel / file
+        - int id
+        - string Title
+        - string Color
+        - bool AllDay
         - int ProgramID
-        - int startTime
-        - int endTime
-        - bool isPublished
-        - bool isDeleted
+        - string Start
+        - string End
     
     -ProgramModel / file
         - int ProgramID 
-        - int AdminID 
-        - int CoachID 
-        - int GenUserID 
+        - string AdminID 
+        - string CoachID 
+        - string GenUserID 
         - string ProgramName 
         - string ProgramSport 
-        - int EventID 
 
     -AdminModel / file
         - int ID
         - int UserID
         - int? ProgramID
+
     -CoachModel / file
         - int ID
         - int UserID
         - int? ProgramID
+
     -GenUserModel / file
         - int ID
         - int UserID
         - int? ProgramID
+
     -DTOs/ folder
+
+        -AddUserToProgramDTO / file
+            - int ProgramID
+            - int UserId
+            - string Status
+        
+        -ProgramUserDTO / file
+            - string Status
+            - string UserName
+            - string RealName
+            - string? Image
+
         - LoginDTO / file.cs
             string username
             string password
+
+        -ProgramDTO / file
+            - string ProgramName
+            - string ProgramSport
+            - string? Description
+            - string AdminID
 
         - CreateAccountDTO / file
             - int ID 
@@ -101,6 +138,10 @@ Models / folder
             - string Password
             - string Email
             - string Real Name
+
+        - ResetPasswordDTO / file
+            - string email
+            - string newPasword 
 
         - PasswordDTO / file
             - string Salt
@@ -110,22 +151,25 @@ Models / folder
             - int UserID
             - string Username 
             - string RealName 
-            - string Programs 
-            - string Birthday 
-            - string FunFact 
-            - bool IsAdmin 
-            - bool IsCoach 
-            - bool IsUser
+            - string? Programs 
+            - string? Birthday 
+            - string? FunFact 
+            - string? Image
+
+        - UpdateUserDTO / file
+            -string UserName
+            -string RealName
+            -string? Image
+            -string? Birthday
+            -string? Funfact
+            -string Email
         
-        -UseridDTO / file
+        - UseridDTO / file
             - int Id
             - string Username
             - string RealName
             - string Programs
             - string Birthday
             - string FunFact
-            - bool IsAdmin
-            - bool IsCoach
-            - bool IsUser
 
 
