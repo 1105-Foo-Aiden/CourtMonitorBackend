@@ -200,7 +200,7 @@ namespace CourtMonitorBackend.Services{
                 if(!string.IsNullOrEmpty(foundProgram.CoachID)){
                     Coaches = ListCreation("Coach", foundProgram.CoachID);    
                 }
-                
+
                 if(!string.IsNullOrEmpty(foundProgram.GenUserID)){
                     General = ListCreation("General", foundProgram.GenUserID);
                 }
