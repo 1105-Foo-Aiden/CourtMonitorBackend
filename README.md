@@ -1,5 +1,10 @@
-Objective: create a Data Base for the front end of Court Manager
+Objective: create a Data Base for the front end of Court Monitor
 
+Notes: This is NOT a relational databasse, There are things set up to be a relational one, but there is nothing that actually makes it one. To make it a relational database
+Instead of having strings for the different ID's scattered around the code, I should have just used SQL Queries to take from the already established tables and put them in a list instead of having to split strings by commas
+
+Doing this would make each call to the backend more efficient and relieve a lot of headaches from the development process. In my initial draft, there were all the foreign keys and everything set up to have a relational database.
+I just couldn't get that last step until it was the day after the presentations and I was thinking about how it could work better. Live and learn I guess
 
 In order to access these endpoints you MUST install the following packages
 
