@@ -1,5 +1,15 @@
 Objective: create a Data Base for the front end of Court Manager
 
+
+In order to access these endpoints you MUST install the following packages
+
+Put them in the CLI lines and requires DOTNET Version 7 or later:
+
+dotnet add package MicrosoftEntityFrameworkCore -v 7.0.5
+dotnet add package MicrosoftEntityFrameworkCore.SqlServer -v 7.0.3 
+dotnet add package MicrosoftEntityFrameworkCore.Tools -v 7.0.3
+dotnet add package MicrosoftEntityFrameworkCore.Design -v 7.0.3
+
 Requirements:
 
 - Login/CreateAccount 

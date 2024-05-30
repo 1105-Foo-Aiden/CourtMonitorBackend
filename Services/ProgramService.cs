@@ -227,7 +227,7 @@ namespace CourtMonitorBackend.Services{
                                 Programs = Programs.Where(p => p != foundProgram.ProgramName).ToArray();
                                 RemovedUser.Programs = string.Join(",", Programs);
                                 _context.GenUserInfo.Remove(genUser);
-                        }
+                            }
                     }
 
                     if(!string.IsNullOrEmpty(foundProgram.CoachID) && foundProgram.CoachID.Split(",").Contains(foundUser.ID.ToString())){
