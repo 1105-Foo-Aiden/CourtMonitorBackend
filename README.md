@@ -24,6 +24,10 @@ Requirements:
 Optional:
 - Email for notifications and in app -(Maybe)
 
+
+Below you will see the general file structure of the database
+
+
 Controllers / folder 
     - UserController / file.cs 
         - Create user / endpoint | C 
