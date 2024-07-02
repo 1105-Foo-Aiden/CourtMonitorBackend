@@ -5,16 +5,11 @@ using CourtMonitorBackend.Services.Context;
 namespace CourtMonitorBackend.Services{
     public class ProgramService{
         private readonly DataContext _context;
-        public ProgramService(DataContext context){
-            _context = context;
-        }
+        public ProgramService(DataContext context) =>_context = context;
 
-        public bool DoesProgramExist(string Program){
-            return _context.ProgramInfo.SingleOrDefault(name => name.ProgramName == Program) != null;
-        }
-        public bool DoesProgramIDExist(int programId){
-            return _context.ProgramInfo.SingleOrDefault(id => id.ProgramID == programId) != null;
-        }
+        public bool DoesProgramExist(string Program)=> _context.ProgramInfo.SingleOrDefault(name => name.ProgramName == Program) != null;
+        
+        public bool DoesProgramIDExist(int programId)=> _context.ProgramInfo.SingleOrDefault(id => id.ProgramID == programId) != null;
 
         public string CreateProgram(ProgramDTO NewProgram){
             //Create a blank template of a program using the DTO to fill out the required information

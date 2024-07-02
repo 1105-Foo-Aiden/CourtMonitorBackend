@@ -1,28 +1,25 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services.Context;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace CourtMonitorBackend.Services{
     public class UserService : ControllerBase{
         private readonly DataContext _context;
 
-        public UserService(DataContext context){
-            _context = context;
-        }
+        public UserService(DataContext context) => _context = context;
+        
 
-        public bool DoesEmailExist(string email){
-            return _context.UserInfo.SingleOrDefault(User => User.Email == email) != null;
-        }
+        public bool DoesEmailExist(string email) => _context.UserInfo.SingleOrDefault(User => User.Email == email) != null;
+        
 
-        public bool DoesUserExist(string Username){
-            return _context.UserInfo.SingleOrDefault(User => User.UserName == Username) != null;
-        }
+        public bool DoesUserExist(string Username) => _context.UserInfo.SingleOrDefault(User => User.UserName == Username) != null;
+        
 
         public bool AddUser(CreateAccountDTO UserToAdd){
             bool result = false;
@@ -100,12 +97,10 @@ namespace CourtMonitorBackend.Services{
             return searchedUser;
         }
 
-        public UserModel GetUserByUsername(string username){
-            return _context.UserInfo.FirstOrDefault(x => x.UserName == username);
-        }
-        public UserModel GetUserByEmail(string Email){
-            return _context.UserInfo.FirstOrDefault(x => x.Email == Email);
-        }
+        public UserModel GetUserByUsername(string username) => _context.UserInfo.FirstOrDefault(x => x.UserName == username);
+        
+        public UserModel GetUserByEmail(string Email) => _context.UserInfo.FirstOrDefault(x => x.Email == Email);
+        
 
         public bool UpdateUser(UpdateUserDTO UsertoUpdate){
             UserModel foundUser = GetUserByUsername(UsertoUpdate.UserName);
@@ -113,7 +108,7 @@ namespace CourtMonitorBackend.Services{
             if (foundUser != null){
                 foundUser.Birthday = UsertoUpdate.Birthday ?? foundUser.Birthday;
                 foundUser.Image = UsertoUpdate.Image ?? foundUser.Image;
-                foundUser.FunFact = UsertoUpdate.FunFact ?? foundUser.Birthday;
+                foundUser.FunFact = UsertoUpdate.FunFact ?? foundUser.FunFact;
                 foundUser.Email = UsertoUpdate.Email?? foundUser.Email;
                 foundUser.RealName = UsertoUpdate.RealName?? foundUser.RealName;
                 _context.Update(foundUser);
@@ -141,14 +136,9 @@ namespace CourtMonitorBackend.Services{
             return UserInfo;
         }
 
-        public UserModel GetUserById(int id){
-            return _context.UserInfo.SingleOrDefault(user => user.ID == id);
-        }
+        public UserModel GetUserById(int id) => _context.UserInfo.SingleOrDefault(user => user.ID == id);
 
-        public IEnumerable<UserModel> GetAllUsers(){
-            return _context.UserInfo;
-        }
-
+        public IEnumerable<UserModel> GetAllUsers() => _context.UserInfo;
         public bool ResetPassword(ResetPasswordDTO NewPassword){
             bool result = false;
             UserModel foundUser = GetUserByEmail(NewPassword.Email);

@@ -1,4 +1,3 @@
-using System.Text.Json;
 using CourtMonitorBackend.Models;
 using CourtMonitorBackend.Models.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +13,8 @@ namespace CourtMonitorBackend.Services.Context{
 
         public DataContext(DbContextOptions options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder){
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
