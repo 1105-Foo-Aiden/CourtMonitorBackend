@@ -10,9 +10,7 @@ namespace CourtMonitorBackend.Services.Context{
         public DbSet<AdminModel> AdminInfo { get; set; }
         public DbSet<CoachModel> CoachInfo { get; set; }
         public DbSet<GenUserModel> GenUserInfo { get; set; }
-
         public DataContext(DbContextOptions options) : base(options) { }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             base.OnModelCreating(modelBuilder);
         }

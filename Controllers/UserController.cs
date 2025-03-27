@@ -47,7 +47,7 @@ namespace CourtMonitorBackend.Controllers{
         [Route("Login")]
         public IActionResult Login([FromBody] LoginDTO User){
             return _data.Login(User);
-        }
+        } 
 
         // [HttpPost]
         // [Route("UpdateUserStatus/{username}/StatusToUpdate")]

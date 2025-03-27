@@ -11,16 +11,9 @@ using System.Security.Claims;
 namespace CourtMonitorBackend.Services{
     public class UserService : ControllerBase{
         private readonly DataContext _context;
-
         public UserService(DataContext context) => _context = context;
-        
-
         public bool DoesEmailExist(string email) => _context.UserInfo.SingleOrDefault(User => User.Email == email) != null;
-        
-
         public bool DoesUserExist(string Username) => _context.UserInfo.SingleOrDefault(User => User.UserName == Username) != null;
-        
-
         public bool AddUser(CreateAccountDTO UserToAdd){
             bool result = false;
             if (!DoesUserExist(UserToAdd.UserName) && !DoesEmailExist(UserToAdd.Email) ){
@@ -62,10 +55,9 @@ namespace CourtMonitorBackend.Services{
 
         public IActionResult Login(LoginDTO User){
             IActionResult Result = Unauthorized();
-            if (DoesUserExist(User.Username)){
+            if(DoesUserExist(User.Username)){
                 UserModel foundUser = GetUserByUsername(User.Username);
-                if (VerifyUsersPassword(User.Password, foundUser.Hash, foundUser.Salt))
-                {
+                if (VerifyUsersPassword(User.Password, foundUser.Hash, foundUser.Salt)){
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                     var tokeOptions = new JwtSecurityToken(
@@ -81,7 +73,6 @@ namespace CourtMonitorBackend.Services{
             }
             return Result;
         }
-
         public UserDTO SearchUserByUserName(string username){
             UserModel foundUser = _context.UserInfo.SingleOrDefault(x => x.UserName == username);
             UserDTO searchedUser = new(){
@@ -96,27 +87,24 @@ namespace CourtMonitorBackend.Services{
             };
             return searchedUser;
         }
-
         public UserModel GetUserByUsername(string username) => _context.UserInfo.FirstOrDefault(x => x.UserName == username);
-        
         public UserModel GetUserByEmail(string Email) => _context.UserInfo.FirstOrDefault(x => x.Email == Email);
-        
-
         public bool UpdateUser(UpdateUserDTO UsertoUpdate){
             UserModel foundUser = GetUserByUsername(UsertoUpdate.UserName);
             bool result = false;
+            // Null checks for user updating object
+            // If there's nothing in the UsertoUpdate field, then nothing changes
             if (foundUser != null){
                 foundUser.Birthday = UsertoUpdate.Birthday ?? foundUser.Birthday;
                 foundUser.Image = UsertoUpdate.Image ?? foundUser.Image;
                 foundUser.FunFact = UsertoUpdate.FunFact ?? foundUser.FunFact;
-                foundUser.Email = UsertoUpdate.Email?? foundUser.Email;
-                foundUser.RealName = UsertoUpdate.RealName?? foundUser.RealName;
+                foundUser.Email = UsertoUpdate.Email ?? foundUser.Email;
+                foundUser.RealName = UsertoUpdate.RealName ?? foundUser.RealName;
                 _context.Update(foundUser);
                 result = _context.SaveChanges() != 0;
             }
             return result;
         }
-
         public string Deleteuser(string userToDelete){
             UserModel foundUser = GetUserByUsername(userToDelete);
             string result = "Not Found";
@@ -135,19 +123,19 @@ namespace CourtMonitorBackend.Services{
             UserInfo.Id = foundUser.ID;
             return UserInfo;
         }
-
         public UserModel GetUserById(int id) => _context.UserInfo.SingleOrDefault(user => user.ID == id);
-
         public IEnumerable<UserModel> GetAllUsers() => _context.UserInfo;
         public bool ResetPassword(ResetPasswordDTO NewPassword){
             bool result = false;
             UserModel foundUser = GetUserByEmail(NewPassword.Email);
             if (foundUser != null){
                 var newPass = HashPassword(NewPassword.NewPassword);
+                // Making sure the new and old password are not the same
                 if(newPass.Hash == foundUser.Hash || newPass.Salt == foundUser.Salt){
                     result = false;
                 }
                 else{
+                    // Replacing old Salt and Hash with the new ones
                     foundUser.Hash = newPass.Hash;
                     foundUser.Salt = newPass.Salt;
                     _context.Update<UserModel>(foundUser);
