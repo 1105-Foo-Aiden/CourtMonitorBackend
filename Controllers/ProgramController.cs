@@ -3,7 +3,6 @@ using CourtMonitorBackend.Models.DTO;
 using CourtMonitorBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace CourtMonitorBackend.Controllers{
     [ApiController]
     [Route("[controller]")]

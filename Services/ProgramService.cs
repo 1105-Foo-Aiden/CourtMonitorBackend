@@ -101,7 +101,10 @@ namespace CourtMonitorBackend.Services{
                 switch(newProgramUser.Status.ToLower()){
                     // Based on the type of user that is being added, a new row in the lookup table is being created for each possibility
                     case "genuser":
+                        //If the program's status is blank, add the new user by itself, otherwise, add the new user to the existing "List"
+                        //This is the same for all types of users
                         program.GenUserID = string.IsNullOrEmpty(program.GenUserID) ? newProgramUser.UserId.ToString() + "," : program.GenUserID + newProgramUser.UserId.ToString() + ",";
+                        //Adding the user to the lookup tables, to never be used again, same for all cases
                         GenUserModel genUser = new(){
                             ProgramID = newProgramUser.ProgramID,
                             UserID = newProgramUser.UserId,

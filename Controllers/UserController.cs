@@ -61,7 +61,6 @@ namespace CourtMonitorBackend.Controllers{
             return _data.ResetPassword(NewPassword);
         }
 
-        
         [HttpPut]
         [Route("UpdateUser")]
 
