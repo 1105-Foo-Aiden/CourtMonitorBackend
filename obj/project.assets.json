@@ -3921,7 +3921,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Aiden\\.nuget\\packages\\": {}
+    "C:\\Users\\Aiden\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -3932,8 +3933,12 @@
       "packagesPath": "C:\\Users\\Aiden\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Aiden\\Desktop\\Codestack\\Documents\\CodeStackLvl3\\FullStack_Project\\CourtMonitorBackend\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Aiden\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Aiden\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"

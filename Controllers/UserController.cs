@@ -21,7 +21,7 @@ namespace CourtMonitorBackend.Controllers{
 
         [HttpGet]
         [Route("GetUserById/{id}")]
-        public UserModel GetUserById(int id){
+        public UserModel? GetUserById(int id){
             return _data.GetUserById(id);
         }
 
@@ -33,7 +33,7 @@ namespace CourtMonitorBackend.Controllers{
         
         [HttpGet]
         [Route("GetUserByEmail/{Email}")]
-        public UserModel GetUserByEmail(string Email){
+        public UserModel? GetUserByEmail(string Email){
             return _data.GetUserByEmail(Email);
         }
         

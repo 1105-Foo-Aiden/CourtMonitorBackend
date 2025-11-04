@@ -10,9 +10,9 @@ namespace CourtMonitorBackend.Services{
         public EventService(DataContext context) => _context = context;
         private readonly ProgramModel _program;
         public EventService(ProgramModel program) => _program = program;
-        public ProgramModel GetProgramById(string id) => _context.ProgramInfo.SingleOrDefault(program => program.ProgramID.ToString() == id);
+        public ProgramModel? GetProgramById(string id) => _context.ProgramInfo.SingleOrDefault(program => program.ProgramID.ToString() == id);
         public IEnumerable<EventModel> GetAllEvents() => _context.EventInfo;
-        public EventModel GetEventById(int id) => _context.EventInfo.FirstOrDefault(e => e.id == id);
+        public EventModel? GetEventById(int id) => _context.EventInfo.FirstOrDefault(e => e.id == id);
         public bool CreateEvent(EventModel newEvent){
             EventModel Event = new(){
                 id = newEvent.id,
@@ -27,7 +27,7 @@ namespace CourtMonitorBackend.Services{
             return _context.SaveChanges() != 0;
         }
         public string DeleteEvent(int EventId){
-            EventModel foundEvent = GetEventById(EventId);
+            EventModel? foundEvent = GetEventById(EventId);
             if (foundEvent != null){
                 _context.Remove(foundEvent);
                 _context.SaveChanges();
@@ -36,7 +36,7 @@ namespace CourtMonitorBackend.Services{
             else return "Event Not Found";
         }
         public IEnumerable<EventModel> GetAllEventsByProgramName(string ProgramName){
-            ProgramModel foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramName == ProgramName);
+            ProgramModel? foundProgram = _context.ProgramInfo.FirstOrDefault(e => e.ProgramName == ProgramName);
             return _context.EventInfo.Where(e => e.ProgramID == foundProgram!.ProgramID);
         }
     }

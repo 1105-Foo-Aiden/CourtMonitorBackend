@@ -13,7 +13,7 @@ namespace CourtMonitorBackend.Controllers{
         }
         [HttpGet]
         [Route("GetAdminById/{id}")]
-        public UserModel GetAdminById(int id){
+        public UserModel? GetAdminById(int id){
             return _model.GetAdminById(id);
         }
 
@@ -31,13 +31,13 @@ namespace CourtMonitorBackend.Controllers{
 
         [HttpGet]
         [Route("GetProgramById/{programId}")]
-        public ProgramModel GetProgramById(int programId){
+        public ProgramModel? GetProgramById(int programId){
             return _model.GetProgramById(programId);
         }
 
         [HttpGet]
         [Route("GetProgramByName/{ProgamName}")]
-        public ProgramModel GetProgramByName(string ProgamName){
+        public ProgramModel? GetProgramByName(string ProgamName){
             return _model.GetProgramByProgramName(ProgamName);
         }
 
